@@ -52,7 +52,7 @@
               "angular-calendar/date-adapters/date-fns",
               "@firebase/auth"
             ],
-            "outputPath": "dist/",
+            "outputPath": "docs/",
             "index": "index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
