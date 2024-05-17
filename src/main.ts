@@ -18,7 +18,7 @@ export function onSwipeFunc(e?:any){
         swipeCounter = document.createElement('div')
         swipeCounter.id = 'swipeCounter'
         swipeCounter.innerHTML = '0'
-        swipeCounter.style.backgroundColor = 'white'
+        swipeCounter.style.background = 'white'
         swipeCounter.style.padding = '10px'
         document.getElementById('app')?.appendChild(swipeCounter)
     }
