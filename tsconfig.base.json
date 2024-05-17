@@ -1,0 +1,38 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "target": "es2015",
+    "experimentalDecorators": true,
+    // "outDir": "./dist/out-tsc",
+    // "sourceMap": true,
+    // "declaration": false,
+    // "moduleResolution": "node",
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
+    // "baseUrl": "src",
+    "paths": {
+      "@endless/*": [
+        "src/*"
+      ],
+      "@src/*": [
+        "./*"
+      ]
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  }
+}

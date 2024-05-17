@@ -2,23 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <!-- <link rel="icon" href="/favicon.ico" /> -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=0"
     />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
 
     <title>Mini App</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="dist/swipe-listener.min.js"></script>
   </head>
 
   <body>
+    <!-- <script type="module" src="js/main.js"></script> -->
+    <!-- <script>var exports = {};</script>
+    <script src="js/main.js"></script> -->
     <div id="app">
       <div style="background-color: white; border-radius: 15px; padding: 10px">
         test application without styles
       </div>
-      <div style="background-color: white; border-radius: 15px; padding: 10px; margin: 10px 0 ">
+      <div style="background-color: white; border-radius: 15px; padding: 10px">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlJKpo2Uq-c4nY2oRyw6AEVQnWHcIlczKMRNOWH20slA&s"
           alt="puck"
@@ -26,9 +31,9 @@
         />
       </div>
       <div style="background-color: white; border-radius: 15px; padding: 10px">
-        <button>test button</button>
+        <button id="button">test counter</button>
       </div>
     </div>
-    <!-- <script type="module" src="js/telegram-bot.js"></script> -->
+    <div id="message"></div>
   </body>
 </html>
