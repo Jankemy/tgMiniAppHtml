@@ -20,6 +20,7 @@ export function onSwipeFunc(e?:any){
         swipeCounter.innerHTML = '0'
         swipeCounter.style.background = 'white'
         swipeCounter.style.padding = '10px'
+        swipeCounter.style.fontSize = '40px'
         document.getElementById('app')?.appendChild(swipeCounter)
     }
 
