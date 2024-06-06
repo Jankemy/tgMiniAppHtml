@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     window.scrollTo(0, overflow);
     
     (<any>window).Telegram.WebApp.ready()
-    document.onload = () => { t.setLoading(false) }
+    window.onload = () => { t.setLoading(false) }
   }
 
   setLoading(isLoading: boolean){

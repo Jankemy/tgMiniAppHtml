@@ -3,12 +3,14 @@
     <div style="font-size: 40px; background-color: white; padding: 10px">
         Swipe here
     </div>
-    <div #gifElems id="gifElems" class="freezeframe">
-        <img [hidden]="!isUp" style="width: 100%;"
-            src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_up.gif" />
-
-        <img [hidden]="!isDown" style="width: 100%;"
-            src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
+    <div>
+        <div #gifElems id="gifElems" class="freezeframe" class="gif-box">
+            <img [hidden]="!isUp" style="width: 100%;"
+                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_up.gif" />
+    
+            <img [hidden]="!isDown" style="width: 100%;"
+                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
+        </div>
     </div>
     <div id="swipeCounter" style="background-color: white;font-size: 100px">0</div>
     <div id="message"></div>
