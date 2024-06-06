@@ -4,7 +4,7 @@ import Freezeframe from 'freezeframe';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 
 
-const animationTimeMS = 1000
+const animationTimeMS = 500
 
 @Component({
   selector: 'app-root',
