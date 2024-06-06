@@ -4,6 +4,7 @@ import Freezeframe from 'freezeframe';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 
 
+const animationTimeMS = 1000
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,9 @@ import { PreloaderComponent } from './shared/preloader/preloader.component';
 })
 export class AppComponent implements OnInit {
 
-  gifFF: Freezeframe | undefined;
+  gifFF: Freezeframe | undefined
+  gifStopTimeout: any = {}
+  isStartedGif = false
 
   ngOnInit() {
     let t = this;
@@ -38,10 +41,14 @@ export class AppComponent implements OnInit {
     window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
     
     const overflow = 100
+    // document.body.style.overflowY = 'hidden'
+    // document.body.style.marginTop = `${overflow}px`
+    // document.body.style.height = window.innerHeight + overflow + "px"
+    // console.log(window.innerHeight)
+    // document.body.style.paddingBottom = `${overflow}px`
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${overflow}px`
-    document.body.style.height = window.innerHeight + overflow + "px"
-    document.body.style.paddingBottom = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
     window.scrollTo(0, overflow);
     
     (<any>window).Telegram.WebApp.ready()
@@ -54,11 +61,6 @@ export class AppComponent implements OnInit {
 
   onSwipeFunc(e?: any) {
     let t = this;
-    // const logo = new Freezeframe('.freezeframe', {
-    //   trigger: 'click'
-    // });
-    
-
     let swipeCounter = document.getElementById('swipeCounter')
     if (!swipeCounter) {
       swipeCounter = document.createElement('div')
@@ -70,13 +72,28 @@ export class AppComponent implements OnInit {
       document.getElementById('app')?.appendChild(swipeCounter)
     }
 
-    if (+swipeCounter.innerHTML % 2){
-      
-      t.gifFF?.stop();
+    if (!t.isStartedGif) {
+      t.gifFF?.start()
+      t.isStartedGif = true
+      t.gifStopTimeout = setTimeout(() => {
+        t.gifFF?.stop()
+        t.isStartedGif = false
+      }, animationTimeMS)
     }
     else {
-      t.gifFF?.start();
+      clearTimeout(t.gifStopTimeout)
+      t.gifStopTimeout = setTimeout(() => {
+        t.gifFF?.stop()
+        t.isStartedGif = false
+      }, animationTimeMS)
     }
+
+    // if (+swipeCounter.innerHTML % 2){
+    //   t.gifFF?.stop();
+    // }
+    // else {
+    //   t.gifFF?.start();
+    // }
 
     let setMessage = function (msg: string) {
       let divMes = document.getElementById('message')
