@@ -17,6 +17,9 @@ export class AppComponent implements OnInit {
   gifStopTimeout: any = {}
   isStartedGif = false
 
+  isUp = true;
+  isDown = false;
+
   ngOnInit() {
     let t = this;
     t.setLoading(true)
@@ -31,11 +34,11 @@ export class AppComponent implements OnInit {
       console.log(event.detail);
     })
 
-    let gifElem = document.getElementById('gifElem') as HTMLElement 
-    t.gifFF = new Freezeframe(gifElem, {
+    let gifElems = document.getElementById('gifElems')!.children
+    t.gifFF = new Freezeframe(gifElems, {
       trigger: false
     });
-    t.gifFF.start();
+    // t.gifFF.start();
 
     (<any>window).Telegram.WebApp.expand()
     window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
@@ -72,22 +75,6 @@ export class AppComponent implements OnInit {
       document.getElementById('app')?.appendChild(swipeCounter)
     }
 
-    if (!t.isStartedGif) {
-      t.gifFF?.start()
-      t.isStartedGif = true
-      t.gifStopTimeout = setTimeout(() => {
-        t.gifFF?.stop()
-        t.isStartedGif = false
-      }, animationTimeMS)
-    }
-    else {
-      clearTimeout(t.gifStopTimeout)
-      t.gifStopTimeout = setTimeout(() => {
-        t.gifFF?.stop()
-        t.isStartedGif = false
-      }, animationTimeMS)
-    }
-
     // if (+swipeCounter.innerHTML % 2){
     //   t.gifFF?.stop();
     // }
@@ -107,6 +94,8 @@ export class AppComponent implements OnInit {
       var d = e.detail.directions;
 
       if (d.top) {
+        t.isUp = true
+        t.isDown = false
         if (d.right) {
           setMessage('Swiped top-right.');
         } else if (d.left) {
@@ -115,6 +104,8 @@ export class AppComponent implements OnInit {
           setMessage('Swiped top.');
         }
       } else if (d.bottom) {
+        t.isUp = false
+        t.isDown = true
         if (d.right) {
           setMessage('Swiped bottom-right.');
         } else if (d.left) {
@@ -123,6 +114,8 @@ export class AppComponent implements OnInit {
           setMessage('Swiped bottom.');
         }
       } else {
+        t.isUp = true
+        t.isDown = false
         if (d.right) {
           setMessage('Swiped right.');
         } else if (d.left) {
@@ -132,6 +125,22 @@ export class AppComponent implements OnInit {
     }
     else {
       setMessage('Clicked to "test counter".');
+    }
+
+    if (!t.isStartedGif) {
+      t.gifFF?.start()
+      t.isStartedGif = true
+      t.gifStopTimeout = setTimeout(() => {
+        t.gifFF?.stop()
+        t.isStartedGif = false
+      }, animationTimeMS)
+    }
+    else {
+      clearTimeout(t.gifStopTimeout)
+      t.gifStopTimeout = setTimeout(() => {
+        t.gifFF?.stop()
+        t.isStartedGif = false
+      }, animationTimeMS)
     }
 
     swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
