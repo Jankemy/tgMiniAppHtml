@@ -3,12 +3,24 @@
     <div style="font-size: 40px; background-color: white; padding: 10px">
         Swipe here
     </div>
-    <div>
+    <!-- <div>
         <div #gifElems id="gifElems" class="freezeframe" class="gif-box">
-            <img [hidden]="!isUp" style="width: 100%;"
+            <img style="width: 100%;" [ngClass]="isUp? 'display-block' : 'display-none'"
                 src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_up.gif" />
     
-            <img [hidden]="!isDown" style="width: 100%;"
+            <img style="width: 100%;" [ngClass]="isDown? 'display-block' : 'display-none'"
+                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
+        </div>
+    </div> -->
+    <div>
+        <div class="gif-box">
+            <img style="width: 100%;" [ngClass]="isStartedGif ? 'display-none' : 'display-block'"
+                src="../assets/swipe-gifs/cat_plug.png" />
+
+            <img style="width: 100%;" [ngClass]="isStartedGif && isUp ? 'display-block' : 'display-none'"
+                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_up.gif" />
+    
+            <img style="width: 100%;" [ngClass]="isStartedGif && isDown ? 'display-block' : 'display-none'"
                 src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
         </div>
     </div>

@@ -32,12 +32,12 @@ export class AppComponent implements OnInit {
       t.onSwipeFunc(event)
       // use swipe
       console.log(event.detail);
-    })
-
-    let gifElems = document.getElementById('gifElems')!.children
-    t.gifFF = new Freezeframe(gifElems, {
-      trigger: false
     });
+
+    // let gifElems = document.getElementById('gifElems')!.children
+    // t.gifFF = new Freezeframe(gifElems, {
+    //   trigger: false
+    // });
     // t.gifFF.start();
 
     (<any>window).Telegram.WebApp.expand()
@@ -82,13 +82,6 @@ export class AppComponent implements OnInit {
     //   t.gifFF?.start();
     // }
 
-    let setMessage = function (msg: string) {
-      let divMes = document.getElementById('message')
-      if (!!divMes) {
-        divMes.innerHTML = msg;
-      }
-    }
-
     if (!(e instanceof PointerEvent)) {
       console.log('swipe', e);
       var d = e.detail.directions;
@@ -97,53 +90,76 @@ export class AppComponent implements OnInit {
         t.isUp = true
         t.isDown = false
         if (d.right) {
-          setMessage('Swiped top-right.');
+          t.setMessage('Swiped top-right.');
         } else if (d.left) {
-          setMessage('Swiped top-left.');
+          t.setMessage('Swiped top-left.');
         } else {
-          setMessage('Swiped top.');
+          t.setMessage('Swiped top.');
         }
       } else if (d.bottom) {
         t.isUp = false
         t.isDown = true
         if (d.right) {
-          setMessage('Swiped bottom-right.');
+          t.setMessage('Swiped bottom-right.');
         } else if (d.left) {
-          setMessage('Swiped bottom-left.');
+          t.setMessage('Swiped bottom-left.');
         } else {
-          setMessage('Swiped bottom.');
+          t.setMessage('Swiped bottom.');
         }
       } else {
         t.isUp = true
         t.isDown = false
         if (d.right) {
-          setMessage('Swiped right.');
+          t.setMessage('Swiped right.');
         } else if (d.left) {
-          setMessage('Swiped left.');
+          t.setMessage('Swiped left.');
         }
       }
     }
     else {
-      setMessage('Clicked to "test counter".');
+      t.setMessage('Clicked to "test counter".');
     }
 
+    // if (!t.isStartedGif) {
+    //   t.gifFF?.start()
+    //   t.isStartedGif = true
+    //   t.gifStopTimeout = setTimeout(() => {
+    //     t.gifFF?.stop()
+    //     t.isStartedGif = false
+    //   }, animationTimeMS)
+    // }
+    // else {
+    //   clearTimeout(t.gifStopTimeout)
+    //   t.gifStopTimeout = setTimeout(() => {
+    //     t.gifFF?.stop()
+    //     t.isStartedGif = false
+    //   }, animationTimeMS)
+    // }
+
     if (!t.isStartedGif) {
-      t.gifFF?.start()
+      // t.gifFF?.start()
       t.isStartedGif = true
       t.gifStopTimeout = setTimeout(() => {
-        t.gifFF?.stop()
+        // t.gifFF?.stop()
         t.isStartedGif = false
       }, animationTimeMS)
     }
     else {
       clearTimeout(t.gifStopTimeout)
       t.gifStopTimeout = setTimeout(() => {
-        t.gifFF?.stop()
+        // t.gifFF?.stop()
         t.isStartedGif = false
       }, animationTimeMS)
     }
 
     swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
+  }
+
+  setMessage(msg: string) {
+    let divMes = document.getElementById('message')
+    if (!!divMes) {
+      divMes.innerHTML = msg;
+    }
   }
 
 
