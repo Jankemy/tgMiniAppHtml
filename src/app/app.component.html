@@ -12,18 +12,7 @@
                 src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
         </div>
     </div> -->
-    <div>
-        <div class="gif-box">
-            <img style="width: 100%;" [ngClass]="isStartedGif ? 'display-none' : 'display-block'"
-                src="assets/swipe-plugs/cat_plug.png" />
-
-            <img style="width: 100%;" [ngClass]="isStartedGif && isUp ? 'display-block' : 'display-none'"
-                src="assets/swipe-gifs/cat_up.gif" />
-    
-            <img style="width: 100%;" [ngClass]="isStartedGif && isDown ? 'display-block' : 'display-none'"
-                src="assets/swipe-gifs/cat_down.gif" />
-        </div>
-    </div>
+    <div #cutBox id="cutBox" class="cut-box"></div>
     <div id="swipeCounter" style="background-color: white;font-size: 100px">0</div>
     <div id="message">Swipe</div>
 </div>
