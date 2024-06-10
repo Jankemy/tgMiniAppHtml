@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     let t = this;
-    // t.setLoading(true)
+    t.setLoading(true)
 
     // register swipe event emitter
     var app = document.getElementById('app')!;
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // });
     // t.gifFF.start();
 
-    // (<any>window).Telegram.WebApp.expand()
+    (<any>window).Telegram.WebApp.expand()
     // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
     app.addEventListener("touchmove", (e) => {
       let tm = {
@@ -69,14 +69,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     , { passive: false })
     
-    // const overflow = 100
-    // document.body.style.overflowY = 'hidden'
-    // document.body.style.marginTop = `${overflow}px`
-    // document.body.style.marginBottom = `${overflow}px`
-    // window.scrollTo(0, overflow);
+    const overflow = 100
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
+    window.scrollTo(0, overflow);
     
-    // (<any>window).Telegram.WebApp.ready()
-    // window.onload = () => { t.setLoading(false) }
+    (<any>window).Telegram.WebApp.ready()
+    window.onload = () => { t.setLoading(false) }
   }
 
   ngAfterViewInit() {
