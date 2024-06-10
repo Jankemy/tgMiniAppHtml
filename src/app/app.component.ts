@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     (<any>window).Telegram.WebApp.expand()
     // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
-    app.addEventListener("touchmove", (e) => {
+    window.addEventListener("touchmove", (e) => {
       let tm = {
         x: e.changedTouches[0].clientX, 
         y: e.changedTouches[0].clientY
