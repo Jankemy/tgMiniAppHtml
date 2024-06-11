@@ -15,7 +15,7 @@ const beginCoinCount = 10
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('cutBox', {read: ViewContainerRef}) cutBox: ViewContainerRef | undefined;
+  @ViewChild('cutBox', {read: ViewContainerRef}) cutBox!: ViewContainerRef;
 
   // gifFF: Freezeframe | undefined
   // gifStopTimeout: any = {}
@@ -67,13 +67,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       e.preventDefault()
       // console.log(tm)
     }
-    , { passive: false })
+    , { passive: false });
     
-    const overflow = 100
-    document.body.style.overflowY = 'hidden'
-    document.body.style.marginTop = `${overflow}px`
-    document.body.style.marginBottom = `${overflow}px`
-    window.scrollTo(0, overflow);
+    // const overflow = 100
+    // document.body.style.overflowY = 'hidden'
+    // document.body.style.marginTop = `${overflow}px`
+    // document.body.style.marginBottom = `${overflow}px`
+    // window.scrollTo(0, overflow);
     
     (<any>window).Telegram.WebApp.ready()
     window.onload = () => { t.setLoading(false) }
@@ -81,10 +81,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     var t = this;
-    var editorPos = t.cutBox!.element.nativeElement.getBoundingClientRect();
+    var editorPos = t.cutBox.element.nativeElement.getBoundingClientRect();
     t.cutBoxPosition = {
       left: editorPos.left,
-      top: t.cutBox!.element.nativeElement.offsetTop,
+      top: t.cutBox.element.nativeElement.offsetTop,
       width: editorPos.width,
       height: editorPos.height, 
     }
@@ -95,6 +95,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     t.eventService.CutCoinEvent.subscribe((componentId: number) => {
       var component = t.componentMap.get(componentId);
+      // component!.onDestroy(()=>{})
       component!.destroy();
       t.componentMap.delete(componentId);
 
@@ -107,13 +108,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   addNewCutCoinComponent(){
     let t = this;
 
-    let cutCoinComponent = t.cutBox!.createComponent(CutCoinComponent)
+    let cutCoinComponent = t.cutBox.createComponent(CutCoinComponent)
     let componentId = t.componentIdCounter++
     t.componentMap.set(componentId, cutCoinComponent)
     cutCoinComponent.instance.cutCoinId = componentId
     cutCoinComponent.instance.cutBoxPosition = t.cutBoxPosition
-    // t.renderer.appendChild(t.cutBox!.element.nativeElement, cutCoinComponent)
-    t.renderer.appendChild(t.cutBox!.element.nativeElement, cutCoinComponent.location.nativeElement)
+    // t.renderer.appendChild(t.cutBox.element.nativeElement, cutCoinComponent)
+    t.renderer.appendChild(t.cutBox.element.nativeElement, cutCoinComponent.location.nativeElement)
   }
 
   setLoading(isLoading: boolean){
