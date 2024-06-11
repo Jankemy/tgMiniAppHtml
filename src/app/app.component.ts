@@ -69,11 +69,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     , { passive: false });
     
-    // const overflow = 100
-    // document.body.style.overflowY = 'hidden'
-    // document.body.style.marginTop = `${overflow}px`
-    // document.body.style.marginBottom = `${overflow}px`
-    // window.scrollTo(0, overflow);
+    const overflow = 100
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
+    window.scrollTo(0, overflow);
     
     (<any>window).Telegram.WebApp.ready()
     window.onload = () => { t.setLoading(false) }
