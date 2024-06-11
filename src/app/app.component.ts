@@ -6,8 +6,9 @@ import { CutCoinComponent } from './shared/cut-coin/cut-coin.component';
 import { EventService } from './shared/services/event.service';
 
 
-const animationTimeMS = 500
+// const animationTimeMS = 500
 const beginCoinCount = 10
+const afterCutCoinCount = 1
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // register swipe event emitter
     var app = document.getElementById('app')!;
+    const overflow = 100
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
+    window.scrollTo(0, overflow);
+
     // console.log(app)
     // var listener = (<any>window).SwipeListener(app);
     // console.log(listener)
@@ -56,26 +63,30 @@ export class AppComponent implements OnInit, AfterViewInit {
     // });
     // t.gifFF.start();
 
-    (<any>window).Telegram.WebApp.expand()
+    (<any>window).Telegram?.WebApp?.expand()
     // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
-    window.addEventListener("touchmove", (e) => {
+    app.addEventListener("touchmove", (e) => {
+      e.preventDefault()
       let tm = {
         x: e.changedTouches[0].clientX, 
-        y: e.changedTouches[0].clientY
+        y: e.changedTouches[0].clientY + overflow
       };
       t.eventService.TouchmoveCoordinatesEvent.emit(tm)
-      e.preventDefault()
-      // console.log(tm)
-    }
-    , { passive: false });
+      console.log(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    });
     
-    const overflow = 100
-    document.body.style.overflowY = 'hidden'
-    document.body.style.marginTop = `${overflow}px`
-    document.body.style.marginBottom = `${overflow}px`
-    window.scrollTo(0, overflow);
+    // app.addEventListener("touchstart", (e) => {
+    //   e.preventDefault()
+    //   console.log('touchstart', e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    // }, { passive: false });
+
+    // app.addEventListener("touchend", (e) => {
+    //   e.preventDefault()
+    //   console.log('touchend', e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    // }, { passive: false });
     
-    (<any>window).Telegram.WebApp.ready()
+    
+    (<any>window).Telegram?.WebApp?.ready()
     window.onload = () => { t.setLoading(false) }
   }
 
@@ -101,7 +112,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       let swipeCounter = document.getElementById('swipeCounter')!
       swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
-      t.addNewCutCoinComponent()
+
+      for(let i = 0; i < afterCutCoinCount; i++){
+        t.addNewCutCoinComponent()
+      }
     })
   }
 
