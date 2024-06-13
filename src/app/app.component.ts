@@ -72,7 +72,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         y: e.changedTouches[0].clientY + overflow
       };
       t.eventService.TouchmoveCoordinatesEvent.emit(tm)
-      console.log(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+      t.tailEffect(tm)
+
+      // console.log(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
     });
     
     // app.addEventListener("touchstart", (e) => {
@@ -117,6 +119,42 @@ export class AppComponent implements OnInit, AfterViewInit {
         t.addNewCutCoinComponent()
       }
     })
+  }
+
+  tailEffect({ 
+    x, 
+    y 
+  }:{ 
+    x: number; 
+    y: number
+  }){
+      // var width = 10;
+      // var height = 10;
+      let radius = 5
+
+      let canvas = document.createElement('canvas')!; //Create a canvas element
+      //Set canvas width/height
+      canvas.style.width='100%';
+      canvas.style.height='100%';
+      //Set canvas drawing area width/height
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      //Position canvas
+      canvas.style.position='absolute';
+      canvas.style.left='0';
+      canvas.style.top='0';
+      canvas.style.zIndex='100000';
+      canvas.style.pointerEvents='none'; //Make sure you can click 'through' the canvas
+      document.body.appendChild(canvas); //Append canvas to body element
+      let context = canvas.getContext('2d')!;
+      //Draw rectangle
+      // context.rect(x, y, width, height);
+      context.arc(x, y, radius, 0, 45, false)
+      context.fillStyle = '#7f4dc7';
+      context.fill();
+      setTimeout(()=>{
+        document.body.removeChild(canvas)
+      }, 100)
   }
 
   addNewCutCoinComponent(){
