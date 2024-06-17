@@ -4,8 +4,6 @@ import Freezeframe from 'freezeframe';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { CutCoinComponent } from './shared/cut-coin/cut-coin.component';
 import { EventService } from './shared/services/event.service';
-const knife = require( "./shared/scripts/knife.js" )
-// import * as knife from "./shared/scripts/knife.js"
 
 
 // const animationTimeMS = 500
