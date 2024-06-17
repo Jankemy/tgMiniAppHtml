@@ -1,0 +1,55 @@
+$progress-bar-height: 24px;
+$border-height: 1px;
+$progress-border-radius: 15px;
+$progress-container-margin: 3px;
+
+$text-color: #7C6CFE;
+$border-bg-color: #7C6CFE;
+$progress-bar-bg-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+$progress-container-radius: calc($progress-border-radius + $border-height * 2);
+$progress-container-height: calc($progress-bar-height + $border-height * 2 + $progress-container-margin * 2);
+
+
+.progress-container{
+    height: $progress-container-height;
+    border: $border-height solid $border-bg-color;
+    border-radius: $progress-container-radius;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progress-container>div{
+    // display: inline-block;
+    margin: $progress-container-margin;
+}
+
+.progress{
+    height: $progress-bar-height;
+    border: $border-height solid $border-bg-color;
+    border-radius: $progress-border-radius;
+    overflow: hidden;
+}
+
+.prigress-label{
+    // vertical-align: super;
+    // text-align: center;
+    // height: $progress-bar-height;
+    // vertical-align: bottom;
+    margin-left: 15px !important;
+    color: $text-color;
+    
+    // background: $text-linear-color;
+    // -webkit-background-clip: text;
+    // background-clip: text;
+    // -webkit-text-fill-color: transparent;
+}
+
+.progress-bar {
+    background-color: $border-bg-color;
+    background: $progress-bar-bg-linear-color;
+
+    border-radius: $progress-border-radius;
+    height: 100%
+}

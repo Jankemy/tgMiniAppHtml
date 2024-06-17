@@ -1,41 +1,44 @@
 html,
-body,
+body
+/* ,
 #app,
-#message {
+#message */
+ {
   height: 100%;
   width: 100%;
   overflow: none;
   font-family: 'verdana';
+  /* font-family: 'Outfit'; */
   letter-spacing: 1.1px;
   text-align: center;
   margin: 0;
   cursor: default;
 }
 
-#message {
+/* #message {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 #app {
   height: 100%;
   word-wrap: break-word;
-  color: rgba(0, 0, 0, 0.3);
+  /* color: rgba(0, 0, 0, 0.3); */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-#message {
+/* #message {
   height: 10%;
   color: white;
   background: black;
   padding: 10px 10px;
   box-sizing: border-box;
   font-size: 18px;
-}
+} */
 
 img {
   user-drag: none;

@@ -1,19 +1,22 @@
 <app-preloader></app-preloader>
-<div id="app" class="swipe-box">
-    <div style="font-size: 40px; padding: 10px">
-        Cat Ninja
+<div id="app-components">
+    <app-swipe></app-swipe>
+</div>
+<div id="message">
+    <div (click)="activeSwipe=true;activeInvite=false;activeBoosts=false;activeEarn=false;">
+        <img [src]="activeSwipe ? 'assets/menu-icons/candy-active.svg' : 'assets/menu-icons/candy.svg'" >
+        <div [ngClass]="{'active-color': activeSwipe}">Swipe</div>
     </div>
-    <!-- <div>
-        <div #gifElems id="gifElems" class="freezeframe" class="gif-box">
-            <img style="width: 100%;" [ngClass]="isUp? 'display-block' : 'display-none'"
-                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_up.gif" />
-    
-            <img style="width: 100%;" [ngClass]="isDown? 'display-block' : 'display-none'"
-                src="https://jankemy.github.io/tgMiniAppHtml/assets/swipe-gifs/cat_down.gif" />
-        </div>
-    </div> -->
-    <div #cutBox id="cutBox" class="cut-box"></div>
-    <!-- <div #canvas id="canvas"></div> -->
-    <div id="swipeCounter" style="font-size: 100px">0</div>
-    <!-- <div id="message">Swipe</div> -->
+    <div (click)="activeSwipe=false;activeInvite=true;activeBoosts=false;activeEarn=false;">
+        <img [src]="activeInvite ? 'assets/menu-icons/invite-active.svg' : 'assets/menu-icons/invite.svg'" >
+        <div [ngClass]="{'active-color': activeInvite}">Invite</div>
+    </div>
+    <div (click)="activeSwipe=false;activeInvite=false;activeBoosts=true;activeEarn=false;">
+        <img [src]="activeBoosts ? 'assets/menu-icons/boosts-active.svg' : 'assets/menu-icons/boosts.svg'" >
+        <div [ngClass]="{'active-color': activeBoosts}">Boosts</div>
+    </div>
+    <div (click)="activeSwipe=false;activeInvite=false;activeBoosts=false;activeEarn=true;">
+        <img [src]="activeEarn ? 'assets/menu-icons/earn-active.svg' : 'assets/menu-icons/earn.svg'" >
+        <div [ngClass]="{'active-color': activeEarn}">Earn</div>
+    </div>
 </div>

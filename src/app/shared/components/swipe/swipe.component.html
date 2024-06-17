@@ -1,0 +1,21 @@
+<div id="app-swipe" class="swipe-box">
+    <div id="totalHeader">Total swipes</div>
+    <div id="swipeCounter">0</div>
+    <div id="options">
+        <div>
+            <img src="assets/boost-icons/X3-boost.svg">
+        </div>
+        <div>
+            <img src="assets/boost-icons/recharging-boost.svg">
+        </div>
+        <div>
+            <img src="assets/boost-icons/autoswipe-boost.svg">
+        </div>
+    </div>
+    <div #cutBox id="cutBox"></div>
+    <div id="energy">
+        <app-progress-bar [label]="'Energy'" [width]="'65'" [value]="energyValue">
+        </app-progress-bar>
+    </div>
+
+</div>
