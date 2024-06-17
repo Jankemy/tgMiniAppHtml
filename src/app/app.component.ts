@@ -4,6 +4,8 @@ import Freezeframe from 'freezeframe';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { CutCoinComponent } from './shared/cut-coin/cut-coin.component';
 import { EventService } from './shared/services/event.service';
+const knife = require( "./shared/scripts/knife.js" )
+// import * as knife from "./shared/scripts/knife.js"
 
 
 // const animationTimeMS = 500
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // register swipe event emitter
     var app = document.getElementById('app')!;
-    const overflow = 100
+    const overflow = 0//100
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${overflow}px`
     document.body.style.marginBottom = `${overflow}px`
@@ -149,12 +151,24 @@ export class AppComponent implements OnInit, AfterViewInit {
       let context = canvas.getContext('2d')!;
       //Draw rectangle
       // context.rect(x, y, width, height);
-      context.arc(x, y, radius, 0, 45, false)
+      context.arc(x, y, radius, 0, 2 * Math.PI, false)
       context.fillStyle = '#7f4dc7';
       context.fill();
       setTimeout(()=>{
         document.body.removeChild(canvas)
       }, 100)
+  }
+
+  tailEffect2({ 
+    x, 
+    y 
+  }:{ 
+    x: number; 
+    y: number
+  }){
+    let t = this;
+
+    
   }
 
   addNewCutCoinComponent(){

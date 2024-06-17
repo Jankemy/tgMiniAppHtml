@@ -72,7 +72,7 @@ export class CutCoinComponent implements AfterViewInit, OnDestroy {
         if(t.top < tm.y && t.top+cutCoinSize > tm.y &&
             t.left < tm.x && t.left+cutCoinSize > tm.x
         ) {
-            console.log('hover, Id', t.cutCoinId)
+            // console.log('hover, Id', t.cutCoinId)
             t.onHoverEnd()
         }
     }
