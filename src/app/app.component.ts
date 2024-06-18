@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     console.log(currentItem)
     
     if(!currentItem) {
-      t.router.navigateByUrl(`tgMiniAppHtml/${t.menuItems[0].path}`)
+      t.router.navigateByUrl(t.menuItems[0].path)
     }
 
     currentItem!.isActive = true;
