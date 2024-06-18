@@ -1,0 +1,9 @@
+$text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+#boostsHeader{
+    font-size: 48px;
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

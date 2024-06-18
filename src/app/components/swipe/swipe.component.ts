@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
-import { CutCoinComponent } from '../../cut-coin/cut-coin.component';
-import { EventService } from '../../services/event.service';
+import { CutCoinComponent } from '../../shared/cut-coin/cut-coin.component';
+import { EventService } from '../../shared/services/event.service';
 
 
 // const animationTimeMS = 500
 const overflow = 1
-const beginCoinCount = 10
-const afterCutCoinCount = 1
+const beginCoinCount = 1
+const afterCutCoinCount = 2
+const swipeCounterKey = 'swipeCounterKey'
 
 @Component({
   selector: 'app-swipe',
@@ -21,6 +22,8 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   componentIdCounter = 0
   energyValue = 25
   energyInterval: any = {}
+  swipeCounter = 0
+  swipeSubscription: any = {}
 
   constructor(
     private renderer: Renderer2,
@@ -50,6 +53,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }, 1000);
 
+    if (!!(<any>window).Telegram?.WebApp?.getItem) {
+      t.swipeCounter = (<any>window).Telegram?.WebApp?.getItem(swipeCounterKey, t.swipeCounter)
+    }
+
     (<any>window).Telegram?.WebApp?.ready()
   }
 
@@ -67,29 +74,41 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       t.addNewCutCoinComponent()
     }
 
-    t.eventService.CutCoinEvent.subscribe((componentId: number) => {
-      var component = t.componentMap.get(componentId);
-      // component!.onDestroy(()=>{})
-      component!.destroy();
-      t.componentMap.delete(componentId);
-
-      let swipeCounter = document.getElementById('swipeCounter')!
-      swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
-      t.energyValue--
-
-      for(let i = 0; i < afterCutCoinCount; i++){
-        t.addNewCutCoinComponent()
-      }
+    t.swipeSubscription = t.eventService.CutCoinEvent.subscribe((componentId: number) => {
+      t.onCoinTouched(componentId)
     })
   }
 
   ngOnDestroy(){
     let t = this;
     
-    var app = document.getElementById('app-swipe')!;
-    app.removeEventListener('touchmove', t.touchmoveEvent)
-    t.eventService.CutCoinEvent.unsubscribe()
+    // var app = document.getElementById('app-swipe')!;
+    // app.removeEventListener('touchmove', t.touchmoveEvent)
+    // t.eventService.CutCoinEvent.unsubscribe()
+    t.swipeSubscription.unsubscribe()
     clearInterval(t.energyInterval)
+  }
+
+  onCoinTouched(componentId: number) {
+    let t = this;
+    var component = t.componentMap.get(componentId);
+    // component!.onDestroy(()=>{})
+    component!.destroy();
+    t.componentMap.delete(componentId);
+
+    // let swipeCounter = document.getElementById('swipeCounter')!
+    // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
+    t.swipeCounter++
+
+    if (!!(<any>window).Telegram?.WebApp?.setItem) {
+      (<any>window).Telegram?.WebApp?.setItem(swipeCounterKey, t.swipeCounter)
+    }
+
+    t.energyValue--
+
+    for(let i = 0; i < afterCutCoinCount; i++){
+      t.addNewCutCoinComponent()
+    }
   }
 
   touchmoveEvent(e: any) {
