@@ -16,32 +16,32 @@ export class AppComponent implements OnInit {
 
   menuItems = [
     { 
-      path: '/swipe', 
+      path: 'tgMiniAppHtml/swipe', 
       name: 'Swipe', 
       isActive: false, 
-      icon: 'assets/menu-icons/candy.svg', 
-      activeIcon: 'assets/menu-icons/candy-active.svg' 
+      icon: 'tgMiniAppHtml/assets/menu-icons/candy.svg', 
+      activeIcon: 'tgMiniAppHtml/assets/menu-icons/candy-active.svg' 
     },
     { 
-      path: '/invite', 
+      path: 'tgMiniAppHtml/invite', 
       name: 'Invite', 
       isActive: false, 
-      icon: 'assets/menu-icons/invite.svg', 
-      activeIcon: 'assets/menu-icons/invite-active.svg' 
+      icon: 'tgMiniAppHtml/assets/menu-icons/invite.svg', 
+      activeIcon: 'tgMiniAppHtml/assets/menu-icons/invite-active.svg' 
     },
     { 
-      path: '/boosts', 
+      path: 'tgMiniAppHtml/boosts', 
       name: 'Boosts', 
       isActive: false, 
-      icon: 'assets/menu-icons/boosts.svg', 
-      activeIcon: 'assets/menu-icons/boosts-active.svg' 
+      icon: 'tgMiniAppHtml/assets/menu-icons/boosts.svg', 
+      activeIcon: 'tgMiniAppHtml/assets/menu-icons/boosts-active.svg' 
     },
     { 
-      path: '/earn', 
+      path: 'tgMiniAppHtml/earn', 
       name: 'Earn', 
       isActive: false, 
-      icon: 'assets/menu-icons/earn.svg', 
-      activeIcon: 'assets/menu-icons/earn-active.svg' 
+      icon: 'tgMiniAppHtml/assets/menu-icons/earn.svg', 
+      activeIcon: 'tgMiniAppHtml/assets/menu-icons/earn-active.svg' 
     },
   ]
 
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     console.log(currentItem)
     
     if(!currentItem) {
-      t.router.navigateByUrl(t.menuItems[0].path)
+      t.router.navigateByUrl(`tgMiniAppHtml/${t.menuItems[0].path}`)
     }
 
     currentItem!.isActive = true;

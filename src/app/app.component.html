@@ -8,7 +8,7 @@
 </div>
 <div id="message">
     <div *ngFor="let item of menuItems" (click)="router.navigateByUrl(item.path)">
-        <img [src]="item.isActive ? item.activeIcon : item.icon" >
+        <img src="{{item.isActive ? item.activeIcon : item.icon}}" >
         <div [ngClass]="{'active-color': item.isActive}">{{item.name}}</div>
     </div>
     <!-- <div (click)="navigate('swipe')">
