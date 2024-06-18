@@ -4,7 +4,7 @@ import { EventService } from '../../services/event.service';
 
 
 // const animationTimeMS = 500
-const overflow = 100
+const overflow = 1
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 
