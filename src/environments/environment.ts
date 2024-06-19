@@ -5,3 +5,6 @@ export const environment = {
     // tokenUrl: 'token',
     // botName: 'bcapdemo_bot'
   };
+
+export var addGithubPath = 'tgMiniAppHtml/'
+// export var addGithubPath = ''

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { NavigationEnd, Router } from '@angular/router';
+import { addGithubPath } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -16,32 +17,32 @@ export class AppComponent implements OnInit {
 
   menuItems = [
     { 
-      path: 'tgMiniAppHtml/swipe', 
+      path: `/${addGithubPath}swipe`, 
       name: 'Swipe', 
       isActive: false, 
-      icon: 'tgMiniAppHtml/assets/menu-icons/candy.svg', 
-      activeIcon: 'tgMiniAppHtml/assets/menu-icons/candy-active.svg' 
+      icon: 'assets/menu-icons/candy.svg', 
+      activeIcon: 'assets/menu-icons/candy-active.svg' 
     },
     { 
-      path: 'tgMiniAppHtml/invite', 
+      path: `/${addGithubPath}invite`, 
       name: 'Invite', 
       isActive: false, 
-      icon: 'tgMiniAppHtml/assets/menu-icons/invite.svg', 
-      activeIcon: 'tgMiniAppHtml/assets/menu-icons/invite-active.svg' 
+      icon: 'assets/menu-icons/invite.svg', 
+      activeIcon: 'assets/menu-icons/invite-active.svg' 
     },
     { 
-      path: 'tgMiniAppHtml/boosts', 
+      path: `/${addGithubPath}boosts`, 
       name: 'Boosts', 
       isActive: false, 
-      icon: 'tgMiniAppHtml/assets/menu-icons/boosts.svg', 
-      activeIcon: 'tgMiniAppHtml/assets/menu-icons/boosts-active.svg' 
+      icon: 'assets/menu-icons/boosts.svg', 
+      activeIcon: 'assets/menu-icons/boosts-active.svg' 
     },
     { 
-      path: 'tgMiniAppHtml/earn', 
+      path: `/${addGithubPath}earn`, 
       name: 'Earn', 
       isActive: false, 
-      icon: 'tgMiniAppHtml/assets/menu-icons/earn.svg', 
-      activeIcon: 'tgMiniAppHtml/assets/menu-icons/earn-active.svg' 
+      icon: 'assets/menu-icons/earn.svg', 
+      activeIcon: 'assets/menu-icons/earn-active.svg' 
     },
   ]
 
@@ -81,6 +82,7 @@ export class AppComponent implements OnInit {
     
     if(!currentItem) {
       t.router.navigateByUrl(t.menuItems[0].path)
+      return
     }
 
     currentItem!.isActive = true;
