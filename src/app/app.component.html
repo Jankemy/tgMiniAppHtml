@@ -1,30 +1,12 @@
-<app-preloader></app-preloader>
-<div id="app-components">
-    <!-- <app-swipe *ngIf="activeSwipe"></app-swipe>
-    <app-invite *ngIf="activeInvite"></app-invite>
-    <app-swipe *ngIf="activeBoosts"></app-swipe>
-    <app-swipe *ngIf="activeEarn"></app-swipe> (activate)="onActivate($event)"-->
-    <router-outlet></router-outlet>
-</div>
-<div id="message">
-    <div *ngFor="let item of menuItems" (click)="router.navigateByUrl(item.path)">
-        <img src="{{item.isActive ? item.activeIcon : item.icon}}" >
-        <div [ngClass]="{'active-color': item.isActive}">{{item.name}}</div>
+<div id="app-container" style="height: 100%;">
+    <app-preloader></app-preloader>
+    <div id="app-components" [style.height]="calcAppComponentHeight()">
+        <router-outlet></router-outlet>
     </div>
-    <!-- <div (click)="navigate('swipe')">
-        <img [src]="activeSwipe ? 'assets/menu-icons/candy-active.svg' : 'assets/menu-icons/candy.svg'" >
-        <div [ngClass]="{'active-color': activeSwipe}">Swipe</div>
+    <div id="menuFooter">
+        <div *ngFor="let item of menuItems" (click)="router.navigateByUrl(item.path)">
+            <img src="{{item.isActive ? item.activeIcon : item.icon}}">
+            <div [ngClass]="{'active-color': item.isActive}">{{item.name}}</div>
+        </div>
     </div>
-    <div (click)="navigate('invite')">
-        <img [src]="activeInvite ? 'assets/menu-icons/invite-active.svg' : 'assets/menu-icons/invite.svg'" >
-        <div [ngClass]="{'active-color': activeInvite}">Invite</div>
-    </div>
-    <div (click)="navigate('boosts')">
-        <img [src]="activeBoosts ? 'assets/menu-icons/boosts-active.svg' : 'assets/menu-icons/boosts.svg'" >
-        <div [ngClass]="{'active-color': activeBoosts}">Boosts</div>
-    </div>
-    <div (click)="navigate('earn')">
-        <img [src]="activeEarn ? 'assets/menu-icons/earn-active.svg' : 'assets/menu-icons/earn.svg'" >
-        <div [ngClass]="{'active-color': activeEarn}">Earn</div>
-    </div> -->
 </div>

@@ -91,42 +91,14 @@ export class AppComponent implements OnInit {
     t.menuItems.filter(item => item.path !== currentItem!.path).map(item => item.isActive = false)
   }
 
-  // async navigate(url: string) {
-  //   let t = this;
+  calcAppComponentHeight(){
+    // let t = this;
 
-  //   switch (url) {
-  //     case 'swipe':
-  //       t.activeSwipe = true
-  //       t.activeInvite = false
-  //       t.activeBoosts = false
-  //       t.activeEarn = false
-  //       break;
-  //     case 'invite':
-  //       t.activeSwipe = false
-  //       t.activeInvite = true
-  //       t.activeBoosts = false
-  //       t.activeEarn = false
-  //       break;
-  //     case 'boosts':
-  //       t.activeSwipe = false
-  //       t.activeInvite = false
-  //       t.activeBoosts = true
-  //       t.activeEarn = false
-  //       break;
-  //     case 'earn':
-  //       t.activeSwipe = false
-  //       t.activeInvite = false
-  //       t.activeBoosts = false
-  //       t.activeEarn = true
-  //       break;
-  //   }
+    let appContainer = document.getElementById('app-container')!
+    let menuFooter = document.getElementById('menuFooter')!
+    console.log(menuFooter.offsetHeight)
 
-  //   console.log(url)
-  //   // console.log(t.router)
-  //   // console.log(t.router.navigateByUrl)
-  //   console.log(await t.router.navigateByUrl(`/${url}`))
-  //   // t.router.navigateByUrl(`/${url}`)
-  //   // this.router.navigate([`/${url}`]);
-  // }
+    return `${appContainer.offsetHeight - menuFooter.offsetHeight}px`
+  }
 
 }

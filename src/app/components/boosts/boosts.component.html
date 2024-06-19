@@ -1,4 +1,24 @@
 <div id="app-boosts">
-    <div id="boostsHeader">Boosts</div>
-    <div id="boostsHeader">Coming soon</div>
+    <div id="boostsHeader" class="boostsHeader">Boosts</div>
+    <div id="boostText" class="boostText">Speed up and get more with additional bonuses and multipliers</div>
+    <div class="boostsListContainer" [style.height]="calcBoostsListContainerHeight()">
+        <div class="boostContainer" *ngFor="let boost of boostsList">
+            <div class="boostIcon">
+                <img [src]="boost.icon">
+            </div>
+            <div class="boostDescriptionContainer">
+                <div class="boostDescription">
+                    <div class="boostText">{{boost.text}}</div>
+                    <div class="boostSubText">{{boost.subText}}</div>
+                </div>
+                <div *ngIf="!boost.isApplied" class="boostPriceButton" (click)="applyBoost(boost.type)">
+                    <img src="assets/icons/candy-black-icon.svg">
+                    <div class="boostPrice">&nbsp;{{boost.price}}</div>
+                </div>
+                <div *ngIf="boost.isApplied" class="boostAppliedButton">
+                    <img src="assets/icons/check-button.svg">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

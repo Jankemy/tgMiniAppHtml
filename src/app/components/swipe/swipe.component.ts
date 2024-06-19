@@ -5,8 +5,8 @@ import { EventService } from '../../shared/services/event.service';
 
 // const animationTimeMS = 500
 const overflow = 1
-const beginCoinCount = 1
-const afterCutCoinCount = 2
+const beginCoinCount = 10
+const afterCutCoinCount = 1
 const swipeCounterKey = 'swipeCounterKey'
 
 @Component({

@@ -1,9 +1,92 @@
 $text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+$background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
+$button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
 
-#boostsHeader{
+$border-height: 1px;
+$border-radius: 15px;
+$margin-box: 15px;
+
+$text-color: #7C6CFE;
+$border-bg-color: #7C6CFE;
+
+
+#app-boosts{
+    height: 100%;
+}
+
+.boostsHeader {
     font-size: 48px;
+    font-weight: 700;
     background: $text-linear-color;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.boostText {
+    font-size: 17px;
+    padding: 10px;
+    color: white;
+}
+
+.boostSubText {
+    font-size: 10px;
+    color: #ffffff80;
+}
+
+.boostContainer {
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    background: $background-linear-color
+}
+
+.boostPriceButton {
+    border-radius: $border-radius;
+    // margin: $margin-box;
+    padding: 10px $margin-box;
+    background: $button-linear-color;
+    font-size: 14px;
+    // font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.boostAppliedButton{
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    // padding: $margin-box;
+    padding: 12px;
+}
+
+.boostIcon{
+    display: flex;
+    justify-content: flex-start;
+    padding: $margin-box;
+}
+
+.boostPrice{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.boostDescription{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.boostDescription .boostText{
+    padding: 0 0 5px 0;
+}
+
+.boostDescriptionContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: $margin-box;
+}
+
+.boostsListContainer{
+    overflow: auto;
 }
