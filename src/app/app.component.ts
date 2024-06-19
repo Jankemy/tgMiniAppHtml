@@ -82,6 +82,7 @@ export class AppComponent implements OnInit {
     
     if(!currentItem) {
       t.router.navigateByUrl(t.menuItems[0].path)
+      t.menuItems[0].isActive = true
       return
     }
 

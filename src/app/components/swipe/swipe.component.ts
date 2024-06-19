@@ -53,8 +53,11 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }, 1000);
 
-    if (!!(<any>window).Telegram?.WebApp?.getItem) {
-      t.swipeCounter = (<any>window).Telegram?.WebApp?.getItem(swipeCounterKey, t.swipeCounter)
+    try {
+      t.swipeCounter = (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey, t.swipeCounter)
+    }
+    catch(er) {
+      console.log(er)
     }
 
     (<any>window).Telegram?.WebApp?.ready()
@@ -100,11 +103,21 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
     t.swipeCounter++
 
-    if (!!(<any>window).Telegram?.WebApp?.setItem) {
-      (<any>window).Telegram?.WebApp?.setItem(swipeCounterKey, t.swipeCounter)
+    
+    console.log((<any>window).Telegram)
+    console.log((<any>window).Telegram?.WebApp)
+    console.log((<any>window).Telegram?.WebApp?.CloudStorage)
+    console.log((<any>window).Telegram?.WebApp?.CloudStorage?.setItem);
+    try {
+      (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, t.swipeCounter)
+    }
+    catch(er) {
+      console.log(er)
     }
 
-    t.energyValue--
+    if (t.energyValue > 0){
+      t.energyValue--
+    }
 
     for(let i = 0; i < afterCutCoinCount; i++){
       t.addNewCutCoinComponent()
