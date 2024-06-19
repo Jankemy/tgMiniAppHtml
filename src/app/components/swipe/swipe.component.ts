@@ -54,7 +54,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 1000);
 
     try {
-      t.swipeCounter =  JSON.parse((<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey))
+      (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey)
+        .then(resp => {
+          t.swipeCounter = JSON.parse(resp)
+        })
     }
     catch(er) {
       console.log(er)
@@ -108,12 +111,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log((<any>window).Telegram?.WebApp)
     console.log((<any>window).Telegram?.WebApp?.CloudStorage)
     console.log((<any>window).Telegram?.WebApp?.CloudStorage?.setItem);
-    try {
-      (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, JSON.stringify(t.swipeCounter))
-    }
-    catch(er) {
-      console.log(er)
-    }
+    
+    (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, JSON.stringify(t.swipeCounter))
+      .catch((er:any) => console.log(er))
+    
 
     if (t.energyValue > 0){
       t.energyValue--
