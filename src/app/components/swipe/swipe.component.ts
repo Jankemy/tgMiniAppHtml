@@ -55,7 +55,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     try {
       (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey)
-        .then(resp => {
+        .then((resp:any) => {
           t.swipeCounter = JSON.parse(resp)
         })
     }
@@ -107,13 +107,17 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     t.swipeCounter++
 
     
-    console.log((<any>window).Telegram)
-    console.log((<any>window).Telegram?.WebApp)
-    console.log((<any>window).Telegram?.WebApp?.CloudStorage)
-    console.log((<any>window).Telegram?.WebApp?.CloudStorage?.setItem);
+    // console.log((<any>window).Telegram)
+    // console.log((<any>window).Telegram?.WebApp)
+    // console.log((<any>window).Telegram?.WebApp?.CloudStorage)
+    // console.log((<any>window).Telegram?.WebApp?.CloudStorage?.setItem);
     
-    (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, JSON.stringify(t.swipeCounter))
-      .catch((er:any) => console.log(er))
+    try{
+      (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, JSON.stringify(t.swipeCounter))
+    }
+    catch(er) {
+      console.log(er)
+    }
     
 
     if (t.energyValue > 0){
