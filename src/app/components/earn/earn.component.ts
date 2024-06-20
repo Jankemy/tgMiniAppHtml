@@ -44,7 +44,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Follow Telegram chat',
       reward: 150,
       isCompleted: false,
-      link: 'https://t.me/+_y1mBc2ONXdiMjMy',
+      link: 'https://web.telegram.org/a/',
     },
     {
       type: TaskTypes.FollowInstagram,
