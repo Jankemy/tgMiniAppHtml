@@ -36,7 +36,8 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Invite 3 friends',
       reward: 150,
       isCompleted: false,
-      link: `${addGithubPath}invite`,
+      // link: `${addGithubPath}invite`,
+      link: 'invite',
     },
     {
       type: TaskTypes.FollowTgChat,
