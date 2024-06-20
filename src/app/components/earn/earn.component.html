@@ -1,4 +1,57 @@
 <div id="app-earn">
-    <div id="earnHeader">Earn</div>
-    <div id="earnHeader">Coming soon</div>
+    <div id="earnHeader" class="earnHeader">More</div>
+    <div id="earnText" class="earnText">Complete tasks and get extra swipes every day!</div>
+    <div class="earnScrollContainer" [style.height]="calcTaskListContainerHeight()">
+        <div class="earnBonusContainer">
+            <div class="earnText">Your wallet</div>
+            <div class="earnSubText">This wallet will be used to get rewards and airdrop in the future</div>
+            <div class="earnScoreBox">
+                <img src="assets/icons/candy-icon.svg">
+                <div class="earnScore">&nbsp;321654</div>
+            </div>
+            <div class="evmAddressContainer">
+                <div class="evmAddress">{{evmAddress}}</div>
+                <div [ngClass]="{'earnButton': !isAddressCopied, 'earnButtonCopied': isAddressCopied }"
+                    (click)="copyEvmAddress()">
+                    <img *ngIf="!isAddressCopied" src="assets/icons/copy-icon.svg">
+                    <img *ngIf="isAddressCopied" src="assets/icons/check-button.svg">
+                </div>
+            </div>
+        </div>
+        <div class="earnBonusContainer">
+            <div class="earnText">Daily reward</div>
+            <div class="earnSubText">Log in to the game every day and increase your daily reward!</div>
+            <div class="daylyRewardContainer">
+                <div class="claimDayCount">Day 6</div>
+                <div class="claimBox">
+                    <img src="assets/icons/candy-icon.svg">
+                    <div class="claimCount">&nbsp;+150</div>
+                </div>
+            </div>
+            <div class="earnButton">Claim</div>
+        </div>
+        <div class="taskListContainer">
+            <div class="taskContainer" *ngFor="let task of taskList">
+                <div class="taskIcon">
+                    <img [src]="task.icon">
+                </div>
+                <div class="taskDescriptionContainer">
+                    <div class="taskDescription">
+                        <div class="earnText">{{task.text}}</div>
+                        <div class="taskRewardBox">
+                            <img src="assets/icons/candy-icon.svg">
+                            <div class="taskReward">&nbsp;+{{task.reward}}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="!task.isCompleted" class="earnButton" (click)="completeTask(task.type)">
+                        Follow
+                    </div>
+                    <div *ngIf="task.isCompleted" class="taskCompletedButton">
+                        <img src="assets/icons/check-button.svg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

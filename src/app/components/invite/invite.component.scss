@@ -55,8 +55,25 @@ $border-bg-color: #7C6CFE;
     // font-weight: 500;
 }
 
+.inviteButtonCopied{
+    font-size: 14px;
+    font-weight: 600;
+
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    padding: $margin-box;
+
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .inviteButton,
-.inviteButton>*{
+.inviteButtonCopied,
+.inviteButton>*,
+.inviteButtonCopied>*{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -118,4 +135,9 @@ $border-bg-color: #7C6CFE;
 .invitedListBody>div:last-child{
     font-size: 20px;
     color: $text-color;
+}
+
+.inviteButton>img,
+.inviteButtonCopied>img{
+    width: 18px;
 }

@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     },
     { 
       path: `/${addGithubPath}earn`, 
-      name: 'Earn', 
+      name: 'More', 
       isActive: false, 
       icon: 'assets/menu-icons/earn.svg', 
       activeIcon: 'assets/menu-icons/earn-active.svg' 
@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
 
     let appContainer = document.getElementById('app-container')!
     let menuFooter = document.getElementById('menuFooter')!
-    console.log(menuFooter.offsetHeight)
+    // console.log(menuFooter.offsetHeight)
 
     return `${appContainer.offsetHeight - menuFooter.offsetHeight}px`
   }

@@ -1,9 +1,220 @@
 $text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+$background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
+$button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
 
-#earnHeader{
+
+$border-height: 1px;
+$border-radius: 15px;
+$margin-box: 15px;
+
+$text-color: #7C6CFE;
+$border-bg-color: #7C6CFE;
+
+
+#app-earn{
+    display: grid;
+    align-content: space-between;
+    height: -webkit-fill-available;
+}
+
+.earnHeader{
     font-size: 48px;
+    font-weight: 700;
     background: $text-linear-color;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.earnText{
+    font-size: 17px; 
+    padding: 10px;
+    color: white;
+}
+
+.earnBonusContainer{
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    background: $background-linear-color
+}
+
+.earnSubText{
+    font-size: 15px;
+    color: #FFFFFF80;
+
+}
+
+.earnButton{
+    border-radius: $border-radius;
+    margin: $margin-box;
+    padding: $margin-box;
+    background: $button-linear-color;
+    font-size: 14px;
+    // font-weight: 500;
+}
+
+.earnButtonCopied{
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    padding: $margin-box;
+    // background: $button-linear-color;
+    font-size: 14px;
+}
+
+.daylyRewardContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: $margin-box;
+    padding: 10px $margin-box;
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+}
+
+.claimDayCount{
+    font-size: 18px;
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.claimBox{
+    display: flex;
+    align-items: center;
+}
+
+.claimCount{
+    font-size: 24px;
+    font-weight: 600;
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.earnScore {
+    font-size: 36px;
+    font-weight: 600;
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.earnScoreBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: $margin-box;
+}
+
+.earnScoreBox>img{
+    width: 30px
+}
+
+.taskContainer {
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    background: $background-linear-color
+}
+
+.taskCompletedButton{
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    // padding: $margin-box;
+    padding: 12px;
+}
+
+.taskIcon{
+    display: flex;
+    justify-content: flex-start;
+    padding: $margin-box;
+}
+
+.taskReward{
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-color;
+}
+
+.taskDescription{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.taskDescription .earnText{
+    padding: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.taskDescriptionContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 $margin-box $margin-box $margin-box;
+}
+
+.taskDescriptionContainer>.earnButton{
+    margin: 0; 
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.earnScrollContainer{
+    overflow: auto;
+}
+
+.taskRewardBox{
+    display: flex;
+    align-items: center;
+}
+
+.taskRewardBox>img{
+    width: 17px;
+}
+
+.evmAddress{
+    font-size: 18px;
+    padding: 12px;
+    margin: 0 $margin-box $margin-box;
+
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.evmAddressContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.evmAddressContainer>.earnButton,
+.evmAddressContainer>.earnButtonCopied{
+    padding: 12px;
+    margin: 0 15px 15px 0;
+}
+
+.evmAddressContainer>.earnButton>img,
+.evmAddressContainer>.earnButtonCopied>img{
+    width: 22px;
+}
+
+.earnButton>img,
+.earnButtonCopied>img{
+    width: 22px;
 }

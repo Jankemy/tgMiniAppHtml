@@ -24,11 +24,12 @@
         <div class="inviteButton">
             <img src="assets/icons/invite-icon.svg" alt="">&nbsp;Invite friend
         </div>
-        <div class="inviteButton" (click)="copyRefLink()">
+        <div [ngClass]="{'inviteButton': !isCopied, 'inviteButtonCopied': isCopied }"
+            (click)="copyRefLink()">
             <span *ngIf="!isCopied"><img src="assets/icons/copy-icon.svg" alt="">&nbsp;Copy link</span>
             <span *ngIf="isCopied">
-                <!-- <img src="assets/icons/check.svg" alt="">&nbsp; -->
-                Copied</span>
+                <img src="assets/icons/check-button.svg">&nbsp;Copied
+            </span>
         </div>
     </div>
 </div>
