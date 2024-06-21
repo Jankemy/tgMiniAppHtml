@@ -130,7 +130,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       y: cutCoin.top  + 25
     }
     while (t.isEnabledAutoswipe) {
-      await this.sleepTime(1)
+      await this.sleepTime(100)
       await t.enableAutoswipeLine(last, next)
       last = next
 
