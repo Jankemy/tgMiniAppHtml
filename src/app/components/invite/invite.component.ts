@@ -43,4 +43,13 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => { t.isCopied = false }, 1000 * 3) //3 sec
   }
 
+  calcInviteContainerHeight(){
+    let appInvite = document.getElementById('app-invite')!
+    let inviteHeader = document.getElementById('inviteHeader')!
+    let inviteText = document.getElementById('inviteText')!
+    let res = appInvite.offsetHeight - inviteHeader.offsetHeight - inviteText.offsetHeight
+
+    return `${res}px`
+  }
+
 }
