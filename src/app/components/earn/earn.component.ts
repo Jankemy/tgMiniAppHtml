@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2, V
 import { TaskTypes } from '../../shared/enums/task.types';
 import { addGithubPath } from '../../../environments/environment';
 import { ClipboardService } from 'ngx-clipboard';
+import { ScoreService } from '../../shared/services/score.service';
 
 
 @Component({
@@ -59,8 +60,13 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private clip: ClipboardService,
+    private scoreService: ScoreService
   ){
   }
+
+  get swipeCounter(){
+    return this.scoreService.totalScore
+  } 
 
   ngOnInit() {
   }

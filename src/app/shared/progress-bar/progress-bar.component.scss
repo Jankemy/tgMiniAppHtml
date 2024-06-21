@@ -51,5 +51,7 @@ $progress-container-height: calc($progress-bar-height + $border-height * 2 + $pr
     background: $progress-bar-bg-linear-color;
 
     border-radius: $progress-border-radius;
-    height: 100%
+    height: 100%;
+
+    transition: all 1s ease 0s;
 }

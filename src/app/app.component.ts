@@ -76,9 +76,9 @@ export class AppComponent implements OnInit {
   updateActiveMenuItem(event:any) {
     var t = this;
     
-    console.log(event.url)
+    // console.log(event.url)
     var currentItem = t.menuItems.find(x => x.path == event.url);
-    console.log(currentItem)
+    // console.log(currentItem)
     
     if(!currentItem) {
       t.router.navigateByUrl(t.menuItems[0].path)
