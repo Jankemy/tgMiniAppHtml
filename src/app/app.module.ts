@@ -5,6 +5,8 @@ import { SharedModule } from './shared/shared.module';
 // import { CutCoinComponent } from './shared/cut-coin/cut-coin.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
+import { NotifierModule } from 'angular-notifier';
+import { customNotifierOptions } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     SharedModule,
     RouterModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,8 @@ import { TaskTypes } from '../../shared/enums/task.types';
 import { addGithubPath } from '../../../environments/environment';
 import { ClipboardService } from 'ngx-clipboard';
 import { ScoreService } from '../../shared/services/score.service';
+import { NotifierService } from 'angular-notifier';
+import { AnySoaRecord } from 'dns';
 
 
 @Component({
@@ -14,6 +16,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   evmAddress = '0xd64bd54d1c5e6271c8ea8ebbd12349ad757adc83'
   isAddressCopied = false;
+  isLoader: any = {}
   taskList = [
     {
       type: TaskTypes.FollowX,
@@ -60,7 +63,8 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private clip: ClipboardService,
-    private scoreService: ScoreService
+    private scoreService: ScoreService,
+    private notifier: NotifierService
   ){
   }
 
@@ -97,13 +101,21 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       a.target = '_black'
     }
 
+    t.isLoader[type] = true
     a.click()
+
+    setTimeout(() => {
+      t.isLoader = false
+      currentTask.isCompleted = true
+    }, 1000 * 60)
   }
 
   copyEvmAddress(){
     let t = this;
 
     t.clip.copy(t.evmAddress)
+    t.notifier.notify('info', 'Copied')
+    // console.log(t.notifier)
     t.isAddressCopied = true;
 
     setTimeout(() => { t.isAddressCopied = false }, 1000 * 3)

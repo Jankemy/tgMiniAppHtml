@@ -3,6 +3,8 @@ import { CutCoinComponent } from '../../shared/cut-coin/cut-coin.component';
 import { EventService } from '../../shared/services/event.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
 import { BoostsService } from '../../shared/services/boosts.service';
+import { NotifierService } from 'angular-notifier';
+import { ScoreService } from '../../shared/services/score.service';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { BoostsService } from '../../shared/services/boosts.service';
 export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
-    private boostsService: BoostsService
+    private boostsService: BoostsService,
+    private notifier: NotifierService,
+    private scoreService: ScoreService
   ){
   }
 
@@ -47,7 +51,16 @@ export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   applyBoost(type: BoostTypes){
-    this.boostsService.buyBoost(type)
+    let t = this;
+    t.boostsService.buyBoost(type)
+    .then(resp => {
+      // console.log(resp)
+      t.notifier.notify('info', 'Boost successfuly applied')
+    })
+    .catch(er => {
+      // console.log(er)
+      t.notifier.notify('error', er)
+    })
   }
 
 }

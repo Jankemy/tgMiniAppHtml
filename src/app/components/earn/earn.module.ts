@@ -4,6 +4,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { EarnComponent } from './earn.component';
 import { EarnRoutingModule } from './earn-routing.module';
 import { CommonModule } from '@angular/common';
+import { NotifierModule } from 'angular-notifier';
+import { customNotifierOptions } from '../../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import { CommonModule } from '@angular/common';
     EarnRoutingModule,
     CommonModule,
     BrowserModule,
-    SharedModule
+    SharedModule,
+    // NotifierModule.withConfig(customNotifierOptions)
   ],
   bootstrap: [EarnComponent]
 })

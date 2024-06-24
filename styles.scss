@@ -1,0 +1,14 @@
+$linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+
+$border-height: 1px;
+$border-radius: 15px;
+$margin-box: 15px;
+
+$text-color: #7C6CFE;
+$border-bg-color: #7C6CFE;
+
+.notifier__notification--material{
+    border-radius: $border-radius;
+    background: $linear-color;
+}

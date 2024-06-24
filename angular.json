@@ -63,7 +63,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/main.css"
+              "node_modules/angular-notifier/styles.scss",
+              "node_modules/angular-notifier/styles.css",
+              "src/main.css",
+              "styles.scss"
             ],
             "scripts": [
               "node_modules/swipe-listener/dist/swipe-listener.min.js",

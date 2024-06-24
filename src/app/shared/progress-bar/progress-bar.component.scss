@@ -30,6 +30,7 @@ $progress-container-height: calc($progress-bar-height + $border-height * 2 + $pr
     border: $border-height solid $border-bg-color;
     border-radius: $progress-border-radius;
     overflow: hidden;
+    background: transparent;
 }
 
 .prigress-label{

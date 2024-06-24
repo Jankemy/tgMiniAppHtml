@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BoostTypes } from '../enums/boost.types';
+import { ScoreService } from './score.service';
 
 @Injectable({
     providedIn: 'platform'
@@ -45,6 +46,12 @@ export class BoostsService {
         },
     ]
 
+    constructor(
+        private scoreService: ScoreService
+    ){
+
+    }
+
     get boostsList() {
         return this.boosts
     }
@@ -54,24 +61,33 @@ export class BoostsService {
 
         let boost = t.boostsList.find(boost => boost.type === type)!
 
-        switch (type) {
-            case BoostTypes.X3Multiplier:
-                boost.multiplier = 3
-                break;
-
-            case BoostTypes.Autoswipe:
-                //TODO: autoswipe logic
-                boost.multiplier = 1
-                break;
-
-            case BoostTypes.EnergyCapacity:
-            case BoostTypes.RechargingSpeed:
-            default:
-                boost.multiplier += 1
-                setTimeout(() => { boost.isApplied = false }, 1000 * 3)
-                break;
-        }
-
-        boost.isApplied = true
+        return new Promise((resolve, reject) => {
+            if (t.scoreService.totalScore < boost.price) {
+                return reject('Insufficient balance')
+            }
+    
+            switch (type) {
+                case BoostTypes.X3Multiplier:
+                    boost.multiplier = 3
+                    t.scoreService.setIncrementer(boost.multiplier)
+                    break;
+    
+                case BoostTypes.Autoswipe:
+                    boost.multiplier = 1
+                    setTimeout(() => { boost.isApplied = false }, 1000 * 60)// * 60 * 4)
+                    break;
+    
+                case BoostTypes.EnergyCapacity:
+                case BoostTypes.RechargingSpeed:
+                default:
+                    boost.multiplier += 1
+                    setTimeout(() => { boost.isApplied = false }, 1000 * 3)
+                    break;
+            }
+    
+            boost.isApplied = true
+            t.scoreService.decrementScore(boost.price)
+            return resolve(true)
+        })
     }
 }

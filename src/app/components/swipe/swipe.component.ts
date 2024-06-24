@@ -49,6 +49,16 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.energyService.totalEnergy
   }
 
+  get isX3Boost(){
+    let x3 = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.X3Multiplier)!
+    return x3.isApplied
+  }
+
+  get isAutoswipe(){
+    let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.Autoswipe)!
+    return autoswipe.isApplied
+  }
+
   ngOnInit() {
     let t = this;
 
@@ -99,9 +109,9 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     // console.log('componentMap',t.componentMap)
-    let autoswipe = t.boostsService.boostsList
-    .find(boost => boost.type === BoostTypes.Autoswipe)!
-    if (autoswipe.isApplied) {
+    // let autoswipe = t.boostsService.boostsList
+    // .find(boost => boost.type === BoostTypes.Autoswipe)!
+    if (t.isAutoswipe) {
       t.enableAutoswipe()
     }
   }
@@ -129,8 +139,11 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       x: cutCoin.left + 25, 
       y: cutCoin.top  + 25
     }
-    while (t.isEnabledAutoswipe) {
+    while (t.isEnabledAutoswipe && t.isAutoswipe) {
       await this.sleepTime(100)
+      if (t.energyValue <= 0) {
+        continue
+      }
       await t.enableAutoswipeLine(last, next)
       last = next
 
@@ -241,7 +254,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
     // t.swipeCounter++
     t.scoreService.incrementScore()
-    // t.energyService.decrementEnergy()
+    t.energyService.decrementEnergy()
 
     // console.log((<any>window).Telegram)
     // console.log((<any>window).Telegram?.WebApp)
@@ -265,7 +278,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    console.log('componentMap', t.componentMap)
+    // console.log('componentMap', t.componentMap)
   }
 
   touchmoveEvent(e: any) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { addGithubPath } from '../environments/environment';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    // private notifier: NotifierService
   ) {
     let t = this;
 
