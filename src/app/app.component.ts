@@ -67,7 +67,8 @@ export class AppComponent implements OnInit {
 
     window.onload = () => {
       (<any>window).Telegram?.WebApp?.ready();
-      (<any>window).Telegram?.WebApp?.enableClosingConfirmation()
+      (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
+      // (<any>window).Telegram.WebApp.isClosingConfirmationEnabled = true;
       t.setLoading(false);
     }
   }

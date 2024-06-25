@@ -39,4 +39,8 @@ export class ScoreService {
     incrementScore(){
         this.totalUserScore += this.scoreIncrementer
     }
+
+    addClaimedSum(sum: number){
+        this.totalUserScore += sum
+    }
 }

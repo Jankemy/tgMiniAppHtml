@@ -7,7 +7,7 @@ import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
 
 
-const overflow = 1
+const overflow = 100
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 const swipeCounterKey = 'swipeCounterKey'
@@ -254,7 +254,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
     // t.swipeCounter++
     t.scoreService.incrementScore()
-    t.energyService.decrementEnergy()
+    // t.energyService.decrementEnergy()
 
     // console.log((<any>window).Telegram)
     // console.log((<any>window).Telegram?.WebApp)

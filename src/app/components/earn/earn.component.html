@@ -45,13 +45,15 @@
                             <div class="taskReward">&nbsp;+{{task.reward}}</div>
                         </div>
                     </div>
-                    <div *ngIf="!task.isCompleted && !isLoader[task.type]" class="earnButton" (click)="completeTask(task.type)">
-                        Follow
+                    <div *ngIf="!task.isClaimed && !isLoader[task.type]"  (click)="completeTask(task.type)"
+                        [ngClass]="{'earnButton': !task.isCompleted, 'taskCompletedButton': task.isCompleted && !task.isClaimed}">
+                        <span *ngIf="!task.isCompleted">Follow</span>
+                        <span *ngIf="task.isCompleted && !task.isClaimed" class="claimCount">+ Claim</span>
                     </div>
-                    <div *ngIf="!task.isCompleted && isLoader[task.type]" class="taskCompletedButton" (click)="completeTask(task.type)">
-                        <img src="assets/icons/loader-icon.svg">
+                    <div *ngIf="isLoader[task.type]" class="taskCompletedButton">
+                        <div class="loader"></div>
                     </div>
-                    <div *ngIf="task.isCompleted && !isLoader[task.type]" class="taskCompletedButton">
+                    <div *ngIf="task.isClaimed && !isLoader[task.type]" class="taskCompletedButton">
                         <img src="assets/icons/check-button.svg">
                     </div>
                 </div>

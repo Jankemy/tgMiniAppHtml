@@ -62,9 +62,9 @@ export class BoostsService {
         let boost = t.boostsList.find(boost => boost.type === type)!
 
         return new Promise((resolve, reject) => {
-            if (t.scoreService.totalScore < boost.price) {
-                return reject('Insufficient balance')
-            }
+            // if (t.scoreService.totalScore < boost.price) {
+            //     return reject('Insufficient balance')
+            // }
     
             switch (type) {
                 case BoostTypes.X3Multiplier:

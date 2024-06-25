@@ -11,13 +11,13 @@ $text-color: #7C6CFE;
 $border-bg-color: #7C6CFE;
 
 
-#app-earn{
+#app-earn {
     display: grid;
     align-content: space-between;
     height: -webkit-fill-available;
 }
 
-.earnHeader{
+.earnHeader {
     font-size: 48px;
     font-weight: 700;
     background: $text-linear-color;
@@ -26,26 +26,26 @@ $border-bg-color: #7C6CFE;
     -webkit-text-fill-color: transparent;
 }
 
-.earnText{
-    font-size: 17px; 
+.earnText {
+    font-size: 17px;
     padding: 10px;
     color: white;
 }
 
-.earnBonusContainer{
+.earnBonusContainer {
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
     margin: $margin-box;
     background: $background-linear-color
 }
 
-.earnSubText{
+.earnSubText {
     font-size: 15px;
     color: #FFFFFF80;
 
 }
 
-.earnButton{
+.earnButton {
     border-radius: $border-radius;
     margin: $margin-box;
     padding: $margin-box;
@@ -54,7 +54,7 @@ $border-bg-color: #7C6CFE;
     // font-weight: 500;
 }
 
-.earnButtonCopied{
+.earnButtonCopied {
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
     margin: $margin-box;
@@ -63,7 +63,7 @@ $border-bg-color: #7C6CFE;
     font-size: 14px;
 }
 
-.daylyRewardContainer{
+.daylyRewardContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -73,7 +73,7 @@ $border-bg-color: #7C6CFE;
     border-radius: $border-radius;
 }
 
-.claimDayCount{
+.claimDayCount {
     font-size: 18px;
     background: $text-linear-color;
     -webkit-background-clip: text;
@@ -81,12 +81,12 @@ $border-bg-color: #7C6CFE;
     -webkit-text-fill-color: transparent;
 }
 
-.claimBox{
+.claimBox {
     display: flex;
     align-items: center;
 }
 
-.claimCount{
+.claimCount {
     font-size: 24px;
     font-weight: 600;
     background: $text-linear-color;
@@ -104,14 +104,14 @@ $border-bg-color: #7C6CFE;
     -webkit-text-fill-color: transparent;
 }
 
-.earnScoreBox{
+.earnScoreBox {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: $margin-box;
 }
 
-.earnScoreBox>img{
+.earnScoreBox>img {
     width: 30px
 }
 
@@ -122,64 +122,68 @@ $border-bg-color: #7C6CFE;
     background: $background-linear-color
 }
 
-.taskCompletedButton{
+.taskCompletedButton {
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
     // padding: $margin-box;
     padding: 12px;
 }
 
-.taskIcon{
+.taskCompletedButton .claimCount{
+    font-size: 18px;
+}
+
+.taskIcon {
     display: flex;
     justify-content: flex-start;
     padding: $margin-box;
 }
 
-.taskReward{
+.taskReward {
     font-size: 15px;
     font-weight: 600;
     color: $text-color;
 }
 
-.taskDescription{
+.taskDescription {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.taskDescription .earnText{
+.taskDescription .earnText {
     padding: 0 0 5px 0;
     font-size: 14px;
 }
 
-.taskDescriptionContainer{
+.taskDescriptionContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 $margin-box $margin-box $margin-box;
 }
 
-.taskDescriptionContainer>.earnButton{
-    margin: 0; 
+.taskDescriptionContainer>.earnButton {
+    margin: 0;
     padding: 10px 20px;
     font-size: 20px;
     font-weight: 500;
 }
 
-.earnScrollContainer{
+.earnScrollContainer {
     overflow: auto;
 }
 
-.taskRewardBox{
+.taskRewardBox {
     display: flex;
     align-items: center;
 }
 
-.taskRewardBox>img{
+.taskRewardBox>img {
     width: 17px;
 }
 
-.evmAddress{
+.evmAddress {
     font-size: 18px;
     padding: 12px;
     margin: 0 $margin-box $margin-box;
@@ -197,24 +201,43 @@ $border-bg-color: #7C6CFE;
     text-overflow: ellipsis;
 }
 
-.evmAddressContainer{
+.evmAddressContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .evmAddressContainer>.earnButton,
-.evmAddressContainer>.earnButtonCopied{
+.evmAddressContainer>.earnButtonCopied {
     padding: 12px;
     margin: 0 15px 15px 0;
 }
 
 .evmAddressContainer>.earnButton>img,
-.evmAddressContainer>.earnButtonCopied>img{
+.evmAddressContainer>.earnButtonCopied>img {
     width: 22px;
 }
 
 .earnButton>img,
-.earnButtonCopied>img{
+.earnButtonCopied>img {
     width: 22px;
+}
+
+.loader {
+    width: 17px;
+    height: 18px;
+    border: 2px solid $border-bg-color;
+    border-right: dotted;
+    border-radius: 50%;
+    animation: spin 0.75s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }

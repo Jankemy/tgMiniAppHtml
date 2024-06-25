@@ -24,6 +24,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Follow X',
       reward: 150,
       isCompleted: false,
+      isClaimed: false,
       link: 'https://x.com/?lang=ru',
     },
     {
@@ -32,6 +33,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Follow Discord',
       reward: 150,
       isCompleted: false,
+      isClaimed: false,
       link: 'https://discord.com/login',
     },
     {
@@ -40,6 +42,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Invite 3 friends',
       reward: 150,
       isCompleted: false,
+      isClaimed: false,
       // link: `${addGithubPath}invite`,
       link: 'invite',
     },
@@ -49,6 +52,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Follow Telegram chat',
       reward: 150,
       isCompleted: false,
+      isClaimed: false,
       link: 'https://web.telegram.org/a/',
     },
     {
@@ -57,6 +61,7 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
       text: 'Follow Instagram',
       reward: 150,
       isCompleted: false,
+      isClaimed: false,
       link: 'https://www.instagram.com/accounts/login/',
     },
   ]
@@ -92,22 +97,33 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   completeTask(type: TaskTypes){
     let t = this;
-
     let currentTask = t.taskList.find(task => task.type === type)!
-    let a = document.createElement('a')
-    a.href = currentTask.link
 
-    if(type !== TaskTypes.InviteFriends) {
-      a.target = '_black'
+    if (!currentTask.isCompleted) {
+      let a = document.createElement('a')
+      a.href = currentTask.link
+  
+      if(type !== TaskTypes.InviteFriends) {
+        a.target = '_black'
+      }
+  
+      a.click()
+      t.isLoader[type] = true
+
+      setTimeout(() => {
+        t.isLoader[type] = false
+        currentTask.isCompleted = true
+      }, 1000 * 60)
     }
+    else if (!currentTask.isClaimed){
+      t.isLoader[type] = true
 
-    t.isLoader[type] = true
-    a.click()
-
-    setTimeout(() => {
-      t.isLoader = false
-      currentTask.isCompleted = true
-    }, 1000 * 60)
+      setTimeout(() => {
+        t.scoreService.addClaimedSum(currentTask.reward)
+        t.isLoader[type] = false
+        currentTask.isClaimed = true
+      }, 1000 * 10)
+    }
   }
 
   copyEvmAddress(){
