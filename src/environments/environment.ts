@@ -8,8 +8,8 @@ export const environment = {
     // botName: 'bcapdemo_bot'
   };
 
-// export var addGithubPath = 'tgMiniAppHtml/'
-export var addGithubPath = ''
+export var addGithubPath = 'tgMiniAppHtml/'
+// export var addGithubPath = ''
 
 
 /**
