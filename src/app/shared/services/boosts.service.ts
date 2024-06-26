@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BoostTypes } from '../enums/boost.types';
 import { ScoreService } from './score.service';
+import { ApiService } from './api.service';
+import { BoostModel } from '../models/boost.model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,7 +49,8 @@ export class BoostsService {
     ]
 
     constructor(
-        private scoreService: ScoreService
+        private scoreService: ScoreService,
+        private api: ApiService
     ){
 
     }
@@ -56,20 +59,32 @@ export class BoostsService {
         return this.boosts
     }
 
+    // initBoostsService(){
+    //     let t = this;
+    //     t.getBoostList()
+    //     .then(resp => {
+    //         t.boosts = resp!.data!
+    //     })
+    // }
+
+    getBoostList(){
+        return this.api.get<BoostModel>('boosts')
+    }
+
     buyBoost(type: BoostTypes) {
         let t = this;
 
         let boost = t.boostsList.find(boost => boost.type === type)!
 
         return new Promise((resolve, reject) => {
-            // if (t.scoreService.totalScore < boost.price) {
-            //     return reject('Insufficient balance')
-            // }
+            if (t.scoreService.totalScore < boost.price) {
+                return reject('Insufficient balance')
+            }
     
             switch (type) {
                 case BoostTypes.X3Multiplier:
                     boost.multiplier = 3
-                    t.scoreService.setIncrementer(boost.multiplier)
+                    // t.scoreService.setIncrementer(boost.multiplier)
                     break;
     
                 case BoostTypes.Autoswipe:
@@ -86,7 +101,7 @@ export class BoostsService {
             }
     
             boost.isApplied = true
-            t.scoreService.decrementScore(boost.price)
+            // t.scoreService.decrementScore(boost.price)
             return resolve(true)
         })
     }

@@ -14,7 +14,7 @@ export class EnergyService {
     private energyIntervals: any[] = []
 
     constructor(
-        private boostsService: BoostsService,
+        // private boostsService: BoostsService,
         private profileService: ProfileService,
     ) {
         let t = this;
@@ -62,8 +62,7 @@ export class EnergyService {
     initEnergyService(){
         let t = this;
         return t.profileService.profile()
-        .then(resp => {
-            let profile = resp!.data!
+        .then(profile => {
             t.maxEnergy = profile.maxEnergy
             t.energyIncrementer = profile.energyRechargingPerSec
             t.totalUserEnergy = profile.availableEnergy

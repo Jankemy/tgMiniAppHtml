@@ -34,8 +34,7 @@ export class ScoreService {
     initScoreService(){
         let t = this;
         return t.profileService.profile()
-        .then((resp) => {
-            let profile = resp!.data!
+        .then((profile) => {
             t.totalUserScore = profile.balance
             t.scoreIncrementer = profile.earnPerSwipe
         })

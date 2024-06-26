@@ -18,8 +18,7 @@ export class ApiService {
     ) { }
 
     get initData() {
-        // return (<any>window).Telegram?.WebApp?.initData
-        return 'query_id=AAH9MJ8DAAAAAP0wnwP9J3br&user=%7B%22id%22%3A60764413%2C%22first_name%22%3A%22Ruslan%22%2C%22last_name%22%3A%22Kamaev%22%2C%22username%22%3A%22triamero%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1718265865&hash=1bcbcf7bfb3d6161ac8388dfee779a68eb15947aa6e9d0886250f3f93f4b0416'
+        return (<any>window).Telegram?.WebApp?.initData
     }
 
     private expired_at?: Date 
