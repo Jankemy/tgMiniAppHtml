@@ -3,7 +3,7 @@ import { BoostTypes } from '../enums/boost.types';
 import { ScoreService } from './score.service';
 
 @Injectable({
-    providedIn: 'platform'
+    providedIn: 'root'
 })
 export class BoostsService {
 

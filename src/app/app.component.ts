@@ -3,8 +3,6 @@ import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { addGithubPath } from '../environments/environment';
 import { NotifierService } from 'angular-notifier';
-import { ProfileService } from './shared/services/profile.service';
-import { ApiService } from './shared/services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -51,8 +49,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private profileService: ProfileService
-    // private api: ApiService
+    // private notifier: NotifierService
   ) {
     let t = this;
 
@@ -61,26 +58,10 @@ export class AppComponent implements OnInit {
         t.updateActiveMenuItem(event);
       }
     })
-
-    t.profileService.profile()
-    .then(resp => console.log(resp))
   }
 
   ngOnInit() {
-    let t = this;
-    t.setLoading(true);
-
-
-    window.onload = () => {
-      (<any>window).Telegram?.WebApp?.ready();
-      (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
-      // (<any>window).Telegram.WebApp.isClosingConfirmationEnabled = true;
-      t.setLoading(false);
-    }
-  }
-
-  setLoading(isLoading: boolean) {
-    PreloaderComponent.setLoading(isLoading);
+    (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
   }
 
   updateActiveMenuItem(event:any) {

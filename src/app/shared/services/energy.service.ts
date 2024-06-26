@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BoostsService } from './boosts.service';
 import { BoostTypes } from '../enums/boost.types';
+import { ProfileService } from './profile.service';
 
 @Injectable({
-    providedIn: 'platform'
+    providedIn: 'root'
 })
 export class EnergyService {
-    private stockMaxEnergy = 100
+    // private stockMaxEnergy = 100
+    private maxEnergy = 100
+    private energyIncrementer = 1
     private totalUserEnergy = 25
-    private energyInterval = {}
+    private energyIntervals: any[] = []
 
     constructor(
-        private boostsService: BoostsService
+        private boostsService: BoostsService,
+        private profileService: ProfileService,
     ) {
         let t = this;
-        t.energyInterval = setInterval(() => {
+        t.energyIntervals.push(setInterval(() => {
             if (t.totalUserEnergy < t.maxEnergy) {
                 t.totalUserEnergy += t.energyIncrementer
 
@@ -22,27 +26,48 @@ export class EnergyService {
                     t.totalUserEnergy = t.maxEnergy
                 }
             }
-        }, 1000)
+        }, 1000))
+
+        t.energyIntervals.push(setInterval(t.initEnergyService, 1000 * 60 * 10)) //10 minutes
     }
 
-    private get energyIncrementer() {
-        let t = this;
-        let appliedRechargingBoost = t.boostsService.boostsList
-            .find(boost => boost.type === BoostTypes.RechargingSpeed)!
-
-        return appliedRechargingBoost.multiplier
+    get availableUserEnergy() {
+        return this.totalUserEnergy
     }
 
-    private get maxEnergy() {
-        let t = this;
-        let appliedCapacityBoost = t.boostsService.boostsList
-            .find(boost => boost.type === BoostTypes.EnergyCapacity)!
+    // private get energyIncrementer() {
+    //     let t = this;
+    //     let appliedRechargingBoost = t.boostsService.boostsList
+    //         .find(boost => boost.type === BoostTypes.RechargingSpeed)!
 
-        return this.stockMaxEnergy + this.stockMaxEnergy * appliedCapacityBoost.multiplier
-    }
+    //     return appliedRechargingBoost.multiplier
+    // }
+
+    // private get maxEnergy() {
+    //     let t = this;
+    //     let appliedCapacityBoost = t.boostsService.boostsList
+    //         .find(boost => boost.type === BoostTypes.EnergyCapacity)!
+
+    //     return this.stockMaxEnergy + this.stockMaxEnergy * appliedCapacityBoost.multiplier
+    // }
 
     get totalEnergy() {
         return this.totalUserEnergy / this.maxEnergy * 100
+    }
+
+    ngOnDestroy() {
+        this.energyIntervals.map(interval => clearInterval(interval));
+    }
+
+    initEnergyService(){
+        let t = this;
+        return t.profileService.profile()
+        .then(resp => {
+            let profile = resp!.data!
+            t.maxEnergy = profile.maxEnergy
+            t.energyIncrementer = profile.energyRechargingPerSec
+            t.totalUserEnergy = profile.availableEnergy
+        })
     }
 
     decrementEnergy() {

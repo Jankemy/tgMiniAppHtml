@@ -1,33 +1,44 @@
 import { Injectable} from '@angular/core';
 import { BoostsService } from './boosts.service';
 import { BoostTypes } from '../enums/boost.types';
+import { EnergyService } from './energy.service';
+import { ApiService } from './api.service';
+import { ProfileService } from './profile.service';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class ScoreService {
 
     private totalUserScore = 0
     private scoreIncrementer = 1
+    private scoreInterval: any = {}
 
     constructor(
-        // зкшмфеу 
-    ){}
-
-    // private get scoreIncrementer(){
-    //     let t = this;
-    //     let appliedX3Boost = t.boostsService.boostsList
-    //         .find(boost => boost.type === BoostTypes.X3Multiplier)!
-            
-    //     if (appliedX3Boost.isApplied){
-    //         return appliedX3Boost.multiplier
-    //     }
-        
-    //     return 1
-    // } 
+        private api: ApiService,
+        private profileService: ProfileService,
+        private energyService: EnergyService
+    ){
+        let t = this;
+        t.scoreInterval = setInterval(t.initScoreService, 1000 * 60 * 10) //10 minutes
+    }
 
     get totalScore() {
         return this.totalUserScore
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.scoreInterval);
+    }
+
+    initScoreService(){
+        let t = this;
+        return t.profileService.profile()
+        .then((resp) => {
+            let profile = resp!.data!
+            t.totalUserScore = profile.balance
+            t.scoreIncrementer = profile.earnPerSwipe
+        })
     }
 
     setIncrementer(newIncrementer: number){
@@ -39,7 +50,14 @@ export class ScoreService {
     }
 
     incrementScore(){
-        this.totalUserScore += this.scoreIncrementer
+        let t = this;
+        t.totalUserScore += t.scoreIncrementer
+
+        t.api.post('swipes', {
+            timestamp: new Date().getTime(),
+            count: t.scoreIncrementer,
+            availableEnergy: t.energyService.availableUserEnergy
+        })
     }
 
     addClaimedSum(sum: number){

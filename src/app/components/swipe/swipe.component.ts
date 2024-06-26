@@ -5,6 +5,7 @@ import { ScoreService } from '../../shared/services/score.service';
 import { EnergyService } from '../../shared/services/energy.service';
 import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
+import { PreloaderComponent } from '../../shared/preloader/preloader.component';
 
 
 const overflow = 1
@@ -61,7 +62,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     let t = this;
-
+    t.setLoading(true)
     // register swipe event emitter
     var app = document.getElementById('app-swipe')!;
     document.body.style.overflowY = 'hidden'
@@ -75,6 +76,14 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       t.touchmoveEvent(e)
     });
 
+    Promise.all([
+      t.scoreService.initScoreService(),
+      t.energyService.initEnergyService()
+    ])
+    .then(() => {
+      t.setLoading(false)
+    })
+
     // try {
     //   (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey)
     //     .then((resp:any) => {
@@ -85,7 +94,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     //   console.log(er)
     // }
 
-    (<any>window).Telegram?.WebApp?.ready()
+    // (<any>window).Telegram?.WebApp?.ready()
 
     // t.enableAutoswipeLine()
   }
@@ -346,6 +355,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     cutCoinComponent.instance.cutCoinId = componentId
     cutCoinComponent.instance.cutBoxPosition = t.cutBoxPosition
     t.renderer.appendChild(t.cutBox.element.nativeElement, cutCoinComponent.location.nativeElement)
+  }
+
+  setLoading(isLoading: boolean) {
+    PreloaderComponent.setLoading(isLoading);
   }
 
 }
