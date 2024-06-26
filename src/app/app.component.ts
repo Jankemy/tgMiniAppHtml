@@ -3,6 +3,8 @@ import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { addGithubPath } from '../environments/environment';
 import { NotifierService } from 'angular-notifier';
+import { ProfileService } from './shared/services/profile.service';
+import { ApiService } from './shared/services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -49,7 +51,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    // private notifier: NotifierService
+    private profileService: ProfileService
+    // private api: ApiService
   ) {
     let t = this;
 
@@ -58,6 +61,9 @@ export class AppComponent implements OnInit {
         t.updateActiveMenuItem(event);
       }
     })
+
+    t.profileService.profile()
+    .then(resp => console.log(resp))
   }
 
   ngOnInit() {

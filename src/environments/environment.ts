@@ -3,7 +3,7 @@ import { NotifierOptions } from "angular-notifier";
 export const environment = {
     // envName: 'dev',
     production: false,
-    // apiUrl: 'http://localhost:65452/',
+    apiUrl: 'http://176.122.20.41:5000',
     // tokenUrl: 'token',
     // botName: 'bcapdemo_bot'
   };

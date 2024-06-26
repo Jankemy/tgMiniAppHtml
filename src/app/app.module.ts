@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { NotifierModule } from 'angular-notifier';
 import { customNotifierOptions } from '../environments/environment';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { customNotifierOptions } from '../environments/environment';
     BrowserModule,
     SharedModule,
     RouterModule,
-    NotifierModule.withConfig(customNotifierOptions)
+    NotifierModule.withConfig(customNotifierOptions),
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

@@ -7,7 +7,7 @@ import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
 
 
-const overflow = 100
+const overflow = 1
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 const swipeCounterKey = 'swipeCounterKey'
