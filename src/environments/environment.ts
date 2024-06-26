@@ -3,7 +3,7 @@ import { NotifierOptions } from "angular-notifier";
 export const environment = {
     // envName: 'dev',
     production: false,
-    apiUrl: 'https://api-candy.softdds.com',
+    apiUrl: 'https://api-candy.softdds.com/',
     // tokenUrl: 'token',
     // botName: 'bcapdemo_bot'
   };

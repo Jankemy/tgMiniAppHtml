@@ -30,7 +30,7 @@ export class ApiService {
         if (!t.expired_at || t.expired_at <= new Date()) {
             return t.http.request(
                 "POST",
-                apiUrl + "/auth/telegram",
+                apiUrl + "auth/telegram",
                 {
                     body: { 
                         initData: t.initData 
