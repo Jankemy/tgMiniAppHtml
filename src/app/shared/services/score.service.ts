@@ -10,7 +10,9 @@ export class ScoreService {
     private totalUserScore = 0
     private scoreIncrementer = 1
 
-    constructor(){}
+    constructor(
+        // зкшмфеу 
+    ){}
 
     // private get scoreIncrementer(){
     //     let t = this;
