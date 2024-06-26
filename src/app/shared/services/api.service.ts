@@ -32,9 +32,8 @@ export class ApiService {
                 "POST",
                 apiUrl + "/auth/telegram",
                 {
-                    body: {
-                        mode: "raw",
-                        raw: JSON.stringify({ initData: t.initData })
+                    body: { 
+                        initData: t.initData 
                     },
                     headers: {
                         "Content-Type": "application/json"
