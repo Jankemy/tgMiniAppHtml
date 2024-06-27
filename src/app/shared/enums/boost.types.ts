@@ -1,6 +1,10 @@
 export enum BoostTypes{
-    X3Multiplier = 0,
-    RechargingSpeed = 1,
-    EnergyCapacity = 2,
-    Autoswipe = 3
+    swipe_x5 = 0,
+    energy_refill = 1,
+
+    earn_per_swipe = 2,
+    recharging_speed = 3,
+    energy_capacity = 4,
+
+    Autoswipe = 5
 }

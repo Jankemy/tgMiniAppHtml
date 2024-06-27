@@ -5,6 +5,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { ScoreService } from '../../shared/services/score.service';
 import { NotifierService } from 'angular-notifier';
 import { AnySoaRecord } from 'dns';
+import { PreloaderComponent } from '../../shared/preloader/preloader.component';
 
 
 @Component({
@@ -78,6 +79,12 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
   } 
 
   ngOnInit() {
+    let t = this
+
+    t.scoreService.initScoreService()
+    .finally(() => {
+      t.setLoading(false)
+    })
   }
 
   ngAfterViewInit() {
@@ -135,6 +142,10 @@ export class EarnComponent implements OnInit, AfterViewInit, OnDestroy {
     t.isAddressCopied = true;
 
     setTimeout(() => { t.isAddressCopied = false }, 1000 * 3)
+  }
+
+  setLoading(isLoading: boolean) {
+    PreloaderComponent.setLoading(isLoading);
   }
 
 }

@@ -15,7 +15,7 @@
                 </div>
                 <div *ngIf="!boost.isApplied" class="boostPriceButton" (click)="applyBoost(boost.type)">
                     <img src="assets/icons/candy-black-icon.svg">
-                    <div class="boostPrice">&nbsp;{{boost.price}}</div>
+                    <div class="boostPrice">&nbsp;{{boost.price > 0 ? boost.price : 'Free'}}</div>
                 </div>
                 <div *ngIf="boost.isApplied" class="boostAppliedButton">
                     <img src="assets/icons/check-button.svg">

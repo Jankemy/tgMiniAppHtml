@@ -6,6 +6,7 @@ import { EnergyService } from '../../shared/services/energy.service';
 import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
 import { PreloaderComponent } from '../../shared/preloader/preloader.component';
+import { ProfileService } from '../../shared/services/profile.service';
 
 
 const overflow = 1
@@ -35,6 +36,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private renderer: Renderer2,
+    private profileService: ProfileService,
     private eventService: EventService,
     private scoreService: ScoreService,
     private energyService: EnergyService,
@@ -50,14 +52,15 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.energyService.totalEnergy
   }
 
-  get isX3Boost(){
-    let x3 = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.X3Multiplier)!
-    return x3.isApplied
+  get isX5Boost(){
+    let x5 = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.swipe_x5)!
+    return x5.isApplied
   }
 
   get isAutoswipe(){
-    let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.Autoswipe)!
-    return autoswipe.isApplied
+    // let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.Autoswipe)!
+    // return autoswipe.isApplied
+    return false
   }
 
   ngOnInit() {
@@ -76,13 +79,17 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       t.touchmoveEvent(e)
     });
 
-    Promise.all([
-      t.scoreService.initScoreService(),
-      t.energyService.initEnergyService()
-    ])
-    .then(() => {
-      t.setLoading(false)
+    t.profileService.initProfileService()
+    .then(resp => {
+      Promise.all([
+        t.scoreService.initScoreService(),
+        t.energyService.initEnergyService()
+      ])
+      .finally(() => {
+        t.setLoading(false)
+      })
     })
+    
 
     // try {
     //   (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey)
@@ -123,6 +130,8 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (t.isAutoswipe) {
       t.enableAutoswipe()
     }
+
+    // t.setLoading(false)
   }
 
   async enableAutoswipe(){
@@ -182,6 +191,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     t.swipeSubscription.unsubscribe()
     clearInterval(t.energyInterval)
     t.isEnabledAutoswipe = false
+    t.scoreService.saveSwipeBatch()
   }
 
   async enableAutoswipeLine(
@@ -263,7 +273,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
     // t.swipeCounter++
     t.scoreService.incrementScore()
-    // t.energyService.decrementEnergy()
+    t.energyService.decrementEnergy()
 
     // console.log((<any>window).Telegram)
     // console.log((<any>window).Telegram?.WebApp)

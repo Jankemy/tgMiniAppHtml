@@ -8,6 +8,11 @@ import { RouterModule } from '@angular/router';
 import { NotifierModule } from 'angular-notifier';
 import { customNotifierOptions } from '../environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ApiService } from './shared/services/api.service';
+import { BoostsService } from './shared/services/boosts.service';
+import { EnergyService } from './shared/services/energy.service';
+import { ProfileService } from './shared/services/profile.service';
+import { ScoreService } from './shared/services/score.service';
 
 
 @NgModule({
@@ -22,6 +27,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     NotifierModule.withConfig(customNotifierOptions),
     HttpClientModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // providers: [
+  //   ApiService,
+  //   BoostsService,
+  //   EnergyService,
+  //   ProfileService,
+  //   ScoreService
+  // ]
 })
 export class AppModule {}

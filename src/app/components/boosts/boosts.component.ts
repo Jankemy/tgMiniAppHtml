@@ -5,6 +5,8 @@ import { BoostTypes } from '../../shared/enums/boost.types';
 import { BoostsService } from '../../shared/services/boosts.service';
 import { NotifierService } from 'angular-notifier';
 import { ScoreService } from '../../shared/services/score.service';
+import { ProfileService } from '../../shared/services/profile.service';
+import { PreloaderComponent } from '../../shared/preloader/preloader.component';
 
 
 @Component({
@@ -17,7 +19,7 @@ export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private boostsService: BoostsService,
     private notifier: NotifierService,
-    private scoreService: ScoreService
+    private profileService: ProfileService
   ){
   }
 
@@ -26,6 +28,16 @@ export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    let t = this
+    t.setLoading(true)
+    
+    Promise.all([
+      t.profileService.initProfileService(),
+      t.boostsService.initBoostsService()
+    ])
+    .finally(() => {
+      t.setLoading(false)
+    })
   }
 
   ngAfterViewInit() {
@@ -55,12 +67,18 @@ export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
     t.boostsService.buyBoost(type)
     .then(resp => {
       // console.log(resp)
+      t.profileService.initProfileService()
+      t.boostsService.initBoostsService()
       t.notifier.notify('info', 'Boost successfuly applied')
     })
     .catch(er => {
       // console.log(er)
       t.notifier.notify('error', er)
     })
+  }
+
+  setLoading(isLoading: boolean) {
+    PreloaderComponent.setLoading(isLoading);
   }
 
 }

@@ -3,7 +3,7 @@ import { ApiService } from './api.service';
 import { ProfileModel } from '../models/profile.model';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ProfileService {
 
@@ -18,20 +18,26 @@ export class ProfileService {
         t.profileInterval = setInterval(t.initProfileService, 1000 * 60 * 10)
     }
 
+    get isProfileExist(){
+        return !!this.userProfile?.id
+    }
+
     ngOnDestroy() {
         clearInterval(this.profileInterval);
     }
 
     initProfileService(){
         let t = this
-        t.refreshProfile()
+        
+        return t.refreshProfile()
         .then(profile => {
             t.userProfile = profile
+            return t.userProfile
         })
     }
 
     refreshProfile(){
-        return this.api.post<ProfileModel>('me', {})
+        return this.api.get<ProfileModel>('me')
         .then(resp => {
             return resp!.data!
         })

@@ -4,7 +4,7 @@ import { BoostTypes } from '../enums/boost.types';
 import { ProfileService } from './profile.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class EnergyService {
     // private stockMaxEnergy = 100
