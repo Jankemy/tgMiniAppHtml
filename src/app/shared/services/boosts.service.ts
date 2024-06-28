@@ -72,21 +72,24 @@ export class BoostsService {
             text: 'Energy Bar Capacity',
             subText: 'Greater energy reserve',
         },
-        // {
-        //     type: BoostTypes.Autoswipe,
-        //     price: 1500,
-        //     isApplied: false,
-        //     level: 1,
+        {
+            type: BoostTypes.autoswipe,
+            price: 1500,
+            isApplied: false,
+            isAvailable: false,
+            level: 1,
+            isPermanent: false,
             
-        //     icon: 'assets/boost-icons/autoswipe-boost.svg',
-        //     text: 'Auto swipe',
-        //     subText: 'Auto-swipe for 4 hours',
-        // },
+            icon: 'assets/boost-icons/autoswipe-boost.svg',
+            text: 'Auto swipe',
+            subText: 'Auto-swipe for 4 hours',
+        },
     ]
 
     // private boosts: any = []
     private upgrades: any = []
     private userBoosts: any = []
+    private autoswipeTimeout: any = {}
 
     constructor(
         // private scoreService: ScoreService,
@@ -121,6 +124,7 @@ export class BoostsService {
                 b.price = u.price
                 b.isAvailable = u.isAvailable
                 b.level = u.level
+                b.isApplied = u.price == 0
             })
         })
     }

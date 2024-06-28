@@ -73,7 +73,7 @@ export class BoostsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     .catch(er => {
       // console.log(er)
-      t.notifier.notify('error', er)
+      t.notifier.notify('error', er.error.errors[0].message)
     })
   }
 

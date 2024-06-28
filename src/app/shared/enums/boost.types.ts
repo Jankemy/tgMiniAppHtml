@@ -6,5 +6,5 @@ export enum BoostTypes{
     recharging_speed = 3,
     energy_capacity = 4,
 
-    Autoswipe = 5
+    autoswipe = 5
 }

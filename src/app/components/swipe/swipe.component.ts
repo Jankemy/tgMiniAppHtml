@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CutCoinComponent } from '../../shared/cut-coin/cut-coin.component';
 import { EventService } from '../../shared/services/event.service';
 import { ScoreService } from '../../shared/services/score.service';
@@ -21,7 +21,18 @@ const swipeCounterKey = 'swipeCounterKey'
 })
 export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cutBox', { read: ViewContainerRef }) cutBox!: ViewContainerRef;
+  private cometCanvas!: HTMLCanvasElement;
+  private cometContext: CanvasRenderingContext2D | null = null;
+  private cometTrail: { x: number; y: number; createdAt: number }[] = [];
 
+  // Cursor tail params
+  BASE_RADIUS = 4;
+  MAX_TRAIL_LENGTH = 150;
+  BASE_COLOR = [127, 81, 232];
+  TARGET_COLOR = [255, 0, 213];
+  MAX_SPEED = 30; // Пикселей за кадр
+  TTL = 150; // Время жизни следа (ms)
+  
   componentMap: Map<number, ComponentRef<any>> = new Map<number, ComponentRef<any>>();
   cutBoxPosition = {
     top: 0,
@@ -33,6 +44,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   energyInterval: any = {}
   swipeSubscription: any = {}
   isEnabledAutoswipe = false
+  autoswipeCheckInterval: any = {}
 
   constructor(
     private renderer: Renderer2,
@@ -58,9 +70,9 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get isAutoswipe(){
-    // let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.Autoswipe)!
-    // return autoswipe.isApplied
-    return false
+    let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.autoswipe)!
+    return autoswipe.isApplied
+    // return true
   }
 
   ngOnInit() {
@@ -86,6 +98,14 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
         t.energyService.initEnergyService()
       ])
       .finally(() => {
+
+        t.autoswipeCheckInterval = setInterval(() => {
+          if (t.isAutoswipe) {
+            t.enableAutoswipe()
+            clearInterval(t.autoswipeCheckInterval)
+          }
+        }, 100)
+
         t.setLoading(false)
       })
     })
@@ -106,6 +126,14 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // t.enableAutoswipeLine()
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    let t = this;
+    
+    if (t.isAutoswipe) {
+      t.enableAutoswipe()
+    }
+  }
+
   ngAfterViewInit() {
     var t = this;
     var cutBoxPos = t.cutBox.element.nativeElement.getBoundingClientRect();
@@ -123,7 +151,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     t.swipeSubscription = t.eventService.CutCoinEvent.subscribe((componentId: number) => {
       t.onCoinTouched(componentId)
     })
-
+    t.initCanvas();
     // console.log('componentMap',t.componentMap)
     // let autoswipe = t.boostsService.boostsList
     // .find(boost => boost.type === BoostTypes.Autoswipe)!
@@ -132,6 +160,126 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // t.setLoading(false)
+  }
+
+  private initCanvas() {
+    let t = this;
+    t.cometCanvas = document.createElement('canvas')!;
+    t.cometContext = t.cometCanvas.getContext('2d');
+    if (!!t.cometContext) {
+      t.setupCanvas();
+      t.renderer.appendChild(document.body, t.cometCanvas);
+      requestAnimationFrame(() => t.animate());
+    }
+  }
+
+  // canvas params
+  private setupCanvas() {
+    let t = this;
+    t.cometCanvas.width = window.innerWidth;
+    t.cometCanvas.height = window.innerHeight;
+    t.cometCanvas.style.position = 'absolute';
+    t.cometCanvas.style.left = '0';
+    t.cometCanvas.style.top = '0';
+    t.cometCanvas.style.pointerEvents = 'none';
+    t.cometCanvas.style.zIndex = '100000';
+  }
+
+  private addPoint(x: number, y: number) {
+    this.cometTrail.push({ x, y, createdAt: Date.now() });
+  }
+
+  private animate() {
+    let t = this;
+    if (t.cometContext) {
+      t.cometContext.clearRect(0, 0, t.cometCanvas.width, t.cometCanvas.height);
+      t.cometTrail = t.cometTrail.filter((tp) => Date.now() - tp.createdAt < t.TTL);
+      t.cometContext.filter = "blur(3px) opacity(.75)";
+      t.bezierTrail();
+      t.currentPos();
+      t.cometContext.filter = "none";
+      t.bezierTrail();
+      t.currentPos();
+      requestAnimationFrame(() => t.animate());
+    }
+  }
+
+  // Отрисовка кривых Безье для следа кометы
+  bezierTrail() {
+    let t = this;
+    let points: any = [null, null, null, null];
+    const ctx = t.cometContext!;
+    const trail = t.cometTrail.slice();
+
+    for (var i = 0; i < trail.length; i++) {
+      let trailPoint = trail[i];
+      points[0] = points[1];
+      points[1] = points[2];
+      points[2] = trailPoint;
+  
+      if (!points[0]) continue;
+  
+      let lifeLeft = 1 - (Date.now() - trailPoint.createdAt) / t.TTL;
+      let radius = t.BASE_RADIUS * lifeLeft;
+  
+      var p0 = points[0];
+      var p1 = points[1];
+      var p2 = points[2];
+  
+      var x0 = (p0.x + p1.x) / 2;
+      var y0 = (p0.y + p1.y) / 2;
+  
+      var x1 = (p1.x + p2.x) / 2;
+      var y1 = (p1.y + p2.y) / 2;
+  
+      ctx.beginPath();
+      ctx.lineWidth = radius * 2;
+      ctx.lineCap = "round";
+  
+      let x = x1 - x0;
+      let y = y1 - y0;
+  
+      let speed = Math.min(Math.sqrt(x * x + y * y), t.MAX_SPEED) / t.MAX_SPEED;
+  
+      ctx.strokeStyle = this.getColor(speed);
+  
+      ctx.moveTo(x0, y0);
+      ctx.quadraticCurveTo(p1.x, p1.y, x1, y1);
+      ctx.stroke();
+    }
+  }
+
+  // Отрисовка текущей позиции следа кометы
+  private currentPos() {
+    let t = this;
+    const ctx = t.cometContext!;
+    const trail = t.cometTrail.slice(); 
+    var mousePos = { x: t.cometCanvas.width / 2, y: t.cometCanvas.height / 2 };
+    let lastSpeed = 0;
+    
+    if (trail.length < 1)
+      return
+
+    if (trail.length > 1) {
+      let x = mousePos.x - trail[trail.length - 2].x;
+      let y = mousePos.y - trail[trail.length - 2].y;
+      lastSpeed = Math.min(Math.sqrt(x * x + y * y), t.MAX_SPEED) / t.MAX_SPEED;
+    }
+  
+    let timeSinceMoved = Math.min(
+      trail.length > 1
+        ? (Date.now() - trail[trail.length - 2].createdAt) / 1000
+        : 1,
+      1
+    );
+    ctx.beginPath();
+    ctx.fillStyle = t.getColor((1 - timeSinceMoved) * lastSpeed);
+    ctx.fill();
+  }
+
+  private getColor(mix: number): string {
+    let color = this.BASE_COLOR.map((c, i) => c + mix * (this.TARGET_COLOR[i] - c));
+    return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
   }
 
   async enableAutoswipe(){
@@ -308,7 +456,6 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       x: e.changedTouches[0].clientX,
       y: e.changedTouches[0].clientY + overflow
     };
-    
     t.emitCustomEvent(tm)
     // console.log(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
   }
@@ -319,41 +466,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (t.energyValue > 0) {
       t.eventService.TouchmoveCoordinatesEvent.emit(tm)
     }
-    t.tailEffect(tm)
-  }
-
-  tailEffect({
-    x,
-    y
-  }: {
-    x: number;
-    y: number
-  }) {
-    let radius = 5
-
-    let canvas = document.createElement('canvas')!; //Create a canvas element
-    //Set canvas width/height
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    //Set canvas drawing area width/height
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    //Position canvas
-    canvas.style.position = 'absolute';
-    canvas.style.left = '0';
-    canvas.style.top = '0';
-    canvas.style.zIndex = '100000';
-    canvas.style.pointerEvents = 'none'; //Make sure you can click 'through' the canvas
-    document.body.appendChild(canvas); //Append canvas to body element
-    let context = canvas.getContext('2d')!;
-    //Draw rectangle
-    // context.rect(x, y, width, height);
-    context.arc(x, y, radius, 0, 2 * Math.PI, false)
-    context.fillStyle = '#7f4dc7';
-    context.fill();
-    setTimeout(() => {
-      document.body.removeChild(canvas)
-    }, 100)
+    t.addPoint(tm.x,tm.y);
   }
 
   addNewCutCoinComponent() {
