@@ -42,9 +42,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   componentIdCounter = 0
   energyInterval: any = {}
+  autoswipeCheckInterval: any = {}
+  boostsCheckInterval: any = {}
   swipeSubscription: any = {}
   isEnabledAutoswipe = false
-  autoswipeCheckInterval: any = {}
 
   constructor(
     private renderer: Renderer2,
@@ -95,7 +96,8 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     .then(resp => {
       Promise.all([
         t.scoreService.initScoreService(),
-        t.energyService.initEnergyService()
+        t.energyService.initEnergyService(),
+        t.boostsService.initBoostsService()
       ])
       .finally(() => {
 
@@ -105,6 +107,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
             clearInterval(t.autoswipeCheckInterval)
           }
         }, 100)
+
+        t.boostsCheckInterval = setInterval(() => {
+          t.boostsService.initBoostsService()
+        }, 500)
 
         t.setLoading(false)
       })
@@ -125,15 +131,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // t.enableAutoswipeLine()
   }
-
-  ngOnChanges(changes: SimpleChanges){
-    let t = this;
-    
-    if (t.isAutoswipe) {
-      t.enableAutoswipe()
-    }
-  }
-
+  
   ngAfterViewInit() {
     var t = this;
     var cutBoxPos = t.cutBox.element.nativeElement.getBoundingClientRect();
@@ -338,6 +336,8 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // t.eventService.CutCoinEvent.unsubscribe()
     t.swipeSubscription.unsubscribe()
     clearInterval(t.energyInterval)
+    clearInterval(t.autoswipeCheckInterval)
+    clearInterval(t.boostsCheckInterval)
     t.isEnabledAutoswipe = false
     t.scoreService.saveSwipeBatch()
   }
