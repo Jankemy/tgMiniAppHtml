@@ -115,7 +115,7 @@ export class BoostsService {
 
                 b.price = ub.price
                 b.isAvailable = ub.isAvailable
-                b.isApplied = ub.maxAttempts > ub.attempts
+                b.isApplied = ub.maxAttempts > ub.attempts && !b.isAvailable
             })
 
             t.upgrades.map((u:any) => {
