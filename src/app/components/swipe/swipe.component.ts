@@ -101,16 +101,18 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       ])
       .finally(() => {
 
-        t.autoswipeCheckInterval = setInterval(() => {
+        // t.autoswipeCheckInterval = setInterval(() => {
           if (t.isAutoswipe) {
             t.enableAutoswipe()
-            clearInterval(t.autoswipeCheckInterval)
+            // clearInterval(t.autoswipeCheckInterval)
+            
+            t.boostsCheckInterval = setInterval(() => {
+              t.boostsService.initBoostsService()
+            }, 1000)
           }
-        }, 100)
+        // }, 100)
 
-        t.boostsCheckInterval = setInterval(() => {
-          t.boostsService.initBoostsService()
-        }, 500)
+        
 
         t.setLoading(false)
       })
@@ -326,6 +328,8 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       
     }
+
+    clearInterval(t.boostsCheckInterval)
   }
 
   ngOnDestroy() {

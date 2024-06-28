@@ -16,12 +16,12 @@ export class BoostsService {
             price: 0,
             isApplied: false,
             isAvailable: false,
-            level: 3,
+            level: 5,
             isPermanent: false,
 
-            icon: 'assets/boost-icons/X3-boost.svg',
+            icon: 'assets/boost-icons/X5-boost.svg',
             text: 'Swipe Multiplier',
-            subText: 'For each swipe you get X3',
+            subText: 'For each swipe you get X5',
         },
         {
             type: BoostTypes.energy_refill,
@@ -31,7 +31,7 @@ export class BoostsService {
             level: 1,
             isPermanent: false,
             
-            icon: 'assets/boost-icons/recharging-boost.svg',
+            icon: 'assets/boost-icons/energy-refill-boost.svg',
             text: 'Energy Refill',
             subText: 'Full energy charge',
         },
@@ -89,7 +89,7 @@ export class BoostsService {
     // private boosts: any = []
     private upgrades: any = []
     private userBoosts: any = []
-    private autoswipeTimeout: any = {}
+    // private autoswipeTimeout: any = {}
 
     constructor(
         // private scoreService: ScoreService,
@@ -115,7 +115,7 @@ export class BoostsService {
 
                 b.price = ub.price
                 b.isAvailable = ub.isAvailable
-                b.isApplied = ub.maxAttempts > ub.attempts && !b.isAvailable
+                b.isApplied = ub.maxAttempts > ub.attempts && (!b.isAvailable || !!ub.coolDown)
             })
 
             t.upgrades.map((u:any) => {
