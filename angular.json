@@ -78,7 +78,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.github.ts"
                 }
               ],
               "optimization": true,
@@ -100,8 +100,22 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
-          }
+            },
+            "development": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "11mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]}
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -109,10 +123,11 @@
             "buildTarget": "endless:build"
           },
           "configurations": {
-            "production": {
-              "buildTarget": "endless:build:production"
+            "development": {
+              "buildTarget": "endless:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

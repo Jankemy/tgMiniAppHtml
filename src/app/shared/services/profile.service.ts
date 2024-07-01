@@ -7,23 +7,16 @@ import { ProfileModel } from '../models/profile.model';
 })
 export class ProfileService {
 
-    private profileInterval: any = {}
     private userProfile?: ProfileModel
     private promiseUserProfile?: Promise<ProfileModel> = undefined;
 
     constructor(
         private api: ApiService
     ) {
-        let t = this
-        t.profileInterval = setInterval(t.initProfileService, 1000 * 60 * 10)
     }
 
     get isProfileExist(){
         return !!this.userProfile?.id
-    }
-
-    ngOnDestroy() {
-        clearInterval(this.profileInterval);
     }
 
     initProfileService(){

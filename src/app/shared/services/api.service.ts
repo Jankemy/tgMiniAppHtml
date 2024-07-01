@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { IResponse } from '../interfaces/iResponse';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments';
 import { NotifierService } from 'angular-notifier';
 
 const apiUrl = environment.apiUrl;
@@ -18,7 +18,8 @@ export class ApiService {
     ) { }
 
     get initData() {
-        return (<any>window).Telegram?.WebApp?.initData
+        // return (<any>window).Telegram?.WebApp?.initData
+        return 'query_id=AAH4VnQcAAAAAPhWdBwIlUAv&user=%7B%22id%22%3A477386488%2C%22first_name%22%3A%22%D0%A0%D0%BE%D0%B4%D0%B8%D0%BE%D0%BD%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22Karrikatura%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719814197&hash=5e738d1a10edddc4997328ede9238bb306e5b51264592518019c3803445c17fa'
     }
 
     private expired_at?: Date 

@@ -1,15 +1,11 @@
 import { NotifierOptions } from "angular-notifier";
 
 export const environment = {
-    // envName: 'dev',
     production: false,
     apiUrl: 'https://api-candy.softdds.com/',
-    // tokenUrl: 'token',
-    // botName: 'bcapdemo_bot'
   };
 
-export var addGithubPath = ''
-
+export var addGithubPath = 'tgMiniAppHtml/'
 
 /**
  * Custom angular notifier options

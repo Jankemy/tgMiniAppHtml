@@ -129,6 +129,26 @@ $border-bg-color: #7C6CFE;
     padding: 12px;
 }
 
+.earnCompletedButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: $border-height solid $border-bg-color;
+    border-radius: $border-radius;
+    // padding: $margin-box;
+    padding: 12px;
+    margin: $margin-box;
+    padding: $margin-box;
+
+    
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px;
+}
+
 .taskCompletedButton .claimCount{
     font-size: 18px;
 }

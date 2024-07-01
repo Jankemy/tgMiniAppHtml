@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PreloaderComponent } from './shared/preloader/preloader.component';
 import { NavigationEnd, Router } from '@angular/router';
-import { addGithubPath } from '../environments/environment';
-import { NotifierService } from 'angular-notifier';
-import { ProfileService } from './shared/services/profile.service';
-import { ScoreService } from './shared/services/score.service';
-import { EnergyService } from './shared/services/energy.service';
+import { addGithubPath } from '../environments';
 
 @Component({
   selector: 'app-root',
@@ -52,9 +47,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private profileService: ProfileService,
-    private scoreService: ScoreService,
-    private energyService: EnergyService,
   ) {
     let t = this;
 
