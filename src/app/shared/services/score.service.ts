@@ -1,10 +1,6 @@
 import { Injectable} from '@angular/core';
-import { BoostsService } from './boosts.service';
-import { BoostTypes } from '../enums/boost.types';
-import { EnergyService } from './energy.service';
 import { ApiService } from './api.service';
-import { ProfileService } from './profile.service';
-
+import { BalanceModel } from '../models/balance.model';
 
 const maxBatchSize = 10 // 10 * scoreIncrementer
 
@@ -15,40 +11,30 @@ export class ScoreService {
 
     private totalUserScore = 0
     private scoreIncrementer = 1
-    private scoreInterval: any = {}
     private swipeBatch = 0
 
     constructor(
         private api: ApiService,
-        private profileService: ProfileService,
-        private energyService: EnergyService,
-        private boostsService: BoostsService
     ){
-        let t = this;
-        t.scoreInterval = setInterval(t.initScoreService, 1000 * 60 * 10) //10 minutes
     }
 
     get totalScore() {
         return this.totalUserScore
     }
 
-    ngOnDestroy() {
-        clearInterval(this.scoreInterval);
+    getScore(){
+        return this.api.get<BalanceModel>('swipes')
     }
 
     initScoreService(){
         let t = this;
-        return t.profileService.profile()
-        .then((profile) => {
-            t.totalUserScore = profile.balance
-            t.scoreIncrementer = profile.earnPerSwipe
-            t.boostsService.initBoostsService()
-            .then(() => {
-                let xBoost = t.boostsService.boostsList.find(b => b.type === BoostTypes.swipe_x5)!
-                if (xBoost.isApplied) {
-                    t.scoreIncrementer *= 5
-                }
-            })
+        return t.getScore()
+        .then((resp) => {
+            t.totalUserScore = resp!.data!.balance
+            t.scoreIncrementer = resp!.data!.earnPerSwipe
+            t.scoreIncrementer *= (resp!.data!.swipeXmultiplier > 0 
+                ? resp!.data!.swipeXmultiplier 
+                : 1)
         })
     }
 
@@ -60,37 +46,27 @@ export class ScoreService {
         this.totalUserScore -= decrementer
     }
 
-    incrementScore(){
+    incrementScore(availableEnergy: number){
         let t = this;
         t.totalUserScore += t.scoreIncrementer
         t.swipeBatch += t.scoreIncrementer
 
         if (t.swipeBatch >= maxBatchSize * t.scoreIncrementer) {
-            t.saveSwipeBatch()
+            t.saveSwipeBatch(availableEnergy)
         }
     }
 
-    saveSwipeBatch(){
+    saveSwipeBatch(availableEnergy: number){
         let t = this;
 
         if (t.swipeBatch > 0) {
             t.api.post('swipes', {
                 timestamp: new Date().getTime(),
                 count: t.swipeBatch,
-                availableEnergy: t.energyService.availableUserEnergy
+                availableEnergy
             })
         }
         
         t.swipeBatch = 0
-    }
-
-    addClaimedSum(sum: number){
-        let t = this;
-        t.totalUserScore += sum
-        t.api.post('swipes', {
-            timestamp: new Date().getTime(),
-            count: sum,
-            availableEnergy: t.energyService.availableUserEnergy
-        })
     }
 }

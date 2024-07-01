@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, ComponentRef, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { CutCoinComponent } from '../../shared/cut-coin/cut-coin.component';
 import { EventService } from '../../shared/services/event.service';
 import { ScoreService } from '../../shared/services/score.service';
 import { EnergyService } from '../../shared/services/energy.service';
 import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
-import { PreloaderComponent } from '../../shared/preloader/preloader.component';
 import { ProfileService } from '../../shared/services/profile.service';
+import { BaseComponent } from '../../shared/base/base.component';
 
 
 const overflow = 1
@@ -19,7 +19,7 @@ const swipeCounterKey = 'swipeCounterKey'
   templateUrl: './swipe.component.html',
   styleUrls: ['./swipe.component.scss']
 })
-export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SwipeComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cutBox', { read: ViewContainerRef }) cutBox!: ViewContainerRef;
   private cometCanvas!: HTMLCanvasElement;
   private cometContext: CanvasRenderingContext2D | null = null;
@@ -32,7 +32,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   TARGET_COLOR = [255, 0, 213];
   MAX_SPEED = 30; // Пикселей за кадр
   TTL = 150; // Время жизни следа (ms)
-  
+
   componentMap: Map<number, ComponentRef<any>> = new Map<number, ComponentRef<any>>();
   cutBoxPosition = {
     top: 0,
@@ -55,6 +55,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     private energyService: EnergyService,
     private boostsService: BoostsService
   ) {
+    super()
   }
 
   get swipeCounter() {
@@ -65,12 +66,12 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.energyService.totalEnergy
   }
 
-  get isX5Boost(){
+  get isX5Boost() {
     let x5 = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.swipe_x5)!
     return x5.isApplied
   }
 
-  get isAutoswipe(){
+  get isAutoswipe() {
     let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.autoswipe)!
     return autoswipe.isApplied
     // return true
@@ -79,61 +80,28 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     let t = this;
     t.setLoading(true)
-    // register swipe event emitter
-    var app = document.getElementById('app-swipe')!;
-    document.body.style.overflowY = 'hidden'
-    document.body.style.marginTop = `${overflow}px`
-    document.body.style.marginBottom = `${overflow}px`
-    window.scrollTo(0, overflow);
+    t.initSwipeBox()
 
-    (<any>window).Telegram?.WebApp?.expand()
-    // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
-    app.addEventListener("touchmove", (e) => {
-      t.touchmoveEvent(e)
-    });
+    Promise.all([
+      t.profileService.initProfileService(),
+      t.scoreService.initScoreService(),
+      t.energyService.initEnergyService(),
+      t.boostsService.initBoostsService()
+    ])
+    .finally(() => {
 
-    t.profileService.initProfileService()
-    .then(resp => {
-      Promise.all([
-        t.scoreService.initScoreService(),
-        t.energyService.initEnergyService(),
-        t.boostsService.initBoostsService()
-      ])
-      .finally(() => {
+      if (t.isAutoswipe) {
+        t.enableAutoswipe()
 
-        // t.autoswipeCheckInterval = setInterval(() => {
-          if (t.isAutoswipe) {
-            t.enableAutoswipe()
-            // clearInterval(t.autoswipeCheckInterval)
-            
-            t.boostsCheckInterval = setInterval(() => {
-              t.boostsService.initBoostsService()
-            }, 1000)
-          }
-        // }, 100)
+        t.boostsCheckInterval = setInterval(() => {
+          t.boostsService.initBoostsService()
+        }, 1000)
+      }
 
-        
-
-        t.setLoading(false)
-      })
+      t.setLoading(false)
     })
-    
-
-    // try {
-    //   (<any>window).Telegram?.WebApp?.CloudStorage?.getItem(swipeCounterKey)
-    //     .then((resp:any) => {
-    //       t.swipeCounter = JSON.parse(resp)
-    //     })
-    // }
-    // catch(er) {
-    //   console.log(er)
-    // }
-
-    // (<any>window).Telegram?.WebApp?.ready()
-
-    // t.enableAutoswipeLine()
   }
-  
+
   ngAfterViewInit() {
     var t = this;
     var cutBoxPos = t.cutBox.element.nativeElement.getBoundingClientRect();
@@ -152,14 +120,37 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       t.onCoinTouched(componentId)
     })
     t.initCanvas();
-    // console.log('componentMap',t.componentMap)
-    // let autoswipe = t.boostsService.boostsList
-    // .find(boost => boost.type === BoostTypes.Autoswipe)!
+    
     if (t.isAutoswipe) {
       t.enableAutoswipe()
     }
+  }
 
-    // t.setLoading(false)
+  ngOnDestroy() {
+    let t = this;
+
+    t.swipeSubscription.unsubscribe()
+    clearInterval(t.energyInterval)
+    clearInterval(t.autoswipeCheckInterval)
+    clearInterval(t.boostsCheckInterval)
+    t.isEnabledAutoswipe = false
+    t.scoreService.saveSwipeBatch(t.energyService.availableUserEnergy)
+  }
+
+  initSwipeBox(){
+    let t =  this
+    // register swipe event emitter
+    var app = document.getElementById('app-swipe')!;
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
+    window.scrollTo(0, overflow);
+
+    (<any>window).Telegram?.WebApp?.expand()
+    // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
+    app.addEventListener("touchmove", (e) => {
+      t.touchmoveEvent(e)
+    });
   }
 
   private initCanvas() {
@@ -216,33 +207,33 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       points[0] = points[1];
       points[1] = points[2];
       points[2] = trailPoint;
-  
+
       if (!points[0]) continue;
-  
+
       let lifeLeft = 1 - (Date.now() - trailPoint.createdAt) / t.TTL;
       let radius = t.BASE_RADIUS * lifeLeft;
-  
+
       var p0 = points[0];
       var p1 = points[1];
       var p2 = points[2];
-  
+
       var x0 = (p0.x + p1.x) / 2;
       var y0 = (p0.y + p1.y) / 2;
-  
+
       var x1 = (p1.x + p2.x) / 2;
       var y1 = (p1.y + p2.y) / 2;
-  
+
       ctx.beginPath();
       ctx.lineWidth = radius * 2;
       ctx.lineCap = "round";
-  
+
       let x = x1 - x0;
       let y = y1 - y0;
-  
+
       let speed = Math.min(Math.sqrt(x * x + y * y), t.MAX_SPEED) / t.MAX_SPEED;
-  
+
       ctx.strokeStyle = this.getColor(speed);
-  
+
       ctx.moveTo(x0, y0);
       ctx.quadraticCurveTo(p1.x, p1.y, x1, y1);
       ctx.stroke();
@@ -253,10 +244,10 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
   private currentPos() {
     let t = this;
     const ctx = t.cometContext!;
-    const trail = t.cometTrail.slice(); 
+    const trail = t.cometTrail.slice();
     var mousePos = { x: t.cometCanvas.width / 2, y: t.cometCanvas.height / 2 };
     let lastSpeed = 0;
-    
+
     if (trail.length < 1)
       return
 
@@ -265,7 +256,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       let y = mousePos.y - trail[trail.length - 2].y;
       lastSpeed = Math.min(Math.sqrt(x * x + y * y), t.MAX_SPEED) / t.MAX_SPEED;
     }
-  
+
     let timeSinceMoved = Math.min(
       trail.length > 1
         ? (Date.now() - trail[trail.length - 2].createdAt) / 1000
@@ -282,7 +273,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
   }
 
-  async enableAutoswipe(){
+  async enableAutoswipe() {
     let t = this;
 
     if (t.isEnabledAutoswipe) {
@@ -290,9 +281,9 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     t.isEnabledAutoswipe = true
 
-    let last = { 
-      x: t.cutBoxPosition.left, 
-      y: t.cutBoxPosition.top 
+    let last = {
+      x: t.cutBoxPosition.left,
+      y: t.cutBoxPosition.top
     }
 
     // t.cutBoxPosition = {
@@ -301,9 +292,9 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     // let cutCoinId = t.componentMap.entries().next().value[0]
     let cutCoinId = 0
     let cutCoin = t.componentMap.get(cutCoinId)!.instance
-    let next = { 
-      x: cutCoin.left + 25, 
-      y: cutCoin.top  + 25
+    let next = {
+      x: cutCoin.left + 25,
+      y: cutCoin.top + 25
     }
     while (t.isEnabledAutoswipe && t.isAutoswipe) {
       await this.sleepTime(100)
@@ -322,28 +313,14 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       cutCoin = cutCoinFromMap!.instance
-      next = { 
-        x: cutCoin.left + 25, 
+      next = {
+        x: cutCoin.left + 25,
         y: cutCoin.top + 25
       }
-      
+
     }
 
     clearInterval(t.boostsCheckInterval)
-  }
-
-  ngOnDestroy() {
-    let t = this;
-
-    // var app = document.getElementById('app-swipe')!;
-    // app.removeEventListener('touchmove', t.touchmoveEvent)
-    // t.eventService.CutCoinEvent.unsubscribe()
-    t.swipeSubscription.unsubscribe()
-    clearInterval(t.energyInterval)
-    clearInterval(t.autoswipeCheckInterval)
-    clearInterval(t.boostsCheckInterval)
-    t.isEnabledAutoswipe = false
-    t.scoreService.saveSwipeBatch()
   }
 
   async enableAutoswipeLine(
@@ -357,99 +334,49 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   ) {
     let t = this;
-
-    // top: 244px; left: 124px;
-    // top: 178px; left: 249px;
-
-    // let last = {
-    //   x: 124,
-    //   y: 244
-    // }
-
-    // let next = {
-    //   x: 249,
-    //   y: 178
-    // }
-
-
     let k = (last.y - next.y) / (last.x - next.x)
-    // console.log('k', k)
     let b = last.y - k * last.x
-    // console.log('b', b)
-    // await t.sleepTime(1000 * 3)
     let isCalcFromX = Math.abs(last.x - next.x) > Math.abs(last.y - next.y)
     let pixStep = 15
     let lineDelayMS = 1
 
     if (isCalcFromX) {
-      for (let x = last.x; 
-        last.x > next.x ? x > next.x : x < next.x; 
+      for (let x = last.x;
+        last.x > next.x ? x > next.x : x < next.x;
         last.x > next.x ? x -= pixStep : x += pixStep
       ) {
         await t.sleepTime(lineDelayMS)
         let y = k * x + b
-  
-        // console.log('{x, y}', {x, y})
+
         t.emitCustomEvent({ x, y })
       }
     }
     else {
-      for (let y = last.y; 
-        last.y > next.y ? y > next.y : y < next.y; 
+      for (let y = last.y;
+        last.y > next.y ? y > next.y : y < next.y;
         last.y > next.y ? y -= pixStep : y += pixStep
       ) {
         await t.sleepTime(lineDelayMS)
-        // let y = k * x + b
         let x = (y - b) / k
-  
-        // console.log('{x, y}', {x, y})
+
         t.emitCustomEvent({ x, y })
       }
     }
-
-    
-  }
-
-  async sleepTime(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   onCoinTouched(componentId: number) {
     let t = this;
     var component = t.componentMap.get(componentId);
-    // component!.onDestroy(()=>{})
+
     component!.destroy();
     t.componentMap.delete(componentId);
-
-    // let swipeCounter = document.getElementById('swipeCounter')!
-    // swipeCounter.innerHTML = '' + (+swipeCounter.innerHTML + 1)
-    // t.swipeCounter++
-    t.scoreService.incrementScore()
+    
     t.energyService.decrementEnergy()
-
-    // console.log((<any>window).Telegram)
-    // console.log((<any>window).Telegram?.WebApp)
-    // console.log((<any>window).Telegram?.WebApp?.CloudStorage)
-    // console.log((<any>window).Telegram?.WebApp?.CloudStorage?.setItem);
-
-    // try{
-    //   (<any>window).Telegram?.WebApp?.CloudStorage?.setItem(swipeCounterKey, JSON.stringify(t.swipeCounter))
-    // }
-    // catch(er) {
-    //   console.log(er)
-    // }
-
-
-    // if (t.energyValue > 0){
-    //   t.energyValue--
-    // }
+    t.scoreService.incrementScore(t.energyService.availableUserEnergy)
 
     for (let i = 0; i < afterCutCoinCount; i++) {
       t.addNewCutCoinComponent()
     }
-
-
-    // console.log('componentMap', t.componentMap)
   }
 
   touchmoveEvent(e: any) {
@@ -470,7 +397,7 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (t.energyValue > 0) {
       t.eventService.TouchmoveCoordinatesEvent.emit(tm)
     }
-    t.addPoint(tm.x,tm.y);
+    t.addPoint(tm.x, tm.y);
   }
 
   addNewCutCoinComponent() {
@@ -482,10 +409,6 @@ export class SwipeComponent implements OnInit, AfterViewInit, OnDestroy {
     cutCoinComponent.instance.cutCoinId = componentId
     cutCoinComponent.instance.cutBoxPosition = t.cutBoxPosition
     t.renderer.appendChild(t.cutBox.element.nativeElement, cutCoinComponent.location.nativeElement)
-  }
-
-  setLoading(isLoading: boolean) {
-    PreloaderComponent.setLoading(isLoading);
   }
 
 }

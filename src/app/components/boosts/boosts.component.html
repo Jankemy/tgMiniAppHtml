@@ -3,7 +3,7 @@
 <div id="app-boosts">
     <div id="boostsHeader" class="boostsHeader">Boosts</div>
     <div id="boostText" class="boostText">Speed up and get more with additional bonuses and multipliers</div>
-    <div class="boostsListContainer" [style.height]="calcBoostsListContainerHeight()">
+    <div class="boostsListContainer" [style.height]="calcContainerHeight('app-boosts', 'boostsHeader', 'boostText')">
         <div class="boostContainer" *ngFor="let boost of boostsList">
             <div class="boostIcon">
                 <img [src]="boost.icon">

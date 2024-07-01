@@ -86,20 +86,37 @@ export class BoostsService {
         },
     ]
 
-    // private boosts: any = []
     private upgrades: any = []
     private userBoosts: any = []
-    // private autoswipeTimeout: any = {}
 
     constructor(
-        // private scoreService: ScoreService,
         private api: ApiService
     ) {
-
     }
 
     get boostsList() {
         return this.boosts
+    }
+
+    mapBoosts(){
+        let t = this;
+
+        t.userBoosts.map((ub:any) => {
+            let b = t.boosts.find(x => x.type === BoostTypes[ub.id as keyof typeof BoostTypes])!
+
+            b.price = ub.price
+            b.isAvailable = ub.isAvailable
+            b.isApplied = ub.maxAttempts > ub.attempts && (!b.isAvailable || !!ub.coolDown)
+        })
+
+        t.upgrades.map((u:any) => {
+            let b = t.boosts.find(x => x.type === BoostTypes[u.id as keyof typeof BoostTypes])!
+
+            b.price = u.price
+            b.isAvailable = u.isAvailable
+            b.level = u.level
+            b.isApplied = u.price == 0
+        })
     }
 
     initBoostsService() {
@@ -110,22 +127,7 @@ export class BoostsService {
             t.getUpgradesList().then(resp => { t.upgrades = resp!.data! }),
         ])
         .finally(() => {
-            t.userBoosts.map((ub:any) => {
-                let b = t.boosts.find(x => x.type === BoostTypes[ub.id as keyof typeof BoostTypes])!
-
-                b.price = ub.price
-                b.isAvailable = ub.isAvailable
-                b.isApplied = ub.maxAttempts > ub.attempts && (!b.isAvailable || !!ub.coolDown)
-            })
-
-            t.upgrades.map((u:any) => {
-                let b = t.boosts.find(x => x.type === BoostTypes[u.id as keyof typeof BoostTypes])!
-
-                b.price = u.price
-                b.isAvailable = u.isAvailable
-                b.level = u.level
-                b.isApplied = u.price == 0
-            })
+            t.mapBoosts()
         })
     }
 
@@ -138,11 +140,11 @@ export class BoostsService {
     }
 
     applyBoost(id: string) {
-        return this.api.post<BoostModel>('boosts', { id })
+        return this.api.post<BoostModel[]>('boosts', { id })
     }
 
     applyUpgrades(id: string) {
-        return this.api.post<UpgradeModel>('upgrades', { id })
+        return this.api.post<UpgradeModel[]>('upgrades', { id })
     }
 
     buyBoost(type: BoostTypes) {
@@ -152,37 +154,19 @@ export class BoostsService {
 
         if (boost.isPermanent) {
             return t.applyUpgrades(BoostTypes[boost.type!])
+            .then(resp => { 
+                t.upgrades = resp!.data!
+                t.mapBoosts()
+                return resp
+            })
         }
         else {
             return t.applyBoost(BoostTypes[boost.type!])
+            .then(resp => { 
+                t.userBoosts = resp!.data!
+                t.mapBoosts()
+                return resp
+            })
         }
-        // return new Promise((resolve, reject) => {
-        //     if (t.scoreService.totalScore < boost.price) {
-        //         return reject('Insufficient balance')
-        //     }
-
-        //     switch (type) {
-        //         case BoostTypes.X3Multiplier:
-        //             boost.multiplier = 3
-        //             // t.scoreService.setIncrementer(boost.multiplier)
-        //             break;
-
-        //         case BoostTypes.Autoswipe:
-        //             boost.multiplier = 1
-        //             setTimeout(() => { boost.isApplied = false }, 1000 * 60)// * 60 * 4)
-        //             break;
-
-        //         case BoostTypes.EnergyCapacity:
-        //         case BoostTypes.RechargingSpeed:
-        //         default:
-        //             boost.multiplier += 1
-        //             setTimeout(() => { boost.isApplied = false }, 1000 * 3)
-        //             break;
-        //     }
-
-        //     boost.isApplied = true
-        //     // t.scoreService.decrementScore(boost.price)
-        //     return resolve(true)
-        // })
     }
 }

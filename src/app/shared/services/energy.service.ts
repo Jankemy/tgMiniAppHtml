@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BoostsService } from './boosts.service';
-import { BoostTypes } from '../enums/boost.types';
-import { ProfileService } from './profile.service';
+import { ApiService } from './api.service';
+import { EnergyModel } from '../models/energy.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class EnergyService {
-    // private stockMaxEnergy = 100
+    
     private maxEnergy = 100
     private energyIncrementer = 1
-    private totalUserEnergy = 25
-    private energyIntervals: any[] = []
+    private totalUserEnergy = 0
+    private energyInterval: any = {}
 
     constructor(
-        // private boostsService: BoostsService,
-        private profileService: ProfileService,
+        private api: ApiService
     ) {
         let t = this;
-        t.energyIntervals.push(setInterval(() => {
+        t.energyInterval = setInterval(() => {
             if (t.totalUserEnergy < t.maxEnergy) {
                 t.totalUserEnergy += t.energyIncrementer
 
@@ -26,46 +24,32 @@ export class EnergyService {
                     t.totalUserEnergy = t.maxEnergy
                 }
             }
-        }, 1000))
-
-        t.energyIntervals.push(setInterval(t.initEnergyService, 1000 * 60 * 10)) //10 minutes
+        }, 1000)
     }
 
     get availableUserEnergy() {
         return this.totalUserEnergy
     }
 
-    // private get energyIncrementer() {
-    //     let t = this;
-    //     let appliedRechargingBoost = t.boostsService.boostsList
-    //         .find(boost => boost.type === BoostTypes.RechargingSpeed)!
-
-    //     return appliedRechargingBoost.multiplier
-    // }
-
-    // private get maxEnergy() {
-    //     let t = this;
-    //     let appliedCapacityBoost = t.boostsService.boostsList
-    //         .find(boost => boost.type === BoostTypes.EnergyCapacity)!
-
-    //     return this.stockMaxEnergy + this.stockMaxEnergy * appliedCapacityBoost.multiplier
-    // }
-
     get totalEnergy() {
         return this.totalUserEnergy / this.maxEnergy * 100
     }
 
     ngOnDestroy() {
-        this.energyIntervals.map(interval => clearInterval(interval));
+        clearInterval(this.energyInterval)
+    }
+
+    getEnergy(){
+        return this.api.get<EnergyModel>('energy')
     }
 
     initEnergyService(){
         let t = this;
-        return t.profileService.profile()
-        .then(profile => {
-            t.maxEnergy = profile.maxEnergy
-            t.energyIncrementer = profile.energyRechargingPerSec
-            t.totalUserEnergy = profile.availableEnergy
+        return t.getEnergy()
+        .then(resp => {
+            t.maxEnergy = resp!.data!.maxEnergy
+            t.energyIncrementer = resp!.data!.energyRechargingPerSec
+            t.totalUserEnergy = resp!.data!.availableEnergy
         })
     }
 

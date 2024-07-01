@@ -1,9 +1,8 @@
-
 <!-- <notifier-container></notifier-container> -->
 <div id="app-earn">
     <div id="earnHeader" class="earnHeader">More</div>
     <div id="earnText" class="earnText">Complete tasks and get extra swipes every day!</div>
-    <div class="earnScrollContainer" [style.height]="calcTaskListContainerHeight()">
+    <div class="earnScrollContainer" [style.height]="calcContainerHeight('app-earn', 'earnHeader', 'earnText')">
         <div class="earnBonusContainer">
             <div class="earnText">Your wallet</div>
             <div class="earnSubText">This wallet will be used to get rewards and airdrop in the future</div>
@@ -24,13 +23,20 @@
             <div class="earnText">Daily reward</div>
             <div class="earnSubText">Log in to the game every day and increase your daily reward!</div>
             <div class="daylyRewardContainer">
-                <div class="claimDayCount">Day 6</div>
+                <div class="claimDayCount">Day {{dailyTask.loginStreak}}</div>
                 <div class="claimBox">
                     <img src="assets/icons/candy-icon.svg">
-                    <div class="claimCount">&nbsp;+150</div>
+                    <div class="claimCount">&nbsp;+{{dailyTask.reward}}</div>
                 </div>
             </div>
-            <div class="earnButton">Claim</div>
+            <div *ngIf="dailyTask.isAvailable && !isLoader[dailyTask.type]" 
+                (click)="completeTask(dailyTask.type)" class="earnButton">Claim</div>
+            <div *ngIf="isLoader[dailyTask.type]" class="earnCompletedButton">
+                <div class="loader"></div>
+            </div>
+            <div *ngIf="!dailyTask.isAvailable && !isLoader[dailyTask.type]" class="earnCompletedButton">
+                <img src="assets/icons/check-button.svg">&nbsp;Claimed
+            </div>
         </div>
         <div class="taskListContainer">
             <div class="taskContainer" *ngFor="let task of taskList">
@@ -45,7 +51,7 @@
                             <div class="taskReward">&nbsp;+{{task.reward}}</div>
                         </div>
                     </div>
-                    <div *ngIf="!task.isClaimed && !isLoader[task.type]"  (click)="completeTask(task.type)"
+                    <div *ngIf="!task.isClaimed && !isLoader[task.type]" (click)="completeTask(task.type)"
                         [ngClass]="{'earnButton': !task.isCompleted, 'taskCompletedButton': task.isCompleted && !task.isClaimed}">
                         <span *ngIf="!task.isCompleted">Follow</span>
                         <span *ngIf="task.isCompleted && !task.isClaimed" class="claimCount">+ Claim</span>

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { IResponse } from '../interfaces/iResponse';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments';
 import { NotifierService } from 'angular-notifier';
 
 const apiUrl = environment.apiUrl;

@@ -1,7 +1,7 @@
 <div id="app-invite">
     <div id="inviteHeader" class="inviteHeader">Invite friends!</div>
     <div id="inviteText" class="inviteText">Send a link or share points to your friends and get bonuses</div>
-    <div class="inviteContainer" [style.height]="calcInviteContainerHeight()">
+    <div class="inviteContainer" [style.height]="calcContainerHeight('app-invite', 'inviteHeader', 'inviteText')">
         <div class="bonusContainer">
             <div class="inviteText">Bonuses</div>
             <div class="inviteSubText">10% from friends + 2% from their referrals</div>
@@ -16,9 +16,9 @@
                 <div>Your friends</div>
                 <div>3 invites left</div>
             </div>
-            <div class="invitedListBody" *ngFor="let item of friendsScore">
-                <div>{{item.nick}}</div>
-                <div>{{item.score}}</div>
+            <div class="invitedListBody" *ngFor="let item of friendList">
+                <div>{{item.username}}</div>
+                <div>{{item.balance}}</div>
             </div>
         </div>
         <div class="inviteButtons">

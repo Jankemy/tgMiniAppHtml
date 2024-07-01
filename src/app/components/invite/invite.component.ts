@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { InviteService } from '../../shared/services/invite.service';
+import { BaseComponent } from '../../shared/base/base.component';
 
 
 @Component({
@@ -7,33 +9,29 @@ import { ClipboardService } from 'ngx-clipboard';
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss']
 })
-export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
+export class InviteComponent extends BaseComponent implements OnInit {
 
   isCopied = false
 
-  friendsScore = [
-    {
-      nick: '@adam_smith',
-      score: 34678 
-    },
-    {
-      nick: '@kate_smith',
-      score: 24690  
-    }
-  ]
-
   constructor(
-    private clip: ClipboardService
+    private clip: ClipboardService,
+    private inviteService: InviteService
   ){
+    super()
+  }
+
+  get friendList() {
+    return this.inviteService.friendList
   }
 
   ngOnInit() {
-  }
+    let t = this
 
-  ngAfterViewInit() {
-  }
-
-  ngOnDestroy(){
+    t.setLoading(true)
+    t.inviteService.initInviteService()
+    .finally(() => {
+      t.setLoading(false)
+    })
   }
 
   copyRefLink(){
@@ -41,15 +39,6 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
     t.clip.copy('Copied ref link')
     t.isCopied = true
     setTimeout(() => { t.isCopied = false }, 1000 * 3) //3 sec
-  }
-
-  calcInviteContainerHeight(){
-    let appInvite = document.getElementById('app-invite')!
-    let inviteHeader = document.getElementById('inviteHeader')!
-    let inviteText = document.getElementById('inviteText')!
-    let res = appInvite.offsetHeight - inviteHeader.offsetHeight - inviteText.offsetHeight
-
-    return `${res}px`
   }
 
 }
