@@ -1,5 +1,5 @@
 export class EnergyModel {
-    maxEnergy: number
-    availableEnergy: number
-    energyRechargingPerSec: number
+    maxEnergy!: number
+    availableEnergy!: number
+    energyRechargingPerSec!: number
 }

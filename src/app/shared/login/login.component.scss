@@ -1,0 +1,57 @@
+$text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+$background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
+$button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+$border-height: 1px;
+$border-radius: 15px;
+$margin-box: 15px;
+
+$text-color: #7C6CFE;
+
+.loginContainer {
+    position: fixed;
+    z-index: 1500;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loginImage {
+
+}
+
+.loginInput {
+
+    margin: $margin-box 30px;
+}
+
+.loginInput>input {
+    width: -webkit-fill-available;
+    padding: $margin-box;
+    border-radius: $border-radius;
+    border: $border-height solid $text-color;
+    background: $background-linear-color;
+    color: $text-color;
+    font-size: 20px;
+}
+
+.loginInput>input:focus {
+    outline:none!important;
+}
+
+.loginInput>input::placeholder {
+    color: $text-color;
+    font-size: 20px;
+}
+
+.loginButton {
+    border-radius: $border-radius;
+    margin: $margin-box 30px;
+    padding: $margin-box;
+    background: $button-linear-color;
+    font-size: 20px;
+}

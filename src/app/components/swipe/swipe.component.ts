@@ -44,6 +44,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   energyInterval: any = {}
   autoswipeCheckInterval: any = {}
   boostsCheckInterval: any = {}
+  boostsCheckTimeout: any = {}
   swipeSubscription: any = {}
   isEnabledAutoswipe = false
 
@@ -71,10 +72,12 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     return x5.isApplied
   }
 
-  get isAutoswipe() {
-    let autoswipe = this.boostsService.boostsList.find(boost => boost.type === BoostTypes.autoswipe)!
-    return autoswipe.isApplied
-    // return true
+  get autoswipe() {
+    return this.boostsService.boostsList.find(boost => boost.type === BoostTypes.autoswipe)!
+  }
+
+  get isAutoswipeEnabled() {
+    return this.autoswipe.isApplied
   }
 
   ngOnInit() {
@@ -82,24 +85,30 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     t.setLoading(true)
     t.initSwipeBox()
 
-    Promise.all([
-      t.profileService.initProfileService(),
-      t.scoreService.initScoreService(),
-      t.energyService.initEnergyService(),
-      t.boostsService.initBoostsService()
-    ])
-    .finally(() => {
+    t.profileService.initProfileService()
+    .then((resp) => {
+      Promise.all([
+        t.scoreService.initScoreService(),
+        t.energyService.initEnergyService(),
+        t.boostsService.initBoostsService()
+      ])
+      .finally(() => {
 
-      if (t.isAutoswipe) {
-        t.enableAutoswipe()
+        if (t.isAutoswipeEnabled) {
+          t.enableAutoswipe()
+          let timeout = t.autoswipe.coolDown - Date.now()
+          
+          t.boostsCheckTimeout = setTimeout(() => {
+            t.boostsCheckInterval = setInterval(() => {
+              t.boostsService.initBoostsService()
+            }, 1000)
+          }, timeout > 0 ? timeout : 0)
+        }
 
-        t.boostsCheckInterval = setInterval(() => {
-          t.boostsService.initBoostsService()
-        }, 1000)
-      }
-
-      t.setLoading(false)
+        t.setLoading(false)
+      })
     })
+    
   }
 
   ngAfterViewInit() {
@@ -121,7 +130,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     })
     t.initCanvas();
     
-    if (t.isAutoswipe) {
+    if (t.isAutoswipeEnabled) {
       t.enableAutoswipe()
     }
   }
@@ -133,6 +142,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     clearInterval(t.energyInterval)
     clearInterval(t.autoswipeCheckInterval)
     clearInterval(t.boostsCheckInterval)
+    clearTimeout(t.boostsCheckTimeout)
     t.isEnabledAutoswipe = false
     t.scoreService.saveSwipeBatch(t.energyService.availableUserEnergy)
   }
@@ -296,7 +306,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
       x: cutCoin.left + 25,
       y: cutCoin.top + 25
     }
-    while (t.isEnabledAutoswipe && t.isAutoswipe) {
+    while (t.isEnabledAutoswipe && t.isAutoswipeEnabled) {
       await this.sleepTime(100)
       if (t.energyValue <= 0) {
         continue

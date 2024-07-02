@@ -4,17 +4,21 @@
     <div class="inviteContainer" [style.height]="calcContainerHeight('app-invite', 'inviteHeader', 'inviteText')">
         <div class="bonusContainer">
             <div class="inviteText">Bonuses</div>
-            <div class="inviteSubText">10% from friends + 2% from their referrals</div>
+            <div class="inviteSubText">{{inviteData.percentFromChildren}}% from friends +
+                {{inviteData.percentFromGrandchildren}}% from their referrals</div>
             <div class="claimBox">
                 <img src="assets/icons/candy-icon.svg">
-                <div class="claimCount">&nbsp;+150</div>
+                <div class="claimCount">&nbsp;<span
+                        *ngIf="inviteData.claimableBalance > 0">+</span>{{inviteData.claimableBalance}}
+                </div>
             </div>
-            <div class="inviteButton">Claim</div>
+            <div class="inviteButton" *ngIf="inviteData.canClaim">Claim</div>
+            <div class="inviteButtonCopied" *ngIf="!inviteData.canClaim">Nothing to claim</div>
         </div>
         <div class="invitedFriends">
             <div class="invitedListTitle">
                 <div>Your friends</div>
-                <div>3 invites left</div>
+                <div>{{inviteData.invitesLeft}} invites left</div>
             </div>
             <div class="invitedListBody" *ngFor="let item of friendList">
                 <div>{{item.username}}</div>

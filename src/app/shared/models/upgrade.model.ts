@@ -1,6 +1,6 @@
 export class UpgradeModel {
-    id: string
-    level: number
-    price: number
-    isAvailable: boolean
+    id!: string
+    level!: number
+    price!: number
+    isAvailable!: boolean
 }

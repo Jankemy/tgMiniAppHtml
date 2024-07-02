@@ -1,25 +1,34 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { FriendModel } from '../models/friend.model';
+import { FriendsModel } from '../models/friends.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class InviteService {
 
-    private userFriends: FriendModel[] = []
+    private userFriends!: FriendsModel
     
     constructor(
         private api: ApiService
     ) {
     }
 
-    get friendList(){
+    get inviteData(){
         return this.userFriends
     }
 
     getFriends(){
-        return this.api.get<FriendModel[]>('friends')
+        return this.api.get<FriendsModel>('friends')
+    }
+    
+    claimRewards(){
+        let t = this;
+        return t.api.post<FriendsModel>('friends/rewards', {})
+        .then(resp => {
+            t.userFriends = resp!.data!
+            return resp
+        })
     }
 
     initInviteService(){

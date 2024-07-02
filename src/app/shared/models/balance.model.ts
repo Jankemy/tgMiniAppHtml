@@ -1,5 +1,5 @@
 export class BalanceModel {
-    balance: number
-    earnPerSwipe: number
-    swipeXmultiplier: number
+    balance!: number
+    earnPerSwipe!: number
+    swipeXMultiplier!: number
 }

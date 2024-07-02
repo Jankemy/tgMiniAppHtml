@@ -2,7 +2,7 @@ import { Injectable} from '@angular/core';
 import { ApiService } from './api.service';
 import { BalanceModel } from '../models/balance.model';
 
-const maxBatchSize = 10 // 10 * scoreIncrementer
+const maxBatchSize = 50 // 10 * scoreIncrementer
 
 @Injectable({
     providedIn: 'root',
@@ -32,8 +32,8 @@ export class ScoreService {
         .then((resp) => {
             t.totalUserScore = resp!.data!.balance
             t.scoreIncrementer = resp!.data!.earnPerSwipe
-            t.scoreIncrementer *= (resp!.data!.swipeXmultiplier > 0 
-                ? resp!.data!.swipeXmultiplier 
+            t.scoreIncrementer *= (resp!.data!.swipeXMultiplier > 0 
+                ? resp!.data!.swipeXMultiplier 
                 : 1)
         })
     }

@@ -20,8 +20,12 @@ export class InviteComponent extends BaseComponent implements OnInit {
     super()
   }
 
+  get inviteData() {
+    return this.inviteService.inviteData
+  }
+
   get friendList() {
-    return this.inviteService.friendList
+    return this.inviteData.friends
   }
 
   ngOnInit() {
@@ -36,7 +40,7 @@ export class InviteComponent extends BaseComponent implements OnInit {
 
   copyRefLink(){
     let t = this;
-    t.clip.copy('Copied ref link')
+    t.clip.copy(t.inviteData.inviteLink)
     t.isCopied = true
     setTimeout(() => { t.isCopied = false }, 1000 * 3) //3 sec
   }

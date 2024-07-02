@@ -7,6 +7,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { InviteComponent } from '../components/invite/invite.component';
 import { ContentLayoutComponent } from './content-layout/content-layout.component';
 import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     // SwipeComponent,
     ProgressBarComponent,
     // InviteComponent,
+    LoginComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { RouterModule } from '@angular/router';
     // SwipeComponent,
     ProgressBarComponent,
     // InviteComponent,
+    LoginComponent,
   ]
 })
 export class SharedModule { }

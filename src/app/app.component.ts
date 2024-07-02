@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { addGithubPath } from '../environments';
+import { LoginComponent } from './shared/login/login.component';
+import { EventService } from './shared/services/event.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-root',
@@ -47,6 +50,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private eventService: EventService,
+    private notifier: NotifierService
   ) {
     let t = this;
 
@@ -59,6 +64,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
+
+    let t = this;
+    LoginComponent.enableLogin(true)
+    t.eventService.LoginEvent.subscribe(login => {
+      
+      console.log(login)
+      t.notifier.notify('success', `Logged in successfuly: ${login}`)
+      LoginComponent.enableLogin(false)
+    })
   }
 
   // setLoading(isLoading: boolean) {

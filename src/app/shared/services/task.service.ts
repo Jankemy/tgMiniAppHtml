@@ -85,7 +85,7 @@ export class TaskService {
 
         let d = data.find(task => task.id === TaskIds[TaskIds.daily_sign_in])!
         t.daily.reward = d.reward
-        t.daily.loginStreak = ++d.streak!
+        t.daily.loginStreak = d.streak!
         t.daily.isAvailable = d.isAvailable
 
         data.map((item:any) => {

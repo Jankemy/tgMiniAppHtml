@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { IResponse } from '../interfaces/iResponse';
 import { environment } from '../../../environments';
 import { NotifierService } from 'angular-notifier';
@@ -47,7 +45,9 @@ export class ApiService {
                     return t.accessToken
                 })
                 .catch(er => {
-                    t.notifier.notify('error', er)
+                    console.log(er)
+                    t.notifier.notify('error', er.error.title)
+                    t.notifier.notify('error', er.error.errors.InitData[0])
                     return t.accessToken
                 });
         }

@@ -18,6 +18,7 @@ export class BoostsService {
             isAvailable: false,
             level: 5,
             isPermanent: false,
+            coolDown: 0,
 
             icon: 'assets/boost-icons/X5-boost.svg',
             text: 'Swipe Multiplier',
@@ -30,6 +31,7 @@ export class BoostsService {
             isAvailable: false,
             level: 1,
             isPermanent: false,
+            coolDown: 0,
             
             icon: 'assets/boost-icons/energy-refill-boost.svg',
             text: 'Energy Refill',
@@ -43,6 +45,7 @@ export class BoostsService {
             isAvailable: false,
             level: 0,
             isPermanent: true,
+            coolDown: 0,
 
             icon: 'assets/boost-icons/recharging-boost.svg',
             text: 'Earn per swipe',
@@ -55,6 +58,7 @@ export class BoostsService {
             isAvailable: false,
             level: 0,
             isPermanent: true,
+            coolDown: 0,
             
             icon: 'assets/boost-icons/recharging-boost.svg',
             text: 'Recharging Speed',
@@ -67,6 +71,7 @@ export class BoostsService {
             isAvailable: false,
             level: 0,
             isPermanent: true,
+            coolDown: 0,
             
             icon: 'assets/boost-icons/energy-capacity-boost.svg',
             text: 'Energy Bar Capacity',
@@ -79,6 +84,7 @@ export class BoostsService {
             isAvailable: false,
             level: 1,
             isPermanent: false,
+            coolDown: 0,
             
             icon: 'assets/boost-icons/autoswipe-boost.svg',
             text: 'Auto swipe',
@@ -106,7 +112,11 @@ export class BoostsService {
 
             b.price = ub.price
             b.isAvailable = ub.isAvailable
-            b.isApplied = ub.maxAttempts > ub.attempts && (!b.isAvailable || !!ub.coolDown)
+            b.coolDown = ub.coolDown
+            
+            let date = new Date()
+            date.setSeconds(ub.coolDown ?? 0)
+            b.isApplied = !!ub.coolDown && (date > new Date())
         })
 
         t.upgrades.map((u:any) => {
