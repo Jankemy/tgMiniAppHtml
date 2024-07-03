@@ -49,7 +49,7 @@ export class ProfileService {
 
     updateUsername(username: string){
         let t = this
-        return t.api.patch<ProfileModel>('me', { 'newUsername': username })
+        return t.api.patch<ProfileModel>('me/username', { 'newUsername': username })
         .then(resp => {
             t.userProfile = resp!.data!
             return t.userProfile
