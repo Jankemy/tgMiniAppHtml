@@ -48,3 +48,9 @@ img {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+.horizontal-border {
+  width: 70px;
+  border: 1px solid #E8E8E81A;
+  display: inline-block;
+}

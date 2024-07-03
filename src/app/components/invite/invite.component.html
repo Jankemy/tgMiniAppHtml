@@ -12,9 +12,23 @@
                         *ngIf="inviteData.claimableBalance > 0">+</span>{{inviteData.claimableBalance}}
                 </div>
             </div>
-            <div class="inviteButton" *ngIf="inviteData.canClaim">Claim</div>
+            <div class="inviteButton" *ngIf="inviteData.canClaim" (click)="claimRefRevards()">Claim</div>
             <div class="inviteButtonCopied" *ngIf="!inviteData.canClaim">Nothing to claim</div>
         </div>
+        <div class="horizontal-border"></div>
+        <div class="shareContainer">
+            <div class="inviteText">Share your swipes with friends</div>
+            <div class="inviteSubText">
+                You can send any number of accumulated swipes to your friends once a day.
+            </div>
+            <div class="inviteButton">
+                <span>Share swipes</span>
+                <span>
+                    <img src="assets/icons/double-arrow-right.svg">
+                </span>
+            </div>
+        </div>
+        <div class="horizontal-border"></div>
         <div class="invitedFriends">
             <div class="invitedListTitle">
                 <div>Your friends</div>

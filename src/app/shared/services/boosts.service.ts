@@ -37,20 +37,19 @@ export class BoostsService {
             text: 'Energy Refill',
             subText: 'Full energy charge',
         },
+        // {
+        //     type: BoostTypes.earn_per_swipe,
+        //     price: 100,
+        //     isApplied: false,
+        //     isAvailable: false,
+        //     level: 0,
+        //     isPermanent: true,
+        //     coolDown: 0,
 
-        {
-            type: BoostTypes.earn_per_swipe,
-            price: 100,
-            isApplied: false,
-            isAvailable: false,
-            level: 0,
-            isPermanent: true,
-            coolDown: 0,
-
-            icon: 'assets/boost-icons/recharging-boost.svg',
-            text: 'Earn per swipe',
-            subText: 'Increases the energy recharge',
-        },
+        //     icon: 'assets/boost-icons/recharging-boost.svg',
+        //     text: 'Earn per swipe',
+        //     subText: 'Increases the energy recharge',
+        // },
         {
             type: BoostTypes.recharging_speed,
             price: 150,

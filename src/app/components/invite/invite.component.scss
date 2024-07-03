@@ -28,9 +28,10 @@ $border-bg-color: #7C6CFE;
 }
 
 .inviteText{
-    font-size: 17px; 
+    font-size: 20px; 
     padding: 10px;
     color: white;
+    font-weight: 500;
 }
 
 .bonusContainer{
@@ -43,7 +44,7 @@ $border-bg-color: #7C6CFE;
 .inviteSubText{
     font-size: 15px;
     color: #FFFFFF80;
-
+    font-weight: 500;
 }
 
 .inviteButton{
@@ -52,7 +53,7 @@ $border-bg-color: #7C6CFE;
     padding: $margin-box;
     background: $button-linear-color;
     font-size: 14px;
-    // font-weight: 500;
+    font-weight: 500;
 }
 
 .inviteButtonCopied{
@@ -77,6 +78,11 @@ $border-bg-color: #7C6CFE;
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.bonusContainer>.inviteButton,
+.bonusContainer>.inviteButtonCopied {
+    font-size: 18px;
 }
 
 .claimCount{
@@ -144,4 +150,16 @@ $border-bg-color: #7C6CFE;
 
 .inviteContainer{
     overflow: auto;
+}
+
+.shareContainer {
+    margin: $margin-box;
+}
+
+.shareContainer>.inviteButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    margin: $margin-box 0;
 }

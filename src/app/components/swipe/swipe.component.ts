@@ -7,6 +7,8 @@ import { BoostsService } from '../../shared/services/boosts.service';
 import { BoostTypes } from '../../shared/enums/boost.types';
 import { ProfileService } from '../../shared/services/profile.service';
 import { BaseComponent } from '../../shared/base/base.component';
+import { EnergyHelpComponent } from '../../shared/sub-components/energy-help/energy-help.component';
+import { LoginComponent } from '../../shared/sub-components/login/login.component';
 
 
 const overflow = 1
@@ -87,6 +89,8 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
     t.profileService.initProfileService()
     .then((resp) => {
+      t.eventService.NeedLoginEvent.emit(!resp!.usernameChanged)
+
       Promise.all([
         t.scoreService.initScoreService(),
         t.energyService.initEnergyService(),
@@ -183,7 +187,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     t.cometCanvas.style.left = '0';
     t.cometCanvas.style.top = '0';
     t.cometCanvas.style.pointerEvents = 'none';
-    t.cometCanvas.style.zIndex = '100000';
+    t.cometCanvas.style.zIndex = '1000';
   }
 
   private addPoint(x: number, y: number) {
@@ -419,6 +423,10 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     cutCoinComponent.instance.cutCoinId = componentId
     cutCoinComponent.instance.cutBoxPosition = t.cutBoxPosition
     t.renderer.appendChild(t.cutBox.element.nativeElement, cutCoinComponent.location.nativeElement)
+  }
+
+  showEnergyHelp(){
+    EnergyHelpComponent.showEnergyHelp(true)
   }
 
 }

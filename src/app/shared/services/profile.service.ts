@@ -36,7 +36,6 @@ export class ProfileService {
         })
     }
 
-
     public profile(){
         let t = this
         if (!t.promiseUserProfile && !t.userProfile?.id) {
@@ -46,5 +45,14 @@ export class ProfileService {
         return t.promiseUserProfile ?? new Promise<ProfileModel>((resolve, reject) => {
             resolve(t.userProfile!)
         });
+    }
+
+    updateUsername(username: string){
+        let t = this
+        return t.api.patch<ProfileModel>('me', { 'newUsername': username })
+        .then(resp => {
+            t.userProfile = resp!.data!
+            return t.userProfile
+        })
     }
 }

@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { addGithubPath } from '../environments';
-import { LoginComponent } from './shared/login/login.component';
+import { LoginComponent } from './shared/sub-components/login/login.component';
 import { EventService } from './shared/services/event.service';
 import { NotifierService } from 'angular-notifier';
+import { EnergyHelpComponent } from './shared/sub-components/energy-help/energy-help.component';
+import { ProfileService } from './shared/services/profile.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   activeSwipe = true
   activeInvite = false
@@ -51,6 +53,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private eventService: EventService,
+    private profileService: ProfileService,
     private notifier: NotifierService
   ) {
     let t = this;
@@ -66,13 +69,28 @@ export class AppComponent implements OnInit {
     (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
 
     let t = this;
-    LoginComponent.enableLogin(true)
-    t.eventService.LoginEvent.subscribe(login => {
-      
-      console.log(login)
-      t.notifier.notify('success', `Logged in successfuly: ${login}`)
-      LoginComponent.enableLogin(false)
+    t.eventService.NeedLoginEvent.subscribe((resp) => {
+      LoginComponent.enableLogin(resp)
     })
+
+    t.eventService.LoginEvent.subscribe(login => {
+      t.profileService.updateUsername(login)
+      .then(resp => {
+        t.notifier.notify('success', `Logged in successfuly: ${login}`)
+      })
+      .catch(er => {
+        console.log(er)
+        t.notifier.notify('error', er.error.errors[0].message)
+      })
+      .finally(() => {
+        LoginComponent.enableLogin(false)
+      })
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.eventService.LoginEvent.unsubscribe()
+    this.eventService.NeedLoginEvent.unsubscribe()
   }
 
   // setLoading(isLoading: boolean) {

@@ -79,6 +79,13 @@ export class ApiService {
         })
     }
 
+    public patch<T>(url: string, body: any){
+        return this.getAuthorizationHeaders()
+        .then(headers => {
+            return this.http.patch<IResponse<T>>(apiUrl + url, body, { headers }).toPromise()
+        })
+    }
+
     private getPublicHeaders() {
         return {
             'Content-Type': 'application/json',

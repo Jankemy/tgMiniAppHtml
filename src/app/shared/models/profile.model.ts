@@ -6,4 +6,5 @@ export class ProfileModel {
     energyRechargingPerSec!: number;
     earnPerSwipe!: number;
     lastSyncAt!: number;
+    usernameChanged!: boolean
 }

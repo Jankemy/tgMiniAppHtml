@@ -1,0 +1,127 @@
+$text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+$background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
+$button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+$border-height: 1px;
+$border-radius: 15px;
+$margin-box: 15px;
+
+$text-color: #7C6CFE;
+
+.tokenSendContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 1100;
+    // top: 0;
+    width: 100%;
+    height: 100%;
+    background: $background-linear-color;
+    background-color: black;
+
+    animation: bodyUp 0.2s linear;
+}
+
+.tokenSendContainer>* {
+    width: 100%;
+}
+
+.tokenText {
+    color: white;
+    font-size: 16px;
+}
+
+.tokenBalance {
+    font-size: 44px;
+    font-weight: 700;
+
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tokenSumInput,
+.tokenUsernameInput {
+    margin: $margin-box;
+}
+
+.tokenSumInput>input,
+.tokenUsernameInput>input {
+    width: -webkit-fill-available;
+    padding: $margin-box;
+    border-radius: $border-radius;
+    border: $border-height solid $text-color;
+    background: $background-linear-color;
+    color: $text-color;
+    font-size: 20px;
+}
+
+.tokenSumInput>input:focus,
+.tokenUsernameInput>input:focus {
+    outline:none!important;
+}
+
+.tokenSumInput>input::placeholder,
+.tokenUsernameInput>input::placeholder {
+    color: $text-color;
+    font-size: 20px;
+}
+
+.tokenSelectAllBtn,
+.tokenSendBtn {
+    border-radius: $border-radius;
+    margin: $margin-box;
+    padding: $margin-box;
+    background: $button-linear-color;
+    font-size: 14px;
+}
+
+.tokenSendBtn,
+.tokenCancelBtn {
+    width: 100%;
+}
+
+.tokenSendBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tokenCancelBtn {
+    font-size: 14px;
+    font-weight: 600;
+
+    border: $border-height solid $text-color;
+    border-radius: $border-radius;
+    margin: $margin-box;
+    padding: $margin-box;
+
+    background: $text-linear-color;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tokenButtons {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.tokenButtons>div:first-child {
+    margin-right: 0;
+}
+
+@keyframes bodyUp {
+    from {
+        top: 100%;
+    }
+
+    to {
+        top: 0;
+    }
+}

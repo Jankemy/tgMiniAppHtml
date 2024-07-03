@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PreloaderComponent } from './preloader/preloader.component';
+import { PreloaderComponent } from './sub-components/preloader/preloader.component';
 import { CutCoinComponent } from './cut-coin/cut-coin.component';
-import { SwipeComponent } from '../components/swipe/swipe.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { InviteComponent } from '../components/invite/invite.component';
 import { ContentLayoutComponent } from './content-layout/content-layout.component';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './sub-components/login/login.component';
+import { EnergyHelpComponent } from './sub-components/energy-help/energy-help.component';
+import { TokenSendComponent } from './sub-components/token-send/token-send.component';
 
 
 @NgModule({
@@ -15,10 +15,10 @@ import { LoginComponent } from './login/login.component';
     ContentLayoutComponent,
     PreloaderComponent,
     CutCoinComponent,
-    // SwipeComponent,
     ProgressBarComponent,
-    // InviteComponent,
     LoginComponent,
+    EnergyHelpComponent,
+    TokenSendComponent,
   ],
   imports: [
     CommonModule,
@@ -28,10 +28,10 @@ import { LoginComponent } from './login/login.component';
     ContentLayoutComponent,
     PreloaderComponent,
     CutCoinComponent,
-    // SwipeComponent,
     ProgressBarComponent,
-    // InviteComponent,
     LoginComponent,
+    EnergyHelpComponent,
+    TokenSendComponent,
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,55 @@
+$background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
+$button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
+
+$border-radius: 15px;
+$margin-box: 15px;
+
+.energyHelpContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 1100;
+    // top: 0;
+    width: 100%;
+    height: 100%;
+    background: $background-linear-color;
+    background-color: black;
+
+    animation: bodyUp 0.2s linear;
+}
+
+.energyHelpImage {
+    margin: $margin-box;
+}
+
+.energyHelpImage>img {
+    width: 100%;
+}
+
+.energyHelpText {
+    color: white;
+    margin: $margin-box;
+    font-size: 16px;
+}
+
+.energyHelpButton {
+    border-radius: $border-radius;
+    margin: $margin-box 30px;
+    padding: $margin-box;
+    background: $button-linear-color;
+    font-size: 20px;
+    width: fit-content;
+}
+
+@keyframes bodyUp {
+    from {
+        top: 100%;
+    }
+
+    to {
+        top: 0;
+    }
+}

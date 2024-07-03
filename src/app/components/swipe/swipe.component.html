@@ -7,7 +7,7 @@
         <div *ngIf="isAutoswipeEnabled"><img src="assets/boost-icons/autoswipe-boost.svg"></div>
     </div>
     <div #cutBox id="cutBox"></div>
-    <div id="energy">
+    <div id="energy" (click)="showEnergyHelp()">
         <app-progress-bar [label]="'Energy'" [width]="'65'" [value]="energyValue">
         </app-progress-bar>
     </div>

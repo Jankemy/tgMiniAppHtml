@@ -1,4 +1,4 @@
-import { PreloaderComponent } from "../preloader/preloader.component";
+import { PreloaderComponent } from "../sub-components/preloader/preloader.component";
 
 export abstract class BaseComponent{
 

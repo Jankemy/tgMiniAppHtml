@@ -8,6 +8,15 @@ import { FriendsModel } from '../models/friends.model';
 export class InviteService {
 
     private userFriends!: FriendsModel
+    private plug: FriendsModel = {
+        percentFromChildren: 0,
+        percentFromGrandchildren: 0,
+        invitesLeft: 0,
+        inviteLink: '',
+        claimableBalance: 0,
+        canClaim: false,
+        friends: [],
+    }
     
     constructor(
         private api: ApiService
@@ -15,7 +24,7 @@ export class InviteService {
     }
 
     get inviteData(){
-        return this.userFriends
+        return this.userFriends ?? this.plug
     }
 
     getFriends(){
