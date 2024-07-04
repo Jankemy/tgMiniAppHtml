@@ -5,6 +5,11 @@ export type TouchmoveCoordinates = {
     y: number;
 }
 
+export type SendTokens = {
+  nickname: string;
+  amount: number;
+}
+
 @Injectable({
   providedIn: 'platform' //do not set 'root', ONLY 'platform'
 })
@@ -14,5 +19,6 @@ export class EventService {
   @Output() TouchmoveCoordinatesEvent = new EventEmitter<TouchmoveCoordinates>();
   @Output() LoginEvent = new EventEmitter<string>();
   @Output() NeedLoginEvent = new EventEmitter<boolean>();
-
+  @Output() SendTokensEvent = new EventEmitter<SendTokens>();
+  @Output() TechnicalWorksEvent = new EventEmitter();
 }

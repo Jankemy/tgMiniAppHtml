@@ -26,7 +26,8 @@ $text-color: #7C6CFE;
 }
 
 .tokenSendContainer>* {
-    width: 100%;
+    width: -webkit-fill-available;
+    margin: 15px;
 }
 
 .tokenText {
@@ -49,15 +50,36 @@ $text-color: #7C6CFE;
     margin: $margin-box;
 }
 
-.tokenSumInput>input,
+.tokenSumInput,
 .tokenUsernameInput>input {
-    width: -webkit-fill-available;
-    padding: $margin-box;
+    // width: -webkit-fill-available;
+    // padding: $margin-box;
     border-radius: $border-radius;
     border: $border-height solid $text-color;
     background: $background-linear-color;
+    // color: $text-color;
+    font-size: 20px;
+}
+
+.tokenSumInput>input {
+    width: -webkit-fill-available;
+    padding: 12px 0 12px 12px;;
+    background: transparent;
     color: $text-color;
     font-size: 20px;
+    border: none;
+}
+
+.tokenSumInput {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tokenUsernameInput>input {
+    width: -webkit-fill-available;
+    padding: 12px;
+    color: $text-color;
 }
 
 .tokenSumInput>input:focus,
@@ -74,10 +96,20 @@ $text-color: #7C6CFE;
 .tokenSelectAllBtn,
 .tokenSendBtn {
     border-radius: $border-radius;
-    margin: $margin-box;
-    padding: $margin-box;
+    // margin: $margin-box 0;
+    // padding: $margin-box;
     background: $button-linear-color;
     font-size: 14px;
+}
+
+.tokenSelectAllBtn {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.tokenSendBtn {
+    padding: $margin-box;
 }
 
 .tokenSendBtn,
@@ -97,7 +129,7 @@ $text-color: #7C6CFE;
 
     border: $border-height solid $text-color;
     border-radius: $border-radius;
-    margin: $margin-box;
+    // margin: $margin-box;
     padding: $margin-box;
 
     background: $text-linear-color;
@@ -113,7 +145,7 @@ $text-color: #7C6CFE;
 }
 
 .tokenButtons>div:first-child {
-    margin-right: 0;
+    margin-right: $margin-box;
 }
 
 @keyframes bodyUp {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IResponse } from '../interfaces/iResponse';
 import { environment } from '../../../environments';
 import { NotifierService } from 'angular-notifier';
+import { EventService } from './event.service';
 
 const apiUrl = environment.apiUrl;
 
@@ -12,7 +13,7 @@ const apiUrl = environment.apiUrl;
 export class ApiService {
     constructor(
         private http: HttpClient,
-        private notifier: NotifierService
+        private eventService: EventService
     ) { }
 
     get initData() {
@@ -46,8 +47,7 @@ export class ApiService {
                 })
                 .catch(er => {
                     console.log(er)
-                    t.notifier.notify('error', er.error.title)
-                    t.notifier.notify('error', er.error.errors.InitData[0])
+                    t.eventService.TechnicalWorksEvent.emit()
                     return t.accessToken
                 });
         }
@@ -95,7 +95,7 @@ export class ApiService {
     private async getAuthorizationHeaders() {
         return {
             Authorization: `Bearer ${await this.getAccessToken()}`,
-            'Content-Type': 'application/json',
+            ...this.getPublicHeaders(),
         };
     }
 }

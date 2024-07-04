@@ -1,6 +1,7 @@
 export class FriendsModel {
     percentFromChildren!: number
     percentFromGrandchildren!: number
+    canClaimAt?: number
     invitesLeft!: number
     inviteLink!: string
     claimableBalance!: number

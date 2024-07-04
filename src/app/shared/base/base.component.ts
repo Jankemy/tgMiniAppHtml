@@ -17,6 +17,10 @@ export abstract class BaseComponent{
         let res = appInvite.offsetHeight - inviteHeader.offsetHeight - inviteText.offsetHeight
     
         return `${res}px`
-      }
+    }
+
+    errorMessage(er: any){
+        return er.error.errors[0].message
+    }
 
 }

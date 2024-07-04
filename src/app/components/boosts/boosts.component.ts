@@ -40,7 +40,7 @@ export class BoostsComponent extends BaseComponent implements OnInit{
       t.notifier.notify('info', 'Boost successfuly applied')
     })
     .catch(er => {
-      t.notifier.notify('error', er.error.errors[0].message)
+      t.notifier.notify('error', t.errorMessage(er))
     })
   }
 

@@ -30,6 +30,15 @@ export class InviteService {
     getFriends(){
         return this.api.get<FriendsModel>('friends')
     }
+
+    sendTokens(nickname: string, amount: number){
+        let t = this;
+        return this.api.post<FriendsModel>('friends/tokens', { amount, recipientUsername: nickname })
+        .then(resp => {
+            t.userFriends = resp!.data!
+            return resp
+        })
+    }
     
     claimRewards(){
         let t = this;

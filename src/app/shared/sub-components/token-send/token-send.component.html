@@ -1,16 +1,18 @@
-<div class="tokenSendContainer">
+<div id="tokenSendContainer" #tokenSendContainer class="tokenSendContainer" style="display: none;">
     <div class="tokenText">Available balance</div>
-    <div class="tokenBalance">123890</div>
+    <div class="tokenBalance">{{balance}}</div>
     <div class="tokenUsernameInput">
-        <input type="text">
+        <input id="nicknameInput" type="text" placeholder="Nickname">
     </div>
     <div class="tokenSumInput">
-        <input type="number">
-        <div class="tokenSelectAllBtn">Select all</div>
+        <input id="tokenAmountInput" type="number" placeholder="Token amount"
+            step="1" min="0" [max]="balance">
+        <div class="tokenSelectAllBtn" (click)="selectAllTokens()">Select&nbsp;all</div>
     </div>
+    <div class="horizontal-border"></div>
     <div class="tokenButtons">
-        <div class="tokenCancelBtn">Cancel</div>
-        <div class="tokenSendBtn">
+        <div class="tokenCancelBtn" (click)="cancel()">Cancel</div>
+        <div class="tokenSendBtn" (click)="sendTokens()">
             <span>Send swipes</span>
             <img src="assets/icons/double-arrow-right.svg">
         </div>

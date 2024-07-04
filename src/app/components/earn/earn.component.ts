@@ -62,12 +62,12 @@ export class EarnComponent extends BaseComponent implements OnInit {
     if (type == TaskIds.daily_sign_in) {
       t.taskService.claimTaskReward(type)
       .catch(er => {
-        t.notifier.notify('error', er.error.errors[0].message)
+        t.notifier.notify('error', t.errorMessage(er))
       })
       .finally(() => {
         t.scoreService.initScoreService()
         .catch(er => {
-          t.notifier.notify('error', er.error.errors[0].message)
+          t.notifier.notify('error', t.errorMessage(er))
         })
         .finally(() => {
           t.isLoader[type] = false
@@ -97,12 +97,12 @@ export class EarnComponent extends BaseComponent implements OnInit {
 
       t.taskService.claimTaskReward(currentTask.type)
       .catch(er => {
-        t.notifier.notify('error', er.error.errors[0].message)
+        t.notifier.notify('error', t.errorMessage(er))
       })
       .finally(() => {
         t.scoreService.initScoreService()
         .catch(er => {
-          t.notifier.notify('error', er.error.errors[0].message)
+          t.notifier.notify('error', t.errorMessage(er))
         })
         .finally(() => {
           t.isLoader[type] = false

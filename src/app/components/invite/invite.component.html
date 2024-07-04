@@ -4,8 +4,8 @@
     <div class="inviteContainer" [style.height]="calcContainerHeight('app-invite', 'inviteHeader', 'inviteText')">
         <div class="bonusContainer">
             <div class="inviteText">Bonuses</div>
-            <div class="inviteSubText">{{inviteData.percentFromChildren}}% from friends +
-                {{inviteData.percentFromGrandchildren}}% from their referrals</div>
+            <div class="inviteSubText">{{inviteData.percentFromChildren}}% from friends 
+                +{{inviteData.percentFromGrandchildren}}% from their referrals</div>
             <div class="claimBox">
                 <img src="assets/icons/candy-icon.svg">
                 <div class="claimCount">&nbsp;<span
@@ -13,7 +13,11 @@
                 </div>
             </div>
             <div class="inviteButton" *ngIf="inviteData.canClaim" (click)="claimRefRevards()">Claim</div>
-            <div class="inviteButtonCopied" *ngIf="!inviteData.canClaim">Nothing to claim</div>
+            <div class="inviteButtonCopied" *ngIf="!inviteData.canClaim">
+                {{timeToClaim}}
+                <!-- <span *ngIf="inviteData.claimableBalance <= 0">Nothing to claim</span>
+                <span *ngIf="inviteData.claimableBalance > 0">{{timeToClaim}}</span> -->
+            </div>
         </div>
         <div class="horizontal-border"></div>
         <div class="shareContainer">
@@ -21,7 +25,7 @@
             <div class="inviteSubText">
                 You can send any number of accumulated swipes to your friends once a day.
             </div>
-            <div class="inviteButton">
+            <div class="inviteButton" (click)="showSendTokenPage()">
                 <span>Share swipes</span>
                 <span>
                     <img src="assets/icons/double-arrow-right.svg">

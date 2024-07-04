@@ -6,13 +6,15 @@ import { EventService } from './shared/services/event.service';
 import { NotifierService } from 'angular-notifier';
 import { EnergyHelpComponent } from './shared/sub-components/energy-help/energy-help.component';
 import { ProfileService } from './shared/services/profile.service';
+import { BaseComponent } from './shared/base/base.component';
+import { TechPlugComponent } from './shared/sub-components/tech-plug/tech-plug.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
 
   activeSwipe = true
   activeInvite = false
@@ -56,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private notifier: NotifierService
   ) {
+    super()
     let t = this;
 
     t.router.events.subscribe((event) => {
@@ -69,6 +72,11 @@ export class AppComponent implements OnInit, OnDestroy {
     (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
 
     let t = this;
+
+    t.eventService.TechnicalWorksEvent.subscribe(() => {
+      TechPlugComponent.enableTechPlug(true)
+    })
+
     t.eventService.NeedLoginEvent.subscribe((resp) => {
       LoginComponent.enableLogin(resp)
     })
@@ -80,7 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
       })
       .catch(er => {
         console.log(er)
-        t.notifier.notify('error', er.error.errors[0].message)
+        t.notifier.notify('error', t.errorMessage(er))
       })
       .finally(() => {
         LoginComponent.enableLogin(false)
@@ -92,10 +100,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventService.LoginEvent.unsubscribe()
     this.eventService.NeedLoginEvent.unsubscribe()
   }
-
-  // setLoading(isLoading: boolean) {
-  //   PreloaderComponent.setLoading(isLoading);
-  // }
 
   updateActiveMenuItem(event:any) {
     var t = this;
