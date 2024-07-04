@@ -11,7 +11,7 @@ import { EnergyHelpComponent } from '../../shared/sub-components/energy-help/ene
 import { LoginComponent } from '../../shared/sub-components/login/login.component';
 
 
-const overflow = 1
+const overflow = 100
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 const swipeCounterKey = 'swipeCounterKey'
@@ -395,6 +395,10 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
   touchmoveEvent(e: any) {
     let t = this;
+
+    if (e.view.scrollY === 0) {
+      e.view.scrollTo(0, overflow)
+    }
     e.preventDefault()
 
     let tm = {
@@ -402,7 +406,6 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
       y: e.changedTouches[0].clientY + overflow
     };
     t.emitCustomEvent(tm)
-    // console.log(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
   }
 
   emitCustomEvent(tm: { x: number, y: number }) {
