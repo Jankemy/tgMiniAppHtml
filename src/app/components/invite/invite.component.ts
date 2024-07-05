@@ -38,7 +38,7 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
         t.notifier.notify('success', 'Tokens successfuly sent')
       })
       .catch(er => {
-        t.notifier.notify('error', Object.values(er.error.errors as object)[0])
+        t.notifier.notify('error', t.validatorErrorMessage(er))
       })
       .finally(() => {
         t.setLoading(false)

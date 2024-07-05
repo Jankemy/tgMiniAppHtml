@@ -9,12 +9,13 @@ import { ProfileService } from '../../shared/services/profile.service';
 import { BaseComponent } from '../../shared/base/base.component';
 import { EnergyHelpComponent } from '../../shared/sub-components/energy-help/energy-help.component';
 import { LoginComponent } from '../../shared/sub-components/login/login.component';
+import { ClipboardService } from 'ngx-clipboard';
+import { NotifierService } from 'angular-notifier';
 
 
-const overflow = 100
+const overflow = 1
 const beginCoinCount = 10
 const afterCutCoinCount = 1
-const swipeCounterKey = 'swipeCounterKey'
 
 @Component({
   selector: 'app-swipe',
@@ -49,9 +50,12 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   boostsCheckTimeout: any = {}
   swipeSubscription: any = {}
   isEnabledAutoswipe = false
+  userNickname = ''
 
   constructor(
     private renderer: Renderer2,
+    private clip: ClipboardService,
+    private notifier: NotifierService,
     private profileService: ProfileService,
     private eventService: EventService,
     private scoreService: ScoreService,
@@ -89,6 +93,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
     t.profileService.initProfileService()
     .then((resp) => {
+      t.userNickname = resp!.username
       t.eventService.NeedLoginEvent.emit(!resp!.usernameChanged)
 
       Promise.all([
@@ -125,6 +130,13 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
       height: cutBoxPos.height,
     }
 
+    console.log(t.cutBoxPosition)
+    let eventBox = document.getElementById('eventBox')!;
+    eventBox.style.top = `${t.cutBoxPosition.top}px`
+    eventBox.style.left = `${t.cutBoxPosition.left}px`
+    eventBox.style.width = `${t.cutBoxPosition.width}px`;
+    eventBox.style.height = `${t.cutBoxPosition.height}px`;
+
     for (let i = 0; i < beginCoinCount; i++) {
       t.addNewCutCoinComponent()
     }
@@ -154,7 +166,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   initSwipeBox(){
     let t =  this
     // register swipe event emitter
-    var app = document.getElementById('app-swipe')!;
+    let app = document.getElementById('app-swipe')!;
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${overflow}px`
     document.body.style.marginBottom = `${overflow}px`
@@ -430,6 +442,11 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
   showEnergyHelp(){
     EnergyHelpComponent.showEnergyHelp(true)
+  }
+
+  copyNickname(){
+    this.clip.copy(this.userNickname)
+    this.notifier.notify('success', 'Copied successfuly')
   }
 
 }

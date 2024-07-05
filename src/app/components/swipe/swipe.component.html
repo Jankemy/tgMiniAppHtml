@@ -1,15 +1,17 @@
 <div id="app-swipe" class="swipe-box">
-    <div id="totalHeader">Total swipes</div>
+    <div id="totalHeader" (click)="copyNickname()">
+        <img src="assets/icons/copy-border-white.svg">&nbsp;{{userNickname}}
+    </div>
     <div id="swipeCounter">{{swipeCounter}}</div>
     <div id="options">
         <div *ngIf="isX5Boost"><img src="assets/boost-icons/X5-boost.svg"></div>
-        <!-- <div *ngIf=""><img src="assets/boost-icons/recharging-boost.svg"></div> -->
         <div *ngIf="isAutoswipeEnabled"><img src="assets/boost-icons/autoswipe-boost.svg"></div>
     </div>
-    <div #cutBox id="cutBox"></div>
+    <div #cutBox id="cutBox">
+        <div #eventBox id="eventBox"></div>
+    </div>
     <div id="energy" (click)="showEnergyHelp()">
         <app-progress-bar [label]="'Energy'" [width]="'65'" [value]="energyValue">
         </app-progress-bar>
     </div>
-
 </div>

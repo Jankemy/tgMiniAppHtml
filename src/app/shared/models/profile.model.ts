@@ -7,4 +7,5 @@ export class ProfileModel {
     earnPerSwipe!: number;
     lastSyncAt!: number;
     usernameChanged!: boolean
+    username!: string
 }

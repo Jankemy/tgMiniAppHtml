@@ -23,4 +23,8 @@ export abstract class BaseComponent{
         return er.error.errors[0].message
     }
 
+    validatorErrorMessage(er: any){
+        return Object.values(er.error.errors as object)[0]
+    }
+
 }
