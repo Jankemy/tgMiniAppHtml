@@ -8,6 +8,8 @@ import { ProfileService } from './shared/services/profile.service';
 import { BaseComponent } from './shared/base/base.component';
 import { TechPlugComponent } from './shared/sub-components/tech-plug/tech-plug.component';
 
+const overflow = 100
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -68,6 +70,11 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${overflow}px`
+    document.body.style.marginBottom = `${overflow}px`
+    window.scrollTo(0, overflow);
+
     (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
 
     let t = this;

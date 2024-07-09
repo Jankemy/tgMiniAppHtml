@@ -25,7 +25,7 @@ export const customNotifierOptions: NotifierOptions = {
 	},
   theme: 'material',
   behaviour: {
-    autoHide: 3000,
+    autoHide: 300000,
     onClick: 'hide',
     onMouseover: 'pauseAutoHide',
     showDismissButton: true,

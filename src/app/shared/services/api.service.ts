@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IResponse } from '../interfaces/iResponse';
 import { environment } from '../../../environments';
-import { NotifierService } from 'angular-notifier';
 import { EventService } from './event.service';
 
 const apiUrl = environment.apiUrl;

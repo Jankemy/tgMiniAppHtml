@@ -8,12 +8,11 @@ import { BoostTypes } from '../../shared/enums/boost.types';
 import { ProfileService } from '../../shared/services/profile.service';
 import { BaseComponent } from '../../shared/base/base.component';
 import { EnergyHelpComponent } from '../../shared/sub-components/energy-help/energy-help.component';
-import { LoginComponent } from '../../shared/sub-components/login/login.component';
 import { ClipboardService } from 'ngx-clipboard';
 import { NotifierService } from 'angular-notifier';
 
 
-const overflow = 1
+const overflow = 100
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 
@@ -160,16 +159,20 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     clearTimeout(t.boostsCheckTimeout)
     t.isEnabledAutoswipe = false
     t.scoreService.saveSwipeBatch(t.energyService.availableUserEnergy)
+
+    // document.body.style.overflowY = 'auto'
+    // document.body.style.marginTop = '0'
+    // document.body.style.marginBottom = '0'
   }
 
   initSwipeBox(){
     let t =  this
     // register swipe event emitter
     let app = document.getElementById('app-swipe')!;
-    document.body.style.overflowY = 'hidden'
-    document.body.style.marginTop = `${overflow}px`
-    document.body.style.marginBottom = `${overflow}px`
-    window.scrollTo(0, overflow);
+    // document.body.style.overflowY = 'hidden'
+    // document.body.style.marginTop = `${overflow}px`
+    // document.body.style.marginBottom = `${overflow}px`
+    // window.scrollTo(0, overflow);
 
     (<any>window).Telegram?.WebApp?.expand()
     // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
@@ -440,7 +443,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   }
 
   showEnergyHelp(){
-    EnergyHelpComponent.showEnergyHelp(true)
+    EnergyHelpComponent.showEnergyHelp(true, overflow)
   }
 
   copyNickname(){

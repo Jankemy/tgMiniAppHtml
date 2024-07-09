@@ -11,4 +11,11 @@ $border-bg-color: #7C6CFE;
 .notifier__notification--material{
     border-radius: $border-radius;
     background: $linear-color;
+
+    // -webkit-animation-name: roll;
+    // -webkit-animation-duration: 2s;
+    // -webkit-animation-timing-function: linear;
+
+    /* safari */
+    -webkit-transition: .2s transform linear;
 }

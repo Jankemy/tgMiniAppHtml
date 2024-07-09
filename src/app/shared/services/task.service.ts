@@ -95,7 +95,7 @@ export class TaskService {
                 task.link = item.link
                 task.reward = item.reward
                 task.isClaimed = !item.isAvailable
-                task.isCompleted = !item.isAvailable ?? task.isCompleted
+                task.isCompleted = !item.isAvailable || task.isCompleted
             }
         })
     }

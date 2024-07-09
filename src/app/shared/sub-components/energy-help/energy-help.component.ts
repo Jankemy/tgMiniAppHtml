@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-energy-help',
@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class EnergyHelpComponent {
 
-  public static showEnergyHelp(needHelp: boolean) {
-    document.getElementById("energyHelpContainer")!.style.display = needHelp ? 'flex' : 'none'
+  public static showEnergyHelp(needHelp: boolean, of?: number) {
+    let eh = document.getElementById("energyHelpContainer")!
+    eh.style.setProperty('--overflow', `${(of ?? 100)}px`)
+    eh.style.display = needHelp ? 'flex' : 'none'
   };
 
   public energyHelpContinue(){

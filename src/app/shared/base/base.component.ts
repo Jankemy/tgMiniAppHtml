@@ -20,7 +20,7 @@ export abstract class BaseComponent{
     }
 
     errorMessage(er: any){
-        return er.error.errors[0].message
+        return er.error?.errors[0]?.message ?? this.validatorErrorMessage(er)
     }
 
     validatorErrorMessage(er: any){

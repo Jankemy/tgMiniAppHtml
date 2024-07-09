@@ -14,7 +14,7 @@ $text-color: #7C6CFE;
     align-items: center;
     justify-content: center;
 
-    position: relative;
+    position: absolute;
     z-index: 1100;
     // top: 0;
     width: 100%;
@@ -23,6 +23,11 @@ $text-color: #7C6CFE;
     background-color: black;
 
     animation: bodyUp 0.2s linear;
+    
+    /* safari */
+    -webkit-animation-name: bodyUp;
+    -webkit-animation-duration: 0.2s;
+    -webkit-animation-timing-function: linear;
 }
 
 .tokenSendContainer>* {
@@ -154,6 +159,6 @@ $text-color: #7C6CFE;
     }
 
     to {
-        top: 0;
+        top: 100px; //swipe page overflow
     }
 }
