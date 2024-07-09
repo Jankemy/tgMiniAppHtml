@@ -1,11 +1,12 @@
 import { NotifierOptions } from "angular-notifier";
 
 export const environment = {
+    // envName: 'dev',
     production: false,
     apiUrl: 'https://api-candy.softdds.com/',
+    // tokenUrl: 'token',
+    // botName: 'bcapdemo_bot'
   };
-
-export var addGithubPath = 'tgMiniAppHtml/'
 
 /**
  * Custom angular notifier options
@@ -24,7 +25,7 @@ export const customNotifierOptions: NotifierOptions = {
 	},
   theme: 'material',
   behaviour: {
-    autoHide: 2000,
+    autoHide: 3000,
     onClick: 'hide',
     onMouseover: 'pauseAutoHide',
     showDismissButton: true,

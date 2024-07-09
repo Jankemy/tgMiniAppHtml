@@ -8,9 +8,6 @@ export const environment = {
     // botName: 'bcapdemo_bot'
   };
 
-export var addGithubPath = ''
-
-
 /**
  * Custom angular notifier options
  */

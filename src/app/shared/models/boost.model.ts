@@ -4,4 +4,6 @@ export class BoostModel{
     maxAttempts!: number
     price!: number
     isAvailable!: boolean
+    coolDown!: number
+    activityRemainingMSec!: number
 }

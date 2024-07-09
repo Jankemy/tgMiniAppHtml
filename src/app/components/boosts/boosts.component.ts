@@ -37,7 +37,8 @@ export class BoostsComponent extends BaseComponent implements OnInit{
     let t = this;
     t.boostsService.buyBoost(type)
     .then(resp => {
-      t.notifier.notify('info', 'Boost successfuly applied')
+      t.notifier.notify('info', 'Boost successfuly applied');
+      (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     })
     .catch(er => {
       t.notifier.notify('error', t.errorMessage(er))

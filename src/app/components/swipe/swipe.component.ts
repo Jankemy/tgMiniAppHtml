@@ -105,13 +105,12 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
         if (t.isAutoswipeEnabled) {
           t.enableAutoswipe()
-          let timeout = t.autoswipe.coolDown - Date.now()
           
           t.boostsCheckTimeout = setTimeout(() => {
             t.boostsCheckInterval = setInterval(() => {
               t.boostsService.initBoostsService()
             }, 1000)
-          }, timeout > 0 ? timeout : 0)
+          }, t.autoswipe.appliedTime)
         }
 
         t.setLoading(false)

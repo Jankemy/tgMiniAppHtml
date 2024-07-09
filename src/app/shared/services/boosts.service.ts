@@ -19,6 +19,7 @@ export class BoostsService {
             level: 5,
             isPermanent: false,
             coolDown: 0,
+            appliedTime: 0,
 
             icon: 'assets/boost-icons/X5-boost.svg',
             text: 'Swipe Multiplier',
@@ -32,6 +33,7 @@ export class BoostsService {
             level: 1,
             isPermanent: false,
             coolDown: 0,
+            appliedTime: 0,
             
             icon: 'assets/boost-icons/energy-refill-boost.svg',
             text: 'Energy Refill',
@@ -58,6 +60,7 @@ export class BoostsService {
             level: 0,
             isPermanent: true,
             coolDown: 0,
+            appliedTime: 0,
             
             icon: 'assets/boost-icons/recharging-boost.svg',
             text: 'Recharging Speed',
@@ -71,6 +74,7 @@ export class BoostsService {
             level: 0,
             isPermanent: true,
             coolDown: 0,
+            appliedTime: 0,
             
             icon: 'assets/boost-icons/energy-capacity-boost.svg',
             text: 'Energy Bar Capacity',
@@ -84,6 +88,7 @@ export class BoostsService {
             level: 1,
             isPermanent: false,
             coolDown: 0,
+            appliedTime: 0,
             
             icon: 'assets/boost-icons/autoswipe-boost.svg',
             text: 'Auto swipe',
@@ -112,10 +117,8 @@ export class BoostsService {
             b.price = ub.price
             b.isAvailable = ub.isAvailable
             b.coolDown = ub.coolDown
-            
-            let date = new Date()
-            date.setSeconds(ub.coolDown ?? 0)
-            b.isApplied = !!ub.coolDown && (date > new Date())
+            b.isApplied = !!ub.activityRemainingMSec
+            b.appliedTime = ub.activityRemainingMSec ?? 0
         })
 
         t.upgrades.map((u:any) => {

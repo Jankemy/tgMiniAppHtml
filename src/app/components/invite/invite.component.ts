@@ -18,6 +18,7 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
   isCopied = false
   timeToClaim = 'Nothing to claim'
   timeToClaimIntervel: any = {}
+  sendTokensEvent: any = {}
 
   constructor(
     private clip: ClipboardService,
@@ -30,7 +31,7 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
 
     let t = this
 
-    t.eventService.SendTokensEvent.subscribe(evResp => {
+    t.sendTokensEvent = t.eventService.SendTokensEvent.subscribe(evResp => {
 
       t.setLoading(true)
       t.inviteService.sendTokens(evResp.nickname, evResp.amount)
@@ -78,7 +79,7 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
 
   ngOnDestroy(): void {
     clearInterval(this.timeToClaimIntervel)
-    this.eventService.SendTokensEvent.unsubscribe()
+    this.sendTokensEvent.unsubscribe()
   }
 
   setTimeToClaim(){

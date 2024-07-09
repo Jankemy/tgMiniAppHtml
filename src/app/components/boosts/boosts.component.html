@@ -13,11 +13,11 @@
                     <div class="boostText">{{boost.text}}</div>
                     <div class="boostSubText">{{boost.subText}}</div>
                 </div>
-                <div *ngIf="!boost.isApplied" class="boostPriceButton" (click)="applyBoost(boost.type)">
+                <div *ngIf="!boost.isApplied && boost.isAvailable" class="boostPriceButton" (click)="applyBoost(boost.type)">
                     <img src="assets/icons/candy-black-icon.svg">
                     <div class="boostPrice">&nbsp;{{boost.price > 0 ? boost.price : 'Free'}}</div>
                 </div>
-                <div *ngIf="boost.isApplied" class="boostAppliedButton">
+                <div *ngIf="boost.isApplied || !boost.isAvailable" class="boostAppliedButton">
                     <img src="assets/icons/check-button.svg">
                 </div>
             </div>

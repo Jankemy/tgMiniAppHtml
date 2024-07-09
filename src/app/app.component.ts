@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { addGithubPath } from '../environments';
 import { LoginComponent } from './shared/sub-components/login/login.component';
 import { EventService } from './shared/services/event.service';
 import { NotifierService } from 'angular-notifier';
@@ -16,41 +15,41 @@ import { TechPlugComponent } from './shared/sub-components/tech-plug/tech-plug.c
 })
 export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
 
-  activeSwipe = true
-  activeInvite = false
-  activeBoosts = false
-  activeEarn = false
-
   menuItems = [
     { 
-      path: `/${addGithubPath}swipe`, 
+      path: '/swipe', 
       name: 'Swipe', 
       isActive: false, 
       icon: 'assets/menu-icons/candy.svg', 
       activeIcon: 'assets/menu-icons/candy-active.svg' 
     },
     { 
-      path: `/${addGithubPath}invite`, 
+      path: '/invite', 
       name: 'Invite', 
       isActive: false, 
       icon: 'assets/menu-icons/invite.svg', 
       activeIcon: 'assets/menu-icons/invite-active.svg' 
     },
     { 
-      path: `/${addGithubPath}boosts`, 
+      path: '/boosts', 
       name: 'Boosts', 
       isActive: false, 
       icon: 'assets/menu-icons/boosts.svg', 
       activeIcon: 'assets/menu-icons/boosts-active.svg' 
     },
     { 
-      path: `/${addGithubPath}earn`, 
+      path: '/earn', 
       name: 'More', 
       isActive: false, 
       icon: 'assets/menu-icons/earn.svg', 
       activeIcon: 'assets/menu-icons/earn-active.svg' 
     },
   ]
+
+  appRouterEvents: any = {}
+  appTechnicalWorksEvent: any = {}
+  appNeedLoginEvent: any = {}
+  appLoginEvent: any = {}
 
   constructor(
     private router: Router,
@@ -61,7 +60,7 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
     super()
     let t = this;
 
-    t.router.events.subscribe((event) => {
+    t.appRouterEvents = t.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         t.updateActiveMenuItem(event);
       }
@@ -73,15 +72,15 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
 
     let t = this;
 
-    t.eventService.TechnicalWorksEvent.subscribe(() => {
+    t.appTechnicalWorksEvent = t.eventService.TechnicalWorksEvent.subscribe(() => {
       TechPlugComponent.enableTechPlug(true)
     })
 
-    t.eventService.NeedLoginEvent.subscribe((resp) => {
+    t.appNeedLoginEvent = t.eventService.NeedLoginEvent.subscribe((resp) => {
       LoginComponent.enableLogin(resp)
     })
 
-    t.eventService.LoginEvent.subscribe(login => {
+    t.appLoginEvent = t.eventService.LoginEvent.subscribe(login => {
       t.profileService.updateUsername(login)
       .then(resp => {
         t.notifier.notify('success', `Logged in successfuly: ${login}`)
@@ -95,8 +94,10 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.eventService.LoginEvent.unsubscribe()
-    this.eventService.NeedLoginEvent.unsubscribe()
+    this.appRouterEvents.unsubscribe()
+    this.appTechnicalWorksEvent.unsubscribe()
+    this.appNeedLoginEvent.unsubscribe()
+    this.appLoginEvent.unsubscribe()
   }
 
   updateActiveMenuItem(event:any) {
