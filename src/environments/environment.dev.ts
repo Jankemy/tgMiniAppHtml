@@ -8,6 +8,8 @@ export const environment = {
     // botName: 'bcapdemo_bot'
   };
 
+export const Overflow = 100 //px
+
 /**
  * Custom angular notifier options
  */

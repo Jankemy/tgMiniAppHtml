@@ -8,4 +8,5 @@ export class ProfileModel {
     lastSyncAt!: number;
     usernameChanged!: boolean
     username!: string
+    walletAddress!: string
 }

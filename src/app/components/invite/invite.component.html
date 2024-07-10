@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="inviteButtons">
-            <div class="inviteButton">
+            <div class="inviteButton" (click)="inviteFriends()">
                 <img src="assets/icons/invite-icon.svg" alt="">&nbsp;Invite friend
             </div>
             <div [ngClass]="{'inviteButton': !isCopied, 'inviteButtonCopied': isCopied }" (click)="copyRefLink()">

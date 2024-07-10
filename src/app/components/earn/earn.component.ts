@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TaskIds } from '../../shared/enums/task.ids';
 import { ClipboardService } from 'ngx-clipboard';
 import { ScoreService } from '../../shared/services/score.service';
 import { NotifierService } from 'angular-notifier';
 import { TaskService } from '../../shared/services/task.service';
 import { BaseComponent } from '../../shared/base/base.component';
+import { Overflow } from '../../../environments';
+import { ProfileService } from '../../shared/services/profile.service';
 
 
 @Component({
@@ -12,14 +14,15 @@ import { BaseComponent } from '../../shared/base/base.component';
   templateUrl: './earn.component.html',
   styleUrls: ['./earn.component.scss']
 })
-export class EarnComponent extends BaseComponent implements OnInit {
+export class EarnComponent extends BaseComponent implements OnInit, AfterViewInit {
 
-  evmAddress = '0xd64bd54d1c5e6271c8ea8ebbd12349ad757adc83'
+  evmAddress = 'Generating...'
   isAddressCopied = false;
   isLoader: any = {}
 
   constructor(
     private clip: ClipboardService,
+    private profileService: ProfileService,
     private scoreService: ScoreService,
     private taskService: TaskService,
     private notifier: NotifierService
@@ -41,15 +44,36 @@ export class EarnComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     let t = this
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${Overflow}px`
+    document.body.style.marginBottom = `${Overflow}px`
+    window.scrollTo(0, Overflow);
 
     t.setLoading(true)
     Promise.all([
+      t.profileService.initProfileService()
+      .then(resp => {
+        t.evmAddress = resp.walletAddress.length > 0 
+          ? resp.walletAddress
+          : t.evmAddress
+      }),
       t.scoreService.initScoreService(),
       t.taskService.initTaskService()
     ])
     .finally(() => {
       t.setLoading(false)
     })
+  }
+
+  ngAfterViewInit(): void {
+    let app = document.getElementById('app-earn')!;
+
+    (<any>window).Telegram?.WebApp?.expand()
+    app.addEventListener("touchmove", (e) => {
+      if (e.view!.scrollY === 0) {
+        e.view!.scrollTo(0, Overflow)
+      }
+    });
   }
 
   completeTask(type: TaskIds){
@@ -61,6 +85,10 @@ export class EarnComponent extends BaseComponent implements OnInit {
 
     if (type == TaskIds.daily_sign_in) {
       t.taskService.claimTaskReward(type)
+      .then(resp => {
+        t.notifier.notify('success', 'Claimed successfuly');
+        (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
+      })
       .catch(er => {
         t.notifier.notify('error', t.errorMessage(er))
       })
@@ -96,6 +124,10 @@ export class EarnComponent extends BaseComponent implements OnInit {
       t.isLoader[type] = true
 
       t.taskService.claimTaskReward(currentTask.type)
+      .then(resp => {
+        t.notifier.notify('success', 'Claimed successfuly');
+        (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
+      })
       .catch(er => {
         t.notifier.notify('error', t.errorMessage(er))
       })
@@ -116,7 +148,8 @@ export class EarnComponent extends BaseComponent implements OnInit {
     let t = this;
 
     t.clip.copy(t.evmAddress)
-    t.notifier.notify('info', 'Copied')
+    t.notifier.notify('info', 'Copied successfily');
+    (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     // console.log(t.notifier)
     t.isAddressCopied = true;
 

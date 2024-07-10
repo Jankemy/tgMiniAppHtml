@@ -7,9 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnergyHelpComponent {
 
-  public static showEnergyHelp(needHelp: boolean, of?: number) {
+  public static showEnergyHelp(needHelp: boolean) {
     let eh = document.getElementById("energyHelpContainer")!
-    eh.style.setProperty('--overflow', `${(of ?? 100)}px`)
     eh.style.display = needHelp ? 'flex' : 'none'
   };
 

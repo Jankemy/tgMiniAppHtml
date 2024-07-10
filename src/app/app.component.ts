@@ -3,12 +3,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { LoginComponent } from './shared/sub-components/login/login.component';
 import { EventService } from './shared/services/event.service';
 import { NotifierService } from 'angular-notifier';
-import { EnergyHelpComponent } from './shared/sub-components/energy-help/energy-help.component';
 import { ProfileService } from './shared/services/profile.service';
 import { BaseComponent } from './shared/base/base.component';
 import { TechPlugComponent } from './shared/sub-components/tech-plug/tech-plug.component';
 
-const overflow = 100
 
 @Component({
   selector: 'app-root',
@@ -70,11 +68,6 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    document.body.style.overflowY = 'hidden'
-    document.body.style.marginTop = `${overflow}px`
-    document.body.style.marginBottom = `${overflow}px`
-    window.scrollTo(0, overflow);
-
     (<any>window).Telegram?.WebApp?.enableClosingConfirmation();
 
     let t = this;

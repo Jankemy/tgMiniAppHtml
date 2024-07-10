@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BoostTypes } from '../../shared/enums/boost.types';
 import { BoostsService } from '../../shared/services/boosts.service';
 import { NotifierService } from 'angular-notifier';
 import { BaseComponent } from '../../shared/base/base.component';
+import { Overflow } from '../../../environments';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { BaseComponent } from '../../shared/base/base.component';
   templateUrl: './boosts.component.html',
   styleUrls: ['./boosts.component.scss']
 })
-export class BoostsComponent extends BaseComponent implements OnInit{
+export class BoostsComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   constructor(
     private boostsService: BoostsService,
@@ -25,12 +26,27 @@ export class BoostsComponent extends BaseComponent implements OnInit{
 
   ngOnInit() {
     let t = this
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${Overflow}px`
+    document.body.style.marginBottom = `${Overflow}px`
+    window.scrollTo(0, Overflow);
 
     t.setLoading(true)
     t.boostsService.initBoostsService()
     .finally(() => {
       t.setLoading(false)
     })
+  }
+
+  ngAfterViewInit(): void {
+    let app = document.getElementById('app-boosts')!;
+
+    (<any>window).Telegram?.WebApp?.expand()
+    app.addEventListener("touchmove", (e) => {
+      if (e.view!.scrollY === 0) {
+        e.view!.scrollTo(0, Overflow)
+      }
+    });
   }
 
   applyBoost(type: BoostTypes){

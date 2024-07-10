@@ -10,9 +10,9 @@ import { BaseComponent } from '../../shared/base/base.component';
 import { EnergyHelpComponent } from '../../shared/sub-components/energy-help/energy-help.component';
 import { ClipboardService } from 'ngx-clipboard';
 import { NotifierService } from 'angular-notifier';
+import { Overflow } from '../../../environments';
 
 
-const overflow = 100
 const beginCoinCount = 10
 const afterCutCoinCount = 1
 
@@ -169,10 +169,10 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     let t =  this
     // register swipe event emitter
     let app = document.getElementById('app-swipe')!;
-    // document.body.style.overflowY = 'hidden'
-    // document.body.style.marginTop = `${overflow}px`
-    // document.body.style.marginBottom = `${overflow}px`
-    // window.scrollTo(0, overflow);
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${Overflow}px`
+    document.body.style.marginBottom = `${Overflow}px`
+    window.scrollTo(0, Overflow);
 
     (<any>window).Telegram?.WebApp?.expand()
     // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
@@ -411,13 +411,13 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     let t = this;
 
     if (e.view.scrollY === 0) {
-      e.view.scrollTo(0, overflow)
+      e.view.scrollTo(0, Overflow)
     }
     e.preventDefault()
 
     let tm = {
       x: e.changedTouches[0].clientX,
-      y: e.changedTouches[0].clientY + overflow
+      y: e.changedTouches[0].clientY + Overflow
     };
     t.emitCustomEvent(tm)
   }
@@ -443,7 +443,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   }
 
   showEnergyHelp(){
-    EnergyHelpComponent.showEnergyHelp(true, overflow)
+    EnergyHelpComponent.showEnergyHelp(true)
   }
 
   copyNickname(){

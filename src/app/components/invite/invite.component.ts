@@ -6,6 +6,7 @@ import { NotifierService } from 'angular-notifier';
 import { TokenSendComponent } from '../../shared/sub-components/token-send/token-send.component';
 import { EventService } from '../../shared/services/event.service';
 import { ProfileService } from '../../shared/services/profile.service';
+import { Overflow } from '../../../environments';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ProfileService } from '../../shared/services/profile.service';
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss']
 })
-export class InviteComponent extends BaseComponent implements OnInit, OnDestroy {
+export class InviteComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isCopied = false
   timeToClaim = 'Nothing to claim'
@@ -36,7 +37,8 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
       t.setLoading(true)
       t.inviteService.sendTokens(evResp.nickname, evResp.amount)
       .then(resp => {
-        t.notifier.notify('success', 'Tokens successfuly sent')
+        t.notifier.notify('success', 'Tokens successfuly sent');
+        (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
       })
       .catch(er => {
         t.notifier.notify('error', t.errorMessage(er))
@@ -58,6 +60,10 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
 
   ngOnInit() {
     let t = this
+    document.body.style.overflowY = 'hidden'
+    document.body.style.marginTop = `${Overflow}px`
+    document.body.style.marginBottom = `${Overflow}px`
+    window.scrollTo(0, Overflow);
 
     t.setLoading(true)
     Promise.all([
@@ -75,6 +81,17 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
     .finally(() => {
       t.setLoading(false)
     })
+  }
+
+  ngAfterViewInit(): void {
+    let app = document.getElementById('app-invite')!;
+
+    (<any>window).Telegram?.WebApp?.expand()
+    app.addEventListener("touchmove", (e) => {
+      if (e.view!.scrollY === 0) {
+        e.view!.scrollTo(0, Overflow)
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -103,13 +120,14 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
       if (diffHrs > 0 ) { t.timeToClaim = t.timeToClaim.concat(` ${diffHrs} hours`)}
       t.timeToClaim = t.timeToClaim.concat(` ${diffMins} minutes`)
   
-      console.log(t.timeToClaim);
+      // console.log(t.timeToClaim);
     }
   }
 
   copyRefLink(){
     let t = this;
-    t.clip.copy(t.inviteData.inviteLink)
+    t.clip.copy(t.inviteData.inviteLink);
+    (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     t.isCopied = true
     setTimeout(() => { t.isCopied = false }, 1000 * 3) //3 sec
   }
@@ -120,7 +138,8 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
     t.setLoading(true)
     t.inviteService.claimRewards()
     .then(resp => {
-      t.notifier.notify('success', 'Claimed successfuly')
+      t.notifier.notify('success', 'Claimed successfuly');
+      (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     })
     .catch(er => {
       t.notifier.notify('error', t.errorMessage(er))
@@ -136,6 +155,17 @@ export class InviteComponent extends BaseComponent implements OnInit, OnDestroy 
     .then(profile => {
       TokenSendComponent.needTokenSend(true, profile)
     })
+  }
+
+  inviteFriends(){
+    let t = this
+    let refEncoded = encodeURI(t.inviteData.inviteLink)
+    let textEncoded = encodeURI("Let's try awesome Game with me!")
+    
+    let shareUrl = `https://t.me/share/url?url=${refEncoded}&text=${textEncoded}`;
+    console.log(shareUrl);
+
+    (<any>window).Telegram?.WebApp?.openTelegramLink(shareUrl)
   }
 
 }

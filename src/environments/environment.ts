@@ -8,6 +8,8 @@ export const environment = {
     // botName: 'bcapdemo_bot'
   };
 
+export const Overflow = 100 //px
+
 /**
  * Custom angular notifier options
  */
@@ -25,7 +27,7 @@ export const customNotifierOptions: NotifierOptions = {
 	},
   theme: 'material',
   behaviour: {
-    autoHide: 300000,
+    autoHide: 3000,
     onClick: 'hide',
     onMouseover: 'pauseAutoHide',
     showDismissButton: true,

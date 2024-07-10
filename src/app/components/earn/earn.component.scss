@@ -207,6 +207,7 @@ $border-bg-color: #7C6CFE;
     font-size: 18px;
     padding: 12px;
     margin: 0 $margin-box $margin-box;
+    width: -webkit-fill-available;
 
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
