@@ -1,6 +1,8 @@
+$cut-coin-size: 50px;
+
 .cut-coin {
-    width: 50px;
-    height: 50px;
+    width: $cut-coin-size;
+    height: $cut-coin-size;
     border-radius: 50%;
     border: 1px solid black;
     // background-image: url("../../../assets/swipe-plugs/cat_plug.png");
@@ -9,4 +11,23 @@
     background-size: cover;
     position: absolute;
     z-index: 400;
+
+    animation: toScale1 0.2s linear;
+    
+    /* safari */
+    -webkit-animation-name: toScale1;
+    -webkit-animation-duration: 0.2s;
+    -webkit-animation-timing-function: linear;
+}
+
+@keyframes toScale1 {
+    from {
+        width: 0;
+        height: 0;
+    }
+
+    to {
+        width: $cut-coin-size;
+        height: $cut-coin-size;
+    }
 }

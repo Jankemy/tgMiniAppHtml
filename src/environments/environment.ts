@@ -8,7 +8,7 @@ export const environment = {
     // botName: 'bcapdemo_bot'
   };
 
-export const Overflow = 100 //px
+export const Overflow = 1 //px
 
 /**
  * Custom angular notifier options
@@ -34,7 +34,7 @@ export const customNotifierOptions: NotifierOptions = {
     stacking: 2
   },
   animations: {
-    enabled: true,
+    enabled: false,
     show: {
       preset: 'slide',
       speed: 300,

@@ -46,7 +46,7 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    document.body.style.marginBottom = `${Overflow}px`
+    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)
@@ -86,7 +86,7 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
     if (type == TaskIds.daily_sign_in) {
       t.taskService.claimTaskReward(type)
       .then(resp => {
-        t.notifier.notify('success', 'Claimed successfuly');
+        t.notifier.notify('success', 'Claimed successfully');
         (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
       })
       .catch(er => {
@@ -109,23 +109,23 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
       let a = document.createElement('a')
       a.href = currentTask.link
   
-      // if(type !== TaskIds.invite_3_friends) {
+      if(type !== TaskIds.invite_3_friends) {
         a.target = '_black'
-      // }
+      }
   
       a.click()
 
       setTimeout(() => {
         t.isLoader[type] = false
         currentTask.isCompleted = true
-      }, 1000 * 60)
+      }, 1000 * 5)
     }
     else if (!currentTask.isClaimed){
       t.isLoader[type] = true
 
       t.taskService.claimTaskReward(currentTask.type)
       .then(resp => {
-        t.notifier.notify('success', 'Claimed successfuly');
+        t.notifier.notify('success', 'Claimed successfully');
         (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
       })
       .catch(er => {
@@ -148,7 +148,7 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
     let t = this;
 
     t.clip.copy(t.evmAddress)
-    t.notifier.notify('info', 'Copied successfily');
+    t.notifier.notify('info', 'Copied successfully');
     (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     // console.log(t.notifier)
     t.isAddressCopied = true;

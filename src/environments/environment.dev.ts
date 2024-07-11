@@ -34,7 +34,7 @@ export const customNotifierOptions: NotifierOptions = {
     stacking: 2
   },
   animations: {
-    enabled: true,
+    enabled: false,
     show: {
       preset: 'slide',
       speed: 300,

@@ -83,12 +83,13 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
     t.appLoginEvent = t.eventService.LoginEvent.subscribe(login => {
       t.profileService.updateUsername(login)
       .then(resp => {
-        t.notifier.notify('success', `Logged in successfuly: ${login}`)
+        t.eventService.NeedUpdateEvent.emit()
+        t.notifier.notify('success', `Logged in successfully: ${login}`)
         LoginComponent.enableLogin(false)
       })
       .catch(er => {
         console.log(er)
-        t.notifier.notify('error', t.validatorErrorMessage(er))
+        t.notifier.notify('error', t.errorMessage(er))
       })
     })
   }

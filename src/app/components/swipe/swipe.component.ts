@@ -48,6 +48,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   boostsCheckInterval: any = {}
   boostsCheckTimeout: any = {}
   swipeSubscription: any = {}
+  updateSubscription: any = {}
   isEnabledAutoswipe = false
   userNickname = ''
 
@@ -87,35 +88,12 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
   ngOnInit() {
     let t = this;
-    t.setLoading(true)
     t.initSwipeBox()
+    t.initServices()
 
-    t.profileService.initProfileService()
-    .then((resp) => {
-      t.userNickname = resp!.username
-      t.eventService.NeedLoginEvent.emit(!resp!.usernameChanged)
-
-      Promise.all([
-        t.scoreService.initScoreService(),
-        t.energyService.initEnergyService(),
-        t.boostsService.initBoostsService()
-      ])
-      .finally(() => {
-
-        if (t.isAutoswipeEnabled) {
-          t.enableAutoswipe()
-          
-          t.boostsCheckTimeout = setTimeout(() => {
-            t.boostsCheckInterval = setInterval(() => {
-              t.boostsService.initBoostsService()
-            }, 1000)
-          }, t.autoswipe.appliedTime)
-        }
-
-        t.setLoading(false)
-      })
+    t.updateSubscription = t.eventService.NeedUpdateEvent.subscribe(() => {
+      t.initServices()
     })
-    
   }
 
   ngAfterViewInit() {
@@ -153,6 +131,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     let t = this;
 
     t.swipeSubscription.unsubscribe()
+    t.updateSubscription.unsubscribe()
     clearInterval(t.energyInterval)
     clearInterval(t.autoswipeCheckInterval)
     clearInterval(t.boostsCheckInterval)
@@ -163,6 +142,37 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     // document.body.style.overflowY = 'auto'
     // document.body.style.marginTop = '0'
     // document.body.style.marginBottom = '0'
+  }
+
+  initServices(){
+    let t = this
+
+    t.setLoading(true)
+    t.profileService.initProfileService()
+    .then((resp) => {
+      t.userNickname = resp!.username
+      t.eventService.NeedLoginEvent.emit(!resp!.usernameChanged)
+
+      Promise.all([
+        t.scoreService.initScoreService(),
+        t.energyService.initEnergyService(),
+        t.boostsService.initBoostsService()
+      ])
+      .finally(() => {
+
+        if (t.isAutoswipeEnabled) {
+          t.enableAutoswipe()
+          
+          t.boostsCheckTimeout = setTimeout(() => {
+            t.boostsCheckInterval = setInterval(() => {
+              t.boostsService.initBoostsService()
+            }, 1000)
+          }, t.autoswipe.appliedTime)
+        }
+
+        t.setLoading(false)
+      })
+    })
   }
 
   initSwipeBox(){
@@ -448,7 +458,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
   copyNickname(){
     this.clip.copy(this.userNickname)
-    this.notifier.notify('success', 'Copied successfuly')
+    this.notifier.notify('success', 'Copied successfully')
   }
 
 }

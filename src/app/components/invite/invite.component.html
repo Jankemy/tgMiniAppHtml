@@ -1,7 +1,8 @@
-<div id="app-invite">
+<div id="app-invite" style="overflow: auto;">
     <div id="inviteHeader" class="inviteHeader">Invite friends!</div>
     <div id="inviteText" class="inviteText">Send a link or share points to your friends and get bonuses</div>
-    <div class="inviteContainer" [style.height]="calcContainerHeight('app-invite', 'inviteHeader', 'inviteText')">
+    <div class="inviteContainer">
+        <!-- [style.height]="calcContainerHeight('app-invite', 'inviteHeader', 'inviteText')" -->
         <div class="bonusContainer">
             <div class="inviteText">Bonuses</div>
             <div class="inviteSubText">{{inviteData.percentFromChildren}}% from friends 

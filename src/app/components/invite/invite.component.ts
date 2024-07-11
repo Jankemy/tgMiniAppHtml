@@ -37,7 +37,7 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
       t.setLoading(true)
       t.inviteService.sendTokens(evResp.nickname, evResp.amount)
       .then(resp => {
-        t.notifier.notify('success', 'Tokens successfuly sent');
+        t.notifier.notify('success', 'Tokens successfully sent');
         (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
       })
       .catch(er => {
@@ -62,7 +62,7 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    document.body.style.marginBottom = `${Overflow}px`
+    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)
@@ -138,7 +138,7 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
     t.setLoading(true)
     t.inviteService.claimRewards()
     .then(resp => {
-      t.notifier.notify('success', 'Claimed successfuly');
+      t.notifier.notify('success', 'Claimed successfully');
       (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     })
     .catch(er => {

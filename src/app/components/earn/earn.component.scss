@@ -190,9 +190,9 @@ $border-bg-color: #7C6CFE;
     font-weight: 500;
 }
 
-.earnScrollContainer {
-    overflow: auto;
-}
+// .earnScrollContainer {
+//     overflow: auto;
+// }
 
 .taskRewardBox {
     display: flex;
@@ -207,7 +207,8 @@ $border-bg-color: #7C6CFE;
     font-size: 18px;
     padding: 12px;
     margin: 0 $margin-box $margin-box;
-    width: -webkit-fill-available;
+    // width: -webkit-fill-available;
+    max-width: 200px;
 
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;

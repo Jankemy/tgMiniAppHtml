@@ -28,7 +28,7 @@ export class BoostsComponent extends BaseComponent implements OnInit, AfterViewI
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    document.body.style.marginBottom = `${Overflow}px`
+    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)
@@ -53,7 +53,7 @@ export class BoostsComponent extends BaseComponent implements OnInit, AfterViewI
     let t = this;
     t.boostsService.buyBoost(type)
     .then(resp => {
-      t.notifier.notify('info', 'Boost successfuly applied');
+      t.notifier.notify('info', 'Boost successfully applied');
       (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     })
     .catch(er => {
