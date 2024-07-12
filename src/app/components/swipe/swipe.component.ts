@@ -426,8 +426,8 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     e.preventDefault()
 
     let tm = {
-      x: e.changedTouches[0].clientX,
-      y: e.changedTouches[0].clientY + Overflow
+      x: (e.clientX ?? e.changedTouches[0].clientX),
+      y: (e.clientY ?? e.changedTouches[0].clientY) + Overflow
     };
     t.emitCustomEvent(tm)
   }

@@ -25,10 +25,14 @@ export class CutCoinComponent implements AfterViewInit, OnDestroy {
     cutCoinSubscription: any = {}
 
     imagePaths = [
-        'assets/cat-coin/cat-coin-1.png',
-        'assets/cat-coin/cat-coin-2.png',
-        'assets/cat-coin/cat-coin-3.png',
-        'assets/cat-coin/cat-coin-4.png',
+        // 'assets/cat-coin/cat-coin-1.png',
+        // 'assets/cat-coin/cat-coin-2.png',
+        // 'assets/cat-coin/cat-coin-3.png',
+        // 'assets/cat-coin/cat-coin-4.png',
+        'assets/cat-coin/cat-coin-violet-1.png',
+        'assets/cat-coin/cat-coin-violet-2.png',
+        'assets/cat-coin/cat-coin-violet-3.png',
+        'assets/cat-coin/cat-coin-violet-4.png',
     ]
 
     ngAfterViewInit() {
