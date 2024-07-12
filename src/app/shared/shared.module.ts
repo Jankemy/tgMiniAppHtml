@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreloaderComponent } from './sub-components/preloader/preloader.component';
-import { CutCoinComponent } from './cut-coin/cut-coin.component';
+import { CutCoinComponent } from './sub-components/cut-coin/cut-coin.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { ContentLayoutComponent } from './content-layout/content-layout.component';
 import { RouterModule } from '@angular/router';

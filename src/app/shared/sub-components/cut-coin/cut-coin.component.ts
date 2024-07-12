@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 // import { AngularFreezeframeComponent, AngularFreezeframeEvent } from 'angular-freezeframe'
 import Freezeframe from 'freezeframe';
-import { EventService, TouchmoveCoordinates } from '../services/event.service';
+import { EventService, TouchmoveCoordinates } from '../../services/event.service';
 
 const cutCoinSize = 50;
 

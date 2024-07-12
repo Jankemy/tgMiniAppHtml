@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
-import { CutCoinComponent } from '../../shared/cut-coin/cut-coin.component';
+import { CutCoinComponent } from '../../shared/sub-components/cut-coin/cut-coin.component';
 import { EventService } from '../../shared/services/event.service';
 import { ScoreService } from '../../shared/services/score.service';
 import { EnergyService } from '../../shared/services/energy.service';
