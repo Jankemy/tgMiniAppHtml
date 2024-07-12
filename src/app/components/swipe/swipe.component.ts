@@ -32,8 +32,12 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
   MAX_TRAIL_LENGTH = 150;
   BASE_COLOR = [127, 81, 232];
   TARGET_COLOR = [255, 0, 213];
-  MAX_SPEED = 30; // Пикселей за кадр
-  TTL = 150; // Время жизни следа (ms)
+  MAX_SPEED = 30; // px per frame
+  TTL = 150; // Track lifetime (ms)
+  
+  // interpolation params
+  previousPoint: { x: number, y: number } | null = null;
+  stepSize: number = 15; // The size of the interpolation step in pixels
 
   componentMap: Map<number, ComponentRef<any>> = new Map<number, ComponentRef<any>>();
   cutBoxPosition = {
@@ -189,6 +193,8 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     app.addEventListener("touchmove", (e) => {
       t.touchmoveEvent(e)
     });
+    app.addEventListener('touchend', t.touchEndEvent.bind(this));
+    app.addEventListener('touchcancel', t.touchEndEvent.bind(this));
   }
 
   private initCanvas() {
@@ -233,7 +239,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     }
   }
 
-  // Отрисовка кривых Безье для следа кометы
+  // Drawing Bezier curves for a comet trail
   bezierTrail() {
     let t = this;
     let points: any = [null, null, null, null];
@@ -278,7 +284,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     }
   }
 
-  // Отрисовка текущей позиции следа кометы
+  // Drawing the current position of the comet trail
   private currentPos() {
     let t = this;
     const ctx = t.cometContext!;
@@ -425,19 +431,49 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     }
     e.preventDefault()
 
-    let tm = {
+    let currentPoint = {
       x: (e.clientX ?? e.changedTouches[0].clientX),
       y: (e.clientY ?? e.changedTouches[0].clientY) + Overflow
     };
-    t.emitCustomEvent(tm)
+    
+    if (t.previousPoint) {
+      let previousPoint = t.previousPoint;
+      let distance = Math.sqrt(
+          Math.pow(currentPoint.x - previousPoint.x, 2) +
+          Math.pow(currentPoint.y - previousPoint.y, 2)
+      );
+      if (distance > t.stepSize) {
+        // number of steps required to move from prevPoint to currentPoint with a given stepSize step
+        let steps = Math.ceil(distance / t.stepSize);
+    
+        // calculating interpolated points
+        for (let i = 1; i <= steps; i++) {
+          let tValue = i / steps;
+          let interpolatedPoint = {
+            x: t.quadraticBezier(previousPoint.x, previousPoint.x + (currentPoint.x - previousPoint.x) / 2, currentPoint.x, tValue),
+            y: t.quadraticBezier(previousPoint.y, previousPoint.y + (currentPoint.y - previousPoint.y) / 2, currentPoint.y, tValue)
+          };
+          // calling an event, but not displaying for interpolated points
+          t.emitCustomEvent(interpolatedPoint, true);
+        }
+      }
+    }
+    t.previousPoint = currentPoint;
+    t.emitCustomEvent(currentPoint)
   }
 
-  emitCustomEvent(tm: { x: number, y: number }) {
+  // quadratic interpolation along a given Bezier curve
+  private quadraticBezier(start: number, control: number, end: number, t: number): number {
+    return Math.pow(1 - t, 2) * start + 2 * (1 - t) * t * control + Math.pow(t, 2) * end;
+  }
+
+  emitCustomEvent(tm: { x: number, y: number }, notShow: boolean = false) {
     let t = this;
 
     if (t.energyValue > 0) {
       t.eventService.TouchmoveCoordinatesEvent.emit(tm)
     }
+    if (notShow) return;
     t.addPoint(tm.x, tm.y);
   }
 
@@ -461,4 +497,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     this.notifier.notify('success', 'Copied successfully')
   }
 
+  private touchEndEvent(e: TouchEvent) {
+    if (this.previousPoint) this.previousPoint = null;
+  }
 }
