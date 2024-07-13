@@ -21,7 +21,6 @@ $progress-container-height: calc($progress-bar-height + $border-height * 2 + $pr
 }
 
 .progress-container>div{
-    // display: inline-block;
     margin: $progress-container-margin;
 }
 
@@ -34,17 +33,8 @@ $progress-container-height: calc($progress-bar-height + $border-height * 2 + $pr
 }
 
 .prigress-label{
-    // vertical-align: super;
-    // text-align: center;
-    // height: $progress-bar-height;
-    // vertical-align: bottom;
     margin-left: 15px !important;
     color: $text-color;
-    
-    // background: $text-linear-color;
-    // -webkit-background-clip: text;
-    // background-clip: text;
-    // -webkit-text-fill-color: transparent;
 }
 
 .progress-bar {

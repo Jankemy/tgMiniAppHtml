@@ -10,6 +10,7 @@ export type SendTokens = {
   amount: number;
 }
 
+//do not use on other services
 @Injectable({
   providedIn: 'platform' //do not set 'root', ONLY 'platform'
 })

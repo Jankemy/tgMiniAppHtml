@@ -28,7 +28,6 @@ export class BoostsComponent extends BaseComponent implements OnInit, AfterViewI
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)

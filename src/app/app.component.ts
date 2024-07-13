@@ -104,9 +104,7 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   updateActiveMenuItem(event:any) {
     var t = this;
     
-    // console.log(event.url)
     var currentItem = t.menuItems.find(x => x.path == event.url);
-    // console.log(currentItem)
     
     if(!currentItem) {
       t.router.navigateByUrl(t.menuItems[0].path)
@@ -120,11 +118,8 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   calcAppComponentHeight(){
-    // let t = this;
-
     let appContainer = document.getElementById('app-container')!
     let menuFooter = document.getElementById('menuFooter')!
-    // console.log(menuFooter.offsetHeight)
 
     return `${appContainer.offsetHeight - menuFooter.offsetHeight}px`
   }

@@ -4,8 +4,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { BoostsComponent } from './boosts.component';
 import { BoostsRoutingModule } from './boosts-routing.module';
 import { CommonModule } from '@angular/common';
-import { NotifierModule } from 'angular-notifier';
-import { customNotifierOptions } from '../../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -16,7 +14,6 @@ import { customNotifierOptions } from '../../../environments/environment';
     CommonModule,
     BrowserModule,
     SharedModule,
-    // NotifierModule.withConfig(customNotifierOptions)
   ],
   bootstrap: [BoostsComponent]
 })

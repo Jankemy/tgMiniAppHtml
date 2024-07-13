@@ -2,12 +2,9 @@ $text-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, 
 $background-linear-color: linear-gradient(223.87deg, rgba(255, 36, 211, 0.15) -10.47%, rgba(134, 95, 254, 0.15) 47.28%, rgba(54, 189, 253, 0.15) 109.84%);
 $button-linear-color: linear-gradient(223.87deg, #FF24D3 -10.47%, #865FFE 47.28%, #36BDFD 109.84%);
 
-
-// $progress-bar-height: 24px;
 $border-height: 1px;
 $border-radius: 15px;
 $margin-box: 15px;
-// $progress-container-margin: 3px;
 
 $text-color: #7C6CFE;
 $border-bg-color: #7C6CFE;
@@ -147,10 +144,6 @@ $border-bg-color: #7C6CFE;
 .inviteButtonCopied>img{
     width: 18px;
 }
-
-// .inviteContainer{
-//     overflow: auto;
-// }
 
 .shareContainer {
     margin: $margin-box;

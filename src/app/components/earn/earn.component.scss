@@ -59,7 +59,6 @@ $border-bg-color: #7C6CFE;
     border-radius: $border-radius;
     margin: $margin-box;
     padding: $margin-box;
-    // background: $button-linear-color;
     font-size: 14px;
 }
 
@@ -125,7 +124,6 @@ $border-bg-color: #7C6CFE;
 .taskCompletedButton {
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
-    // padding: $margin-box;
     padding: 12px;
 }
 
@@ -136,7 +134,6 @@ $border-bg-color: #7C6CFE;
 
     border: $border-height solid $border-bg-color;
     border-radius: $border-radius;
-    // padding: $margin-box;
     padding: 12px;
     margin: $margin-box;
     padding: $margin-box;
@@ -190,10 +187,6 @@ $border-bg-color: #7C6CFE;
     font-weight: 500;
 }
 
-// .earnScrollContainer {
-//     overflow: auto;
-// }
-
 .taskRewardBox {
     display: flex;
     align-items: center;
@@ -207,7 +200,6 @@ $border-bg-color: #7C6CFE;
     font-size: 18px;
     padding: 12px;
     margin: 0 $margin-box $margin-box;
-    // width: -webkit-fill-available;
     max-width: 200px;
 
     border: $border-height solid $border-bg-color;

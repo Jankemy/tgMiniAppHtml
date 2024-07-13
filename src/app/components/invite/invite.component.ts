@@ -39,13 +39,13 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
       .then(resp => {
         t.notifier.notify('success', 'Tokens successfully sent');
         (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
+        TokenSendComponent.needTokenSend(false, undefined)
       })
       .catch(er => {
         t.notifier.notify('error', t.errorMessage(er))
       })
       .finally(() => {
         t.setLoading(false)
-        TokenSendComponent.needTokenSend(false, undefined)
       })
     })
   }
@@ -62,7 +62,6 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)
@@ -119,14 +118,13 @@ export class InviteComponent extends BaseComponent implements OnInit, AfterViewI
       if (diffDays > 0 ) { t.timeToClaim = t.timeToClaim.concat(`${diffDays} days`)}
       if (diffHrs > 0 ) { t.timeToClaim = t.timeToClaim.concat(` ${diffHrs} hours`)}
       t.timeToClaim = t.timeToClaim.concat(` ${diffMins} minutes`)
-  
-      // console.log(t.timeToClaim);
     }
   }
 
   copyRefLink(){
     let t = this;
     t.clip.copy(t.inviteData.inviteLink);
+    t.notifier.notify('success', 'Copied successfully');
     (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
     t.isCopied = true
     setTimeout(() => { t.isCopied = false }, 1000 * 3) //3 sec

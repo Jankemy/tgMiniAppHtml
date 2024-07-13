@@ -5,14 +5,17 @@ $cut-coin-size: 50px;
     height: $cut-coin-size;
     border-radius: 50%;
     border: 1px solid black;
-    // background-image: url("../../../assets/swipe-plugs/cat_plug.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     position: absolute;
     z-index: 400;
 
-    animation: toScale1 0.2s linear;
+    // animation: toScale0 0.2s linear;
+
+    animation-name: toScale1;
+    animation-duration: .2s;
+    animation-timing-function: linear;
     
     /* safari */
     -webkit-animation-name: toScale1;

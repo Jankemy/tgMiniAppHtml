@@ -46,7 +46,6 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
     let t = this
     document.body.style.overflowY = 'hidden'
     document.body.style.marginTop = `${Overflow}px`
-    // document.body.style.marginBottom = `${Overflow}px`
     window.scrollTo(0, Overflow);
 
     t.setLoading(true)
@@ -150,7 +149,6 @@ export class EarnComponent extends BaseComponent implements OnInit, AfterViewIni
     t.clip.copy(t.evmAddress)
     t.notifier.notify('info', 'Copied successfully');
     (<any>window).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')
-    // console.log(t.notifier)
     t.isAddressCopied = true;
 
     setTimeout(() => { t.isAddressCopied = false }, 1000 * 3)

@@ -142,10 +142,6 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     clearTimeout(t.boostsCheckTimeout)
     t.isEnabledAutoswipe = false
     t.scoreService.saveSwipeBatch(t.energyService.availableUserEnergy)
-
-    // document.body.style.overflowY = 'auto'
-    // document.body.style.marginTop = '0'
-    // document.body.style.marginBottom = '0'
   }
 
   initServices(){
@@ -189,7 +185,7 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
     window.scrollTo(0, Overflow);
 
     (<any>window).Telegram?.WebApp?.expand()
-    // window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
+    
     app.addEventListener("touchmove", (e) => {
       t.touchmoveEvent(e)
     });
@@ -330,10 +326,6 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
       y: t.cutBoxPosition.top
     }
 
-    // t.cutBoxPosition = {
-    //   left: cutBoxPos.left,
-    //   top: t.cutBox.element.nativeElement.offsetTop,
-    // let cutCoinId = t.componentMap.entries().next().value[0]
     let cutCoinId = 0
     let cutCoin = t.componentMap.get(cutCoinId)!.instance
     let next = {
@@ -410,16 +402,20 @@ export class SwipeComponent extends BaseComponent implements OnInit, AfterViewIn
 
   onCoinTouched(componentId: number) {
     let t = this;
-    var component = t.componentMap.get(componentId);
+    let componentFromMap = t.componentMap.get(componentId);
+    let componentFromDOM = document.getElementById(`cutCoin-${componentId}`)
 
-    component!.destroy();
-    t.componentMap.delete(componentId);
-    
-    t.energyService.decrementEnergy()
-    t.scoreService.incrementScore(t.energyService.availableUserEnergy)
-
-    for (let i = 0; i < afterCutCoinCount; i++) {
-      t.addNewCutCoinComponent()
+    if (!!componentFromMap || !!componentFromDOM) {
+      componentFromMap?.destroy();
+      componentFromDOM?.parentElement?.remove()
+      t.componentMap.delete(componentId);
+      
+      t.energyService.decrementEnergy()
+      t.scoreService.incrementScore(t.energyService.availableUserEnergy)
+  
+      for (let i = 0; i < afterCutCoinCount; i++) {
+        t.addNewCutCoinComponent()
+      }
     }
   }
 

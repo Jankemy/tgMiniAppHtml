@@ -1,6 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-// import { AngularFreezeframeComponent, AngularFreezeframeEvent } from 'angular-freezeframe'
-import Freezeframe from 'freezeframe';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { EventService, TouchmoveCoordinates } from '../../services/event.service';
 
 const cutCoinSize = 50;
@@ -8,21 +6,23 @@ const cutCoinSize = 50;
 @Component({
     selector: 'app-cut-coin',
     templateUrl: './cut-coin.component.html',
-    styleUrls: ['./cut-coin.component.scss']
+    styleUrls: ['./cut-coin.component.scss'],
 })
 export class CutCoinComponent implements AfterViewInit, OnDestroy {
 
     constructor(
-        private eventService: EventService
+        private eventService: EventService,
     ) { }
 
     @Input() cutCoinId: number = 0;
     @Input() cutBoxPosition: any = {};
 
-    //isTouchstart = false
     top: number = 0
     left: number = 0
     cutCoinSubscription: any = {}
+    currentRotateDeg = 0
+    currentCutCoinDestroying = false
+    destroyInterval: any = {}
 
     imagePaths = [
         // 'assets/cat-coin/cat-coin-1.png',
@@ -42,25 +42,18 @@ export class CutCoinComponent implements AfterViewInit, OnDestroy {
         let randomImage = t.imagePaths[t.randomIntFromInterval(0, t.imagePaths.length-1)]
         let rotateDeg = t.randomIntFromInterval(0, 359)
 
+        t.currentRotateDeg = rotateDeg
+
         currentCutCoin.style.backgroundImage = `url("${randomImage}")`;
-        currentCutCoin.style.transform = `rotate(${rotateDeg}deg)`;
+        currentCutCoin.style.transform = `rotate(${t.currentRotateDeg}deg)`;
 
         let maxBottom = t.cutBoxPosition.top + t.cutBoxPosition.height - cutCoinSize
         let maxRight = t.cutBoxPosition.left + t.cutBoxPosition.width - cutCoinSize
         t.top = t.randomIntFromInterval(t.cutBoxPosition.top, maxBottom)
         t.left = t.randomIntFromInterval(t.cutBoxPosition.left, maxRight)
 
-        // console.log(t.cutBoxPosition)
-        // console.log(maxBottom)
-        // console.log(maxRight)
-
         currentCutCoin!.style.top = `${t.top}px`;
         currentCutCoin!.style.left = `${t.left}px`;
-
-        // currentCutCoin.addEventListener('touchstart', () => { t.isTouchstart = true })
-        // currentCutCoin.addEventListener('touchend', () => { if (t.isTouchstart) t.onHoverEnd() })
-        // currentCutCoin.addEventListener('mouseenter', () => { t.onHoverEnd() })
-        // currentCutCoin.addEventListener('mousemove', () => { t.onHoverEnd() })
 
         t.cutCoinSubscription = t.eventService.TouchmoveCoordinatesEvent
             .subscribe((tm) => { t.checkTouchmove(tm) })
@@ -68,7 +61,7 @@ export class CutCoinComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(){
         this.cutCoinSubscription.unsubscribe()
-        // this.eventService.TouchmoveCoordinatesEvent.unsubscribe()
+        clearInterval(this.destroyInterval)
     }
 
     checkTouchmove(tm: TouchmoveCoordinates) {
@@ -76,14 +69,43 @@ export class CutCoinComponent implements AfterViewInit, OnDestroy {
         if(t.top < tm.y && t.top+cutCoinSize > tm.y &&
             t.left < tm.x && t.left+cutCoinSize > tm.x
         ) {
-            // console.log('hover, Id', t.cutCoinId)
             t.onHoverEnd()
         }
     }
 
     onHoverEnd() {
         let t = this;
-        t.eventService.CutCoinEvent.emit(t.cutCoinId);
+        if(t.currentCutCoinDestroying) return
+        else t.currentCutCoinDestroying = true
+
+        let currentCutCoin = document.getElementById(`cutCoin-${t.cutCoinId}`)!
+
+        let totalIntervalMS = 200
+        let interval = totalIntervalMS / cutCoinSize
+
+        let scale = 1
+        let scaleDecrementer = scale / cutCoinSize
+
+        let rotateDecrementer = 180 / cutCoinSize
+
+        t.destroyInterval = setInterval(() => {
+            t.currentRotateDeg -= rotateDecrementer
+            scale -= scaleDecrementer
+            console.log('currentRotateDeg', t.currentRotateDeg)
+            console.log('scale', scale)
+
+            if (scale >= 0) {
+                currentCutCoin.style.transform = `scale(${scale}) rotate(${t.currentRotateDeg}deg)`
+            }
+            else {
+                clearInterval(t.destroyInterval)
+                t.eventService.CutCoinEvent.emit(t.cutCoinId);
+            }
+        }, interval)
+    }
+
+    onDone(e: any){
+        this.eventService.CutCoinEvent.emit(this.cutCoinId);
     }
 
     randomIntFromInterval(min: number, max: number) {

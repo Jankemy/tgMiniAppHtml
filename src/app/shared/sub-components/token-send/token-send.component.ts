@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
-import { BaseComponent } from '../../base/base.component';
-import { NotifierService } from 'angular-notifier';
+import { Component } from '@angular/core';
 import { ProfileModel } from '../../models/profile.model';
 import { EventService } from '../../services/event.service';
 
@@ -15,7 +12,6 @@ export class TokenSendComponent {
   static userProfile = new ProfileModel
 
   constructor(
-    private notifier: NotifierService,
     private eventService: EventService,
   ){
   }

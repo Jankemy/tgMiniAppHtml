@@ -1,11 +1,8 @@
 import { NotifierOptions } from "angular-notifier";
 
 export const environment = {
-    // envName: 'dev',
     production: false,
     apiUrl: 'https://api-candy.softdds.com/',
-    // tokenUrl: 'token',
-    // botName: 'bcapdemo_bot'
   };
 
 export const Overflow = 1 //px
